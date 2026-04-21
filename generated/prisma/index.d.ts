@@ -1019,6 +1019,9 @@ export namespace Prisma {
     email: string | null
     name: string | null
     image: string | null
+    bio: string | null
+    instagram: string | null
+    phone: string | null
     isPremium: boolean | null
   }
 
@@ -1027,6 +1030,9 @@ export namespace Prisma {
     email: string | null
     name: string | null
     image: string | null
+    bio: string | null
+    instagram: string | null
+    phone: string | null
     isPremium: boolean | null
   }
 
@@ -1035,6 +1041,9 @@ export namespace Prisma {
     email: number
     name: number
     image: number
+    bio: number
+    instagram: number
+    phone: number
     isPremium: number
     _all: number
   }
@@ -1045,6 +1054,9 @@ export namespace Prisma {
     email?: true
     name?: true
     image?: true
+    bio?: true
+    instagram?: true
+    phone?: true
     isPremium?: true
   }
 
@@ -1053,6 +1065,9 @@ export namespace Prisma {
     email?: true
     name?: true
     image?: true
+    bio?: true
+    instagram?: true
+    phone?: true
     isPremium?: true
   }
 
@@ -1061,6 +1076,9 @@ export namespace Prisma {
     email?: true
     name?: true
     image?: true
+    bio?: true
+    instagram?: true
+    phone?: true
     isPremium?: true
     _all?: true
   }
@@ -1142,6 +1160,9 @@ export namespace Prisma {
     email: string
     name: string | null
     image: string | null
+    bio: string | null
+    instagram: string | null
+    phone: string | null
     isPremium: boolean
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
@@ -1167,6 +1188,9 @@ export namespace Prisma {
     email?: boolean
     name?: boolean
     image?: boolean
+    bio?: boolean
+    instagram?: boolean
+    phone?: boolean
     isPremium?: boolean
     listings?: boolean | User$listingsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1177,6 +1201,9 @@ export namespace Prisma {
     email?: boolean
     name?: boolean
     image?: boolean
+    bio?: boolean
+    instagram?: boolean
+    phone?: boolean
     isPremium?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -1185,6 +1212,9 @@ export namespace Prisma {
     email?: boolean
     name?: boolean
     image?: boolean
+    bio?: boolean
+    instagram?: boolean
+    phone?: boolean
     isPremium?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -1193,10 +1223,13 @@ export namespace Prisma {
     email?: boolean
     name?: boolean
     image?: boolean
+    bio?: boolean
+    instagram?: boolean
+    phone?: boolean
     isPremium?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "image" | "isPremium", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "image" | "bio" | "instagram" | "phone" | "isPremium", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     listings?: boolean | User$listingsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1214,6 +1247,9 @@ export namespace Prisma {
       email: string
       name: string | null
       image: string | null
+      bio: string | null
+      instagram: string | null
+      phone: string | null
       isPremium: boolean
     }, ExtArgs["result"]["user"]>
     composites: {}
@@ -1643,6 +1679,9 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
     readonly image: FieldRef<"User", 'String'>
+    readonly bio: FieldRef<"User", 'String'>
+    readonly instagram: FieldRef<"User", 'String'>
+    readonly phone: FieldRef<"User", 'String'>
     readonly isPremium: FieldRef<"User", 'Boolean'>
   }
     
@@ -3299,6 +3338,9 @@ export namespace Prisma {
     email: 'email',
     name: 'name',
     image: 'image',
+    bio: 'bio',
+    instagram: 'instagram',
+    phone: 'phone',
     isPremium: 'isPremium'
   };
 
@@ -3441,6 +3483,9 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     name?: StringNullableFilter<"User"> | string | null
     image?: StringNullableFilter<"User"> | string | null
+    bio?: StringNullableFilter<"User"> | string | null
+    instagram?: StringNullableFilter<"User"> | string | null
+    phone?: StringNullableFilter<"User"> | string | null
     isPremium?: BoolFilter<"User"> | boolean
     listings?: ListingListRelationFilter
   }
@@ -3450,6 +3495,9 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
+    bio?: SortOrderInput | SortOrder
+    instagram?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
     isPremium?: SortOrder
     listings?: ListingOrderByRelationAggregateInput
   }
@@ -3462,6 +3510,9 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringNullableFilter<"User"> | string | null
     image?: StringNullableFilter<"User"> | string | null
+    bio?: StringNullableFilter<"User"> | string | null
+    instagram?: StringNullableFilter<"User"> | string | null
+    phone?: StringNullableFilter<"User"> | string | null
     isPremium?: BoolFilter<"User"> | boolean
     listings?: ListingListRelationFilter
   }, "id" | "email">
@@ -3471,6 +3522,9 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
+    bio?: SortOrderInput | SortOrder
+    instagram?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
     isPremium?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -3485,6 +3539,9 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     name?: StringNullableWithAggregatesFilter<"User"> | string | null
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
+    bio?: StringNullableWithAggregatesFilter<"User"> | string | null
+    instagram?: StringNullableWithAggregatesFilter<"User"> | string | null
+    phone?: StringNullableWithAggregatesFilter<"User"> | string | null
     isPremium?: BoolWithAggregatesFilter<"User"> | boolean
   }
 
@@ -3590,6 +3647,9 @@ export namespace Prisma {
     email: string
     name?: string | null
     image?: string | null
+    bio?: string | null
+    instagram?: string | null
+    phone?: string | null
     isPremium?: boolean
     listings?: ListingCreateNestedManyWithoutUserInput
   }
@@ -3599,6 +3659,9 @@ export namespace Prisma {
     email: string
     name?: string | null
     image?: string | null
+    bio?: string | null
+    instagram?: string | null
+    phone?: string | null
     isPremium?: boolean
     listings?: ListingUncheckedCreateNestedManyWithoutUserInput
   }
@@ -3608,6 +3671,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     listings?: ListingUpdateManyWithoutUserNestedInput
   }
@@ -3617,6 +3683,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -3626,6 +3695,9 @@ export namespace Prisma {
     email: string
     name?: string | null
     image?: string | null
+    bio?: string | null
+    instagram?: string | null
+    phone?: string | null
     isPremium?: boolean
   }
 
@@ -3634,6 +3706,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     isPremium?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -3642,6 +3717,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     isPremium?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -3811,6 +3889,9 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrder
     image?: SortOrder
+    bio?: SortOrder
+    instagram?: SortOrder
+    phone?: SortOrder
     isPremium?: SortOrder
   }
 
@@ -3819,6 +3900,9 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrder
     image?: SortOrder
+    bio?: SortOrder
+    instagram?: SortOrder
+    phone?: SortOrder
     isPremium?: SortOrder
   }
 
@@ -3827,6 +3911,9 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrder
     image?: SortOrder
+    bio?: SortOrder
+    instagram?: SortOrder
+    phone?: SortOrder
     isPremium?: SortOrder
   }
 
@@ -4402,6 +4489,9 @@ export namespace Prisma {
     email: string
     name?: string | null
     image?: string | null
+    bio?: string | null
+    instagram?: string | null
+    phone?: string | null
     isPremium?: boolean
   }
 
@@ -4410,6 +4500,9 @@ export namespace Prisma {
     email: string
     name?: string | null
     image?: string | null
+    bio?: string | null
+    instagram?: string | null
+    phone?: string | null
     isPremium?: boolean
   }
 
@@ -4434,6 +4527,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     isPremium?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -4442,6 +4538,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
     isPremium?: BoolFieldUpdateOperationsInput | boolean
   }
 

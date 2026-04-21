@@ -31,7 +31,8 @@ export async function updateSession(request: NextRequest) {
   const needsAuth =
     path.startsWith("/listings/new") ||
     path.startsWith("/my-listings") ||
-    /^\/listings\/[^/]+\/edit$/.test(path);
+    /^\/listings\/[^/]+\/edit$/.test(path) ||
+    path === "/profile";
 
   if (!user && needsAuth) {
     const loginUrl = request.nextUrl.clone();

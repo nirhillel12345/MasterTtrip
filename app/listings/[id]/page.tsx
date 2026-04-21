@@ -4,7 +4,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ListingGallery } from "./listing-gallery";
 import { WhatsAppCta } from "./whatsapp-cta";
+import { InstagramMark } from "@/app/components/instagram-mark";
 import { prisma } from "@/lib/prisma";
+import { instagramProfileUrl } from "@/lib/instagram";
 import type { ListingType } from "@/generated/prisma";
 
 type PageProps = { params: Promise<{ id: string }> | { id: string } };
@@ -58,6 +60,7 @@ export default async function ListingDetailPage({ params }: PageProps) {
           name: true,
           image: true,
           email: true,
+          instagram: true,
         },
       },
     },
@@ -67,6 +70,8 @@ export default async function ListingDetailPage({ params }: PageProps) {
 
   const hostName = listing.user.name?.trim() || listing.user.email?.split("@")[0] || "מפרסם";
   const type = typeLabel(listing.type);
+  const igHandle = listing.user.instagram?.trim();
+  const igUrl = igHandle ? instagramProfileUrl(igHandle) : "";
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900" dir="rtl">
@@ -135,23 +140,39 @@ export default async function ListingDetailPage({ params }: PageProps) {
 
             <section className="rounded-2xl border border-slate-200/90 bg-white p-5 text-right shadow-md shadow-slate-900/5 sm:p-7">
               <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500 sm:text-sm">מפרסם המודעה</h2>
-              <div className="mt-4 flex items-center gap-4">
-                {listing.user.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={listing.user.image}
-                    alt=""
-                    className="h-14 w-14 shrink-0 rounded-full object-cover shadow-md ring-2 ring-slate-100 sm:h-16 sm:w-16"
-                  />
-                ) : (
-                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-slate-200 to-slate-300 text-lg font-bold text-slate-700 shadow-md sm:h-16 sm:w-16">
-                    {hostName.slice(0, 1)}
+              <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+                <Link
+                  href={`/profile/${listing.user.id}`}
+                  className="flex min-w-0 items-center gap-4 rounded-xl transition hover:bg-slate-50/80 sm:flex-1"
+                >
+                  {listing.user.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={listing.user.image}
+                      alt=""
+                      className="h-14 w-14 shrink-0 rounded-full object-cover shadow-md ring-2 ring-slate-100 sm:h-16 sm:w-16"
+                    />
+                  ) : (
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-slate-200 to-slate-300 text-lg font-bold text-slate-700 shadow-md sm:h-16 sm:w-16">
+                      {hostName.slice(0, 1)}
+                    </div>
+                  )}
+                  <div className="min-w-0 flex-1 text-right">
+                    <p className="text-base font-semibold text-cyan-800 underline-offset-2 hover:underline sm:text-lg">{hostName}</p>
+                    <p className="text-sm text-slate-500">חבר בקהילת MasterTrip · לחצו לפרופיל</p>
                   </div>
-                )}
-                <div className="min-w-0 flex-1 text-right">
-                  <p className="text-base font-semibold text-slate-900 sm:text-lg">{hostName}</p>
-                  <p className="text-sm text-slate-500">חבר בקהילת MasterTrip</p>
-                </div>
+                </Link>
+                {igUrl ? (
+                  <a
+                    href={igUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-gradient-to-br from-purple-600 to-pink-600 px-4 py-2.5 text-sm font-bold text-white shadow-md transition hover:opacity-95 active:scale-[0.99] sm:w-auto sm:self-center"
+                  >
+                    <InstagramMark className="h-5 w-5 shrink-0" />
+                    אינסטגרם
+                  </a>
+                ) : null}
               </div>
             </section>
           </div>

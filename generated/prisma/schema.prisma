@@ -22,6 +22,9 @@ model User {
   email     String    @unique
   name      String?
   image     String?
+  bio       String?   @db.Text
+  instagram String?
+  phone     String?
   isPremium Boolean   @default(false)
   listings  Listing[]
 }

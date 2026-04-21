@@ -18,12 +18,15 @@ enum ListingType {
 }
 
 model User {
-  id        String    @id @default(cuid())
-  email     String    @unique
-  name      String?
-  image     String?
-  isPremium Boolean   @default(false)
-  listings  Listing[]
+  id         String    @id @default(cuid())
+  email      String    @unique
+  name       String?
+  image      String?
+  bio        String?   @db.Text
+  instagram  String?
+  phone      String?
+  isPremium  Boolean   @default(false)
+  listings   Listing[]
 }
 
 model Listing {

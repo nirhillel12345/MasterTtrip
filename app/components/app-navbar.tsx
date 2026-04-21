@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, LayoutGrid, LogOut, Menu, PenSquare, WandSparkles, X } from "lucide-react";
+import { CircleUser, Home, LayoutGrid, LogOut, Menu, PenSquare, WandSparkles, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { signOut } from "@/app/auth/actions";
@@ -81,6 +81,14 @@ export function AppNavbar({ user }: Props) {
               <span className="inline-flex items-center gap-1.5">
                 <LayoutGrid className="h-4 w-4 text-slate-500" />
                 המודעות שלי
+              </span>
+            </Link>
+          ) : null}
+          {user ? (
+            <Link href="/profile" className={desktopLinkClass}>
+              <span className="inline-flex items-center gap-1.5">
+                <CircleUser className="h-4 w-4 text-slate-500" />
+                הפרופיל שלי
               </span>
             </Link>
           ) : null}
@@ -203,6 +211,12 @@ export function AppNavbar({ user }: Props) {
             <Link href="/my-listings" className={mobileDrawerLinkClass} onClick={() => setOpen(false)}>
               המודעות שלי
               <LayoutGrid className="h-5 w-5 shrink-0 text-cyan-600" aria-hidden />
+            </Link>
+          ) : null}
+          {user ? (
+            <Link href="/profile" className={mobileDrawerLinkClass} onClick={() => setOpen(false)}>
+              הפרופיל שלי
+              <CircleUser className="h-5 w-5 shrink-0 text-cyan-600" aria-hidden />
             </Link>
           ) : null}
 
