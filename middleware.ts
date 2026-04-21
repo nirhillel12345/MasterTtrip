@@ -6,5 +6,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/listings/new/:path*", "/auth/callback"],
+  matcher: ["/listings/:path*", "/my-listings/:path*", "/auth/callback"],
 };

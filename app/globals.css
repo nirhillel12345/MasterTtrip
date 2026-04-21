@@ -24,3 +24,12 @@ body {
   color: var(--foreground);
   font-family: var(--font-assistant), "Heebo", "Assistant", Arial, sans-serif;
 }
+
+/* Horizontal scroll areas (e.g. gallery) without visible scrollbar */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

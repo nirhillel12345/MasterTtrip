@@ -27,10 +27,16 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user && request.nextUrl.pathname.startsWith("/listings/new")) {
+  const path = request.nextUrl.pathname;
+  const needsAuth =
+    path.startsWith("/listings/new") ||
+    path.startsWith("/my-listings") ||
+    /^\/listings\/[^/]+\/edit$/.test(path);
+
+  if (!user && needsAuth) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = "/auth/login";
-    loginUrl.searchParams.set("error", "יש להתחבר כדי לפרסם מודעה");
+    loginUrl.searchParams.set("error", "יש להתחבר כדי להמשיך");
     return NextResponse.redirect(loginUrl);
   }
 

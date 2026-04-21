@@ -39,7 +39,7 @@ export default async function NewListingPage({ searchParams }: NewListingPagePro
             </div>
           ) : null}
 
-          <ListingForm />
+          <ListingForm mode="create" />
         </div>
       </section>
     </main>

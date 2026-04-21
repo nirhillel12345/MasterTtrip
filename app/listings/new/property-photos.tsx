@@ -3,16 +3,17 @@
 import { ImagePlus, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const MAX_FILES = 8;
 const MAX_BYTES = 4 * 1024 * 1024;
 
 type Props = {
   files: File[];
   onFilesChange: (files: File[]) => void;
   disabled?: boolean;
+  /** Max number of new file uploads (default 8). Use with existing images on edit. */
+  maxFiles?: number;
 };
 
-export function PropertyPhotos({ files, onFilesChange, disabled }: Props) {
+export function PropertyPhotos({ files, onFilesChange, disabled, maxFiles = 8 }: Props) {
   const [previews, setPreviews] = useState<{ file: File; url: string }[]>([]);
 
   useEffect(() => {
@@ -33,11 +34,11 @@ export function PropertyPhotos({ files, onFilesChange, disabled }: Props) {
     if (tooBig) {
       return;
     }
-    if (images.length + files.length > MAX_FILES) {
+    if (images.length + files.length > maxFiles) {
       return;
     }
 
-    const merged = [...files, ...images].slice(0, MAX_FILES);
+    const merged = [...files, ...images].slice(0, maxFiles);
     onFilesChange(merged);
   }
 
@@ -49,7 +50,7 @@ export function PropertyPhotos({ files, onFilesChange, disabled }: Props) {
     <div className="space-y-3">
       <div>
         <span className="mb-1 block text-sm font-medium text-slate-700">תמונות נכס (אופציונלי)</span>
-        <p className="text-xs text-slate-500">עד {MAX_FILES} תמונות, עד 4MB לקובץ</p>
+        <p className="text-xs text-slate-500">עד {maxFiles} תמונות חדשות, עד 4MB לקובץ</p>
       </div>
 
       <label

@@ -28,7 +28,7 @@ export default function RootLayout({
       dir="rtl"
       className={`${assistant.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-[var(--font-assistant)]">
+      <body className="min-h-full flex flex-col font-[var(--font-assistant)] text-[15px] leading-relaxed text-slate-900 antialiased sm:text-base">
         {children}
       </body>
     </html>
