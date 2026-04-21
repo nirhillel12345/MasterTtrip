@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ListingType {
+  LOOKING_FOR
+  HAS_APARTMENT
+}
+
+model User {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  name      String?
+  image     String?
+  isPremium Boolean   @default(false)
+  listings  Listing[]
+}
+
+model Listing {
+  id              String      @id @default(cuid())
+  createdAt       DateTime    @default(now())
+  title           String
+  description     String
+  location        String
+  type            ListingType
+  price           Float
+  startDate       DateTime
+  endDate         DateTime
+  whatsappNumber  String
+  roommatesNeeded Int
+  images          String[]    @default([])
+  userId          String
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
