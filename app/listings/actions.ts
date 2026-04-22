@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
+import { normalizeListingWhatsappToE164 } from "@/lib/listing-whatsapp-e164";
 import { isAllowedDestination } from "@/lib/travel-destinations";
 import type { ListingType } from "@/generated/prisma";
 
@@ -58,15 +59,15 @@ export async function createListing(input: {
 }): Promise<ListingActionResult> {
   const title = input.title.trim();
   const location = input.location.trim();
-  const whatsappNumber = input.whatsappNumber.trim();
-
   if (!title || !location || !isAllowedDestination(location)) {
     return { error: "יש לבחור יעד מהרשימה." };
   }
 
-  if (!whatsappNumber) {
-    return { error: "יש להזין מספר לתיאום." };
+  const wa = normalizeListingWhatsappToE164(input.whatsappNumber);
+  if (!wa.ok) {
+    return { error: wa.error };
   }
+  const whatsappNumber = wa.e164;
 
   const price = Number(input.price);
   const roommatesNeeded = Number(input.roommatesNeeded);
@@ -148,12 +149,14 @@ export async function updateListing(
 ): Promise<ListingActionResult> {
   const title = input.title.trim();
   const location = input.location.trim();
-  const whatsappNumber = input.whatsappNumber.trim();
-
   if (!title || !location || !isAllowedDestination(location)) {
     return { error: "יש לבחור יעד מהרשימה." };
   }
-  if (!whatsappNumber) return { error: "יש להזין מספר לתיאום." };
+  const wa = normalizeListingWhatsappToE164(input.whatsappNumber);
+  if (!wa.ok) {
+    return { error: wa.error };
+  }
+  const whatsappNumber = wa.e164;
 
   const price = Number(input.price);
   const roommatesNeeded = Number(input.roommatesNeeded);

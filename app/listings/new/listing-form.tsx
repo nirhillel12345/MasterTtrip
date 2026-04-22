@@ -1,11 +1,16 @@
 "use client";
 
-import { CalendarDays, MessageCircle, Users } from "lucide-react";
+import { CalendarDays, Users } from "lucide-react";
 import { useTransition, useState } from "react";
 import { createListing, updateListing } from "@/app/listings/actions";
 import { DestinationCombobox } from "@/app/components/destination-combobox";
+import {
+  ListingWhatsappPhoneInput,
+  parseInitialWhatsappE164,
+} from "@/app/components/listing-whatsapp-phone-input";
 import { PropertyPhotos } from "./property-photos";
 import { uploadListingImagesToStorage } from "./upload-listing-images";
+import { isValidPhoneNumber } from "react-phone-number-input";
 import { isAllowedDestination } from "@/lib/travel-destinations";
 import type { ListingType } from "@/generated/prisma";
 
@@ -61,7 +66,9 @@ export function ListingForm({ mode, listingId, initial }: Props) {
         return localISODate(t);
       })(),
   );
-  const [whatsappNumber, setWhatsappNumber] = useState(initial?.whatsappNumber ?? "");
+  const [whatsappNumber, setWhatsappNumber] = useState<string | undefined>(() =>
+    parseInitialWhatsappE164(initial?.whatsappNumber),
+  );
   const [roommatesNeeded, setRoommatesNeeded] = useState(
     initial != null ? String(initial.roommatesNeeded) : "",
   );
@@ -118,6 +125,11 @@ export function ListingForm({ mode, listingId, initial }: Props) {
       return;
     }
 
+    if (!whatsappNumber || !isValidPhoneNumber(whatsappNumber)) {
+      setServerError("יש להזין מספר וואטסאפ תקין (כולל קידומת מדינה).");
+      return;
+    }
+
     startTransition(async () => {
       let newUrls: string[] = [];
       try {
@@ -137,7 +149,7 @@ export function ListingForm({ mode, listingId, initial }: Props) {
         price: Number(price),
         startDate,
         endDate,
-        whatsappNumber,
+        whatsappNumber: whatsappNumber ?? "",
         roommatesNeeded: Number(roommatesNeeded),
         imageUrls,
         type: listingType,
@@ -251,20 +263,13 @@ export function ListingForm({ mode, listingId, initial }: Props) {
       </div>
       <p className="text-xs text-slate-500">תאריך הסיום לא יכול להיות לפני תאריך ההתחלה (יתעדכן אוטומטית במידת הצורך).</p>
 
-      <label className="block text-right">
-        <span className="mb-1 block text-sm font-medium text-slate-700">מספר לתיאום</span>
-        <div className="flex items-center gap-2 rounded-xl border border-slate-300 px-4 py-3 focus-within:border-cyan-500 focus-within:ring-2 focus-within:ring-cyan-200">
-          <MessageCircle className="h-4 w-4 text-slate-400" />
-          <input
-            value={whatsappNumber}
-            onChange={(e) => setWhatsappNumber(e.target.value)}
-            required
-            dir="ltr"
-            placeholder="+972501234567"
-            className="w-full text-sm outline-none placeholder:text-slate-400"
-          />
-        </div>
-      </label>
+      <div className="block text-right">
+        <span className="mb-1.5 block text-sm font-medium text-slate-700">מספר וואטסאפ לתיאום</span>
+        <p className="mb-2 text-xs leading-relaxed text-slate-500">
+          בחרו מדינה (דגל וקידומת) ואז הזינו את המספר — יישמר בפורמט בינלאומי E.164.
+        </p>
+        <ListingWhatsappPhoneInput value={whatsappNumber} onChange={setWhatsappNumber} disabled={pending} />
+      </div>
 
       <label className="block text-right">
         <span className="mb-1 block text-sm font-medium text-slate-700">מספר שותפים חסרים</span>

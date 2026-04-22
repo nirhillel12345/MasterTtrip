@@ -25,6 +25,126 @@ body {
   font-family: var(--font-assistant), "Heebo", "Assistant", Arial, sans-serif;
 }
 
+/* Leaflet: keep typography consistent; RTL page + LTR map container */
+.leaflet-container {
+  font-family: inherit;
+}
+
+/* Premium cluster markers (divIcon from marker-cluster-group.tsx) */
+.mt-cluster-anchor {
+  background: transparent !important;
+  border: none !important;
+}
+.mt-cluster {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: linear-gradient(145deg, #0e7490 0%, #06b6d4 45%, #22d3ee 100%);
+  color: #fff;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow:
+    0 10px 25px -8px rgba(8, 145, 178, 0.55),
+    0 2px 8px -2px rgba(15, 23, 42, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.leaflet-marker-icon.mt-cluster-anchor:hover .mt-cluster {
+  transform: scale(1.06);
+  box-shadow:
+    0 14px 32px -8px rgba(8, 145, 178, 0.6),
+    0 4px 12px -2px rgba(15, 23, 42, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.mt-cluster__count {
+  font-size: 0.8125rem;
+  letter-spacing: -0.02em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+.mt-cluster--md .mt-cluster__count {
+  font-size: 0.875rem;
+}
+.mt-cluster--lg .mt-cluster__count {
+  font-size: 0.9375rem;
+}
+
+/* Popups: card-like, smooth open */
+.leaflet-popup {
+  transition: opacity 0.18s ease;
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow:
+    0 20px 50px -12px rgba(15, 23, 42, 0.28),
+    0 8px 20px -8px rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(226, 232, 240, 0.95);
+}
+.leaflet-popup-tip {
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+.home-map-popup .leaflet-popup-content {
+  margin: 10px 12px 10px 10px;
+  min-width: 0;
+}
+
+/* Listing form: phone block is LTR so digits and caret flow correctly (form page stays RTL) */
+.listing-whatsapp-phone-wrap {
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: left;
+  --PhoneInput-color--focus: #0891b2;
+  --PhoneInputCountryFlag-height: 1.25rem;
+  --PhoneInputCountrySelect-marginRight: 0.5rem;
+  --PhoneInputCountryFlag-borderColor: rgba(148, 163, 184, 0.85);
+  --PhoneInputCountryFlag-borderColor--focus: #0891b2;
+}
+.listing-whatsapp-phone-wrap .listing-whatsapp-phone.PhoneInput {
+  width: 100%;
+  gap: 0.5rem;
+  min-height: 3.25rem;
+  align-items: stretch;
+  padding: 0.65rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgb(203 213 225);
+  background-color: #fff;
+  box-shadow:
+    0 1px 2px 0 rgb(0 0 0 / 0.04),
+    0 1px 3px 0 rgb(15 23 42 / 0.06);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.listing-whatsapp-phone-wrap .listing-whatsapp-phone.PhoneInput--focus {
+  border-color: #0891b2;
+  box-shadow:
+    0 0 0 2px rgb(207 250 254),
+    0 4px 14px -4px rgb(15 23 42 / 0.12);
+}
+.listing-whatsapp-phone-wrap .listing-whatsapp-phone.PhoneInput--disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+.listing-whatsapp-phone-wrap .PhoneInputInput {
+  direction: ltr;
+  unicode-bidi: plaintext;
+  text-align: left;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  border: 0;
+  outline: none;
+  background: transparent;
+  box-shadow: none;
+}
+.listing-whatsapp-phone-wrap .PhoneInputCountry {
+  margin-right: 0;
+  margin-left: 0;
+}
+
 /* Horizontal scroll areas (e.g. gallery) without visible scrollbar */
 .scrollbar-hide {
   -ms-overflow-style: none;
