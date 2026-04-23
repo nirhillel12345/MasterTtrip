@@ -11,7 +11,7 @@ function toLoginError(message: string) {
 export async function signInWithGoogle() {
   const supabase = await createSupabaseServerClient();
   const headerStore = await headers();
-  const origin = headerStore.get("origin") ?? "http://localhost:3000";
+  const origin = headerStore.get("origin") ?? "http://localhost:3001";
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
