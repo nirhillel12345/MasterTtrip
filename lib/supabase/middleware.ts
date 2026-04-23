@@ -34,12 +34,19 @@ export async function updateSession(request: NextRequest) {
     /^\/listings\/[^/]+\/edit$/.test(path) ||
     path === "/profile";
 
-  if (!user && needsAuth) {
-    const loginUrl = request.nextUrl.clone();
-    loginUrl.pathname = "/auth/login";
-    loginUrl.searchParams.set("error", "יש להתחבר כדי להמשיך");
-    return NextResponse.redirect(loginUrl);
-  }
+    if (!user && needsAuth) {
+      // במקום לשכפל את request.nextUrl שעלול להכיל localhost
+      // אנחנו בונים URL חדש שמבוסס על הכתובת האמיתית
+      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://master-ttrip.vercel.app";
+      const loginUrl = new URL("/auth/login", baseUrl);
+      
+      loginUrl.searchParams.set("error", "יש להתחבר כדי להמשיך");
+      
+      // אופציונלי: לשמור את הדף שהמשתמש ניסה להגיע אליו כדי לחזור אליו אחרי הלוגין
+      loginUrl.searchParams.set("next", path); 
+      console.log("!!! LOGIN URL !!!", loginUrl);
+      return NextResponse.redirect(loginUrl);
+    }
 
   return response;
 }
