@@ -10,12 +10,15 @@ function toLoginError(message: string) {
 
 export async function signInWithGoogle() {
   const supabase = await createSupabaseServerClient();
-  const headerStore = await headers();
-  const origin = headerStore.get("origin") ?? "http://localhost:3001";
+  
+  // 1. ננסה להוציא את הכתובת מהמשתנה שהגדרת ב-Vercel
+  // 2. אם הוא לא קיים (כמו אצלך במחשב), נשתמש ב-localhost
+  const origin = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3001";
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
+      // עכשיו redirectTo ישלח את הכתובת הנכונה (https://master-ttrip.vercel.app)
       redirectTo: `${origin}/auth/callback?next=/`,
     },
   });
@@ -26,7 +29,6 @@ export async function signInWithGoogle() {
 
   redirect(data.url);
 }
-
 export async function signInWithMagicLink(formData: FormData) {
   const email = String(formData.get("email") ?? "").trim();
 
