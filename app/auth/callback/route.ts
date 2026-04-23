@@ -5,6 +5,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 export const runtime = "nodejs";
 
 export async function GET(request: Request) {
+  console.log("!!! CALLBACK REACHED !!!", request.url); // שורה לבדיקה
   // תיקון חילוץ ה-URL והפרמטרים
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");

@@ -24,7 +24,7 @@ export async function signInWithGoogle() {
   if (error || !data.url) {
     redirect(toLoginError("ההתחברות עם Google נכשלה"));
   }
-
+  console.log("!!! REDIRECTING TO !!!", data.url); // שורה לבדיקה
   redirect(data.url);
 }
 export async function signInWithMagicLink(formData: FormData) {
