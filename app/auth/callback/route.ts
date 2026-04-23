@@ -66,5 +66,9 @@ export async function GET(request: Request) {
   }
 
   // הפניה סופית עם ה-baseUrl הנכון
-  return NextResponse.redirect(new URL(next, baseUrl));
+  // נגדיר את הכתובת בצורה מפורשת
+const baseUrl1: string = process.env.NEXT_PUBLIC_SITE_URL || "https://master-ttrip.vercel.app";
+
+// נשתמש ב-baseUrl במקום ב-origin הבעייתי
+return NextResponse.redirect(new URL(next, baseUrl1));
 }
