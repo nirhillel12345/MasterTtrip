@@ -5,19 +5,23 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 export const runtime = "nodejs";
 
 export async function GET(request: Request) {
-  const { searchParams, origin } = new URL(request.url);
-  const code = searchParams.get("code");
-  const next = searchParams.get("next") ?? "/";
+  // תיקון חילוץ ה-URL והפרמטרים
+  const requestUrl = new URL(request.url);
+  const code = requestUrl.searchParams.get("code");
+  const next = requestUrl.searchParams.get("next") ?? "/";
+
+  // הגדרת ה-Base URL - אם קיים משתנה סביבה נשתמש בו, אחרת ב-origin של הבקשה
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || requestUrl.origin;
 
   if (!code) {
-    return NextResponse.redirect(new URL("/auth/login?error=התחברות נכשלה", origin));
+    return NextResponse.redirect(new URL("/auth/login?error=התחברות נכשלה", baseUrl));
   }
 
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.auth.exchangeCodeForSession(code);
 
   if (error) {
-    return NextResponse.redirect(new URL("/auth/login?error=התחברות נכשלה", origin));
+    return NextResponse.redirect(new URL("/auth/login?error=התחברות נכשלה", baseUrl));
   }
 
   const {
@@ -25,7 +29,7 @@ export async function GET(request: Request) {
   } = await supabase.auth.getUser();
 
   if (!user?.email) {
-    return NextResponse.redirect(new URL("/auth/login?error=לא+נמצא+אימייל+בחשבון", origin));
+    return NextResponse.redirect(new URL("/auth/login?error=לא+נמצא+אימייל+בחשבון", baseUrl));
   }
 
   const metadata = user.user_metadata ?? {};
@@ -55,9 +59,11 @@ export async function GET(request: Request) {
         image,
       },
     });
-  } catch {
-    return NextResponse.redirect(new URL("/auth/login?error=שגיאה+בסנכרון+המשתמש", origin));
+  } catch (err) {
+    console.error("Prisma error:", err);
+    return NextResponse.redirect(new URL("/auth/login?error=שגיאה+בסנכרון+המשתמש", baseUrl));
   }
 
-  return NextResponse.redirect(new URL(next, origin));
+  // הפניה סופית עם ה-baseUrl הנכון
+  return NextResponse.redirect(new URL(next, baseUrl));
 }
