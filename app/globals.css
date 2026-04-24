@@ -153,3 +153,9 @@ body {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* iOS date/time value alignment fix to avoid clipping/overflow in narrow screens */
+input::-webkit-date-and-time-value {
+  text-align: right;
+  padding-right: 8px;
+}

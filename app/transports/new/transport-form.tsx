@@ -57,41 +57,45 @@ export function TransportForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="max-w-full space-y-4 overflow-x-hidden">
+    <form onSubmit={onSubmit} className="box-border max-w-full min-w-0 space-y-4 overflow-x-hidden">
       {error ? (
         <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
           {error}
         </div>
       ) : null}
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid min-w-0 gap-4 sm:grid-cols-2">
         <DestinationCombobox value={origin} onChange={setOrigin} error={originError} />
         <DestinationCombobox value={destination} onChange={setDestination} error={destinationError} />
       </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <label className="block w-full min-w-0 text-right">
-          <span className="mb-1 block text-sm font-medium text-slate-700">תאריך נסיעה</span>
-          <input
-            type="date"
-            required
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            className="box-border block w-full max-w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
-            dir="ltr"
-          />
-        </label>
-        <label className="block w-full min-w-0 text-right">
-          <span className="mb-1 block text-sm font-medium text-slate-700">שעת איסוף</span>
-          <input
-            type="time"
-            required
-            value={pickupTime}
-            onChange={(e) => setPickupTime(e.target.value)}
-            className="box-border block w-full max-w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
-            dir="ltr"
-          />
-        </label>
+      <div className="grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="flex w-full min-w-0 flex-col gap-4 md:col-span-2 md:grid md:grid-cols-2 md:gap-4 lg:col-span-2">
+          <label className="block w-full min-w-0 text-right">
+            <span className="mb-1 block text-sm font-medium text-slate-700">תאריך נסיעה</span>
+            <input
+              type="date"
+              required
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              className="box-border block w-full min-w-0 max-w-full appearance-none rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
+              style={{ maxWidth: "calc(100vw - 2rem)" }}
+              dir="ltr"
+            />
+          </label>
+          <label className="block w-full min-w-0 text-right">
+            <span className="mb-1 block text-sm font-medium text-slate-700">שעת איסוף</span>
+            <input
+              type="time"
+              required
+              value={pickupTime}
+              onChange={(e) => setPickupTime(e.target.value)}
+              className="box-border block w-full min-w-0 max-w-full appearance-none rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
+              style={{ maxWidth: "calc(100vw - 2rem)" }}
+              dir="ltr"
+            />
+          </label>
+        </div>
         <label className="block w-full min-w-0 text-right">
           <span className="mb-1 block text-sm font-medium text-slate-700">סה״כ מקומות</span>
           <input
@@ -102,7 +106,7 @@ export function TransportForm() {
             required
             value={totalSeats}
             onChange={(e) => setTotalSeats(e.target.value)}
-            className="box-border block w-full max-w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
+            className="box-border block w-full min-w-0 max-w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
             dir="ltr"
           />
         </label>
@@ -115,7 +119,7 @@ export function TransportForm() {
             required
             value={pricePerPerson}
             onChange={(e) => setPricePerPerson(e.target.value)}
-            className="box-border block w-full max-w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
+            className="box-border block w-full min-w-0 max-w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
             dir="ltr"
           />
         </label>
