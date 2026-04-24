@@ -70,7 +70,7 @@ export function AppNavbar({ user }: Props) {
             </span>
           </Link>
           <Link
-            href="/listings/new"
+            href="/create"
             className="inline-flex items-center gap-1.5 rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-slate-800 active:scale-[0.98]"
           >
             <PenSquare className="h-4 w-4 text-cyan-200" />
@@ -219,7 +219,7 @@ export function AppNavbar({ user }: Props) {
             דף הבית
             <Home className="h-5 w-5 shrink-0 text-cyan-600" aria-hidden />
           </Link>
-          <Link href="/listings/new" className={mobileDrawerLinkClass} onClick={() => setOpen(false)}>
+          <Link href="/create" className={mobileDrawerLinkClass} onClick={() => setOpen(false)}>
             פרסום מודעה
             <PenSquare className="h-5 w-5 shrink-0 text-cyan-600" aria-hidden />
           </Link>
