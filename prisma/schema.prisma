@@ -18,17 +18,19 @@ enum ListingType {
 }
 
 model User {
-  id         String    @id @default(cuid())
-  email      String    @unique
-  name       String?
-  image      String?
-  bio        String?   @db.Text
-  instagram  String?
-  phone      String?
-  isPremium  Boolean   @default(false)
-  listings   Listing[]
-  transports Transport[]    @relation("TransportCreator")
-  transportJoins TransportJoin[]
+  id                    String          @id @default(cuid())
+  email                 String          @unique
+  name                  String?
+  image                 String?
+  bio                   String?         @db.Text
+  instagram             String?
+  phone                 String?
+  isPremium             Boolean         @default(false)
+  listings              Listing[]
+  transports            Transport[]     @relation("TransportCreator")
+  transportJoins        TransportJoin[]
+  notificationsReceived Notification[]  @relation("NotificationRecipient")
+  notificationsCreated  Notification[]  @relation("NotificationActor")
 }
 
 model Listing {
@@ -61,6 +63,7 @@ model Transport {
   pricePerPerson Float
   description    String          @db.Text
   joins          TransportJoin[]
+  notifications  Notification[]
 }
 
 model TransportJoin {
@@ -72,4 +75,20 @@ model TransportJoin {
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([transportId, userId])
+}
+
+model Notification {
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now())
+  recipientId String
+  actorId     String?
+  transportId String?
+  type        String
+  title       String
+  message     String    @db.Text
+  readAt      DateTime?
+  metadata    Json?
+  recipient   User      @relation("NotificationRecipient", fields: [recipientId], references: [id], onDelete: Cascade)
+  actor       User?     @relation("NotificationActor", fields: [actorId], references: [id], onDelete: SetNull)
+  transport   Transport? @relation(fields: [transportId], references: [id], onDelete: SetNull)
 }

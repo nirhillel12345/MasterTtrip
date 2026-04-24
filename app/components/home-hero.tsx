@@ -230,7 +230,7 @@ export function HomeHero() {
                   />
                 </>
               ) : (
-                <>
+                <div className="w-full min-w-0 md:grid md:flex-1 md:grid-cols-2 md:gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_11rem_10rem]">
                   <div className="w-full min-w-0 flex-1 text-right">
                     <span className="mb-1.5 block text-xs font-semibold text-slate-600 sm:text-sm">מוצא</span>
                     <DestinationCombobox
@@ -283,7 +283,7 @@ export function HomeHero() {
                       dir="ltr"
                     />
                   </label>
-                </>
+                </div>
               )}
 
               <div className="flex w-full shrink-0 flex-col gap-2 md:w-auto md:justify-end">

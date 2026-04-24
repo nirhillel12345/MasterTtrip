@@ -7,7 +7,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { isAllowedDestination } from "@/lib/travel-destinations";
 
 export type TransportActionResult =
-  | { ok: true; notifyWhatsAppUrl?: string }
+  | { ok: true; notifyWhatsAppUrl?: string; notificationId?: string }
   | { ok: false; error: string };
 
 async function sendTransportJoinEmail(input: {
@@ -36,7 +36,7 @@ MasterTrip`;
 <p>MasterTrip</p>`;
 
   try {
-    await fetch("https://api.resend.com/emails", {
+    const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`,
@@ -50,6 +50,7 @@ MasterTrip`;
         html,
       }),
     });
+    console.log("[transport-join][email] status:", res.status, "to:", input.to);
   } catch (err) {
     console.error("[transport-email] failed to send notification", err);
   }
@@ -160,9 +161,10 @@ export async function createTransport(input: {
 
 export async function joinTransport(transportId: string): Promise<TransportActionResult> {
   const dbUser = await requireDbUser(`/transports/${transportId}`);
+  console.log("[transport-join] triggered", { transportId, joinerUserId: dbUser.id, joinerEmail: dbUser.email });
 
   try {
-    const notifyWhatsAppUrl = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx) => {
       const transport = await tx.transport.findUnique({
         where: { id: transportId },
         select: {
@@ -175,6 +177,11 @@ export async function joinTransport(transportId: string): Promise<TransportActio
           creator: { select: { phone: true, name: true, email: true } },
         },
       });
+      console.log("[transport-join] transport lookup", {
+        transportId,
+        found: Boolean(transport),
+        availableSeats: transport?.availableSeats ?? null,
+      });
 
       if (!transport) throw new Error("נסיעה לא נמצאה.");
       if (transport.creatorId === dbUser.id) throw new Error("לא ניתן להצטרף לנסיעה שיצרת.");
@@ -183,6 +190,7 @@ export async function joinTransport(transportId: string): Promise<TransportActio
         where: { transportId_userId: { transportId, userId: dbUser.id } },
         select: { id: true },
       });
+      console.log("[transport-join] existing join", { exists: Boolean(existing), joinId: existing?.id });
       if (existing) throw new Error("כבר הצטרפת לנסיעה הזו.");
       if (transport.availableSeats <= 0) throw new Error("אין מקומות פנויים בנסיעה.");
 
@@ -190,6 +198,7 @@ export async function joinTransport(transportId: string): Promise<TransportActio
         where: { id: transportId, availableSeats: { gt: 0 } },
         data: { availableSeats: { decrement: 1 } },
       });
+      console.log("[transport-join] seats decrement result", { count: dec.count });
       if (dec.count === 0) throw new Error("המקומות נתפסו כרגע, נסו לרענן.");
 
       await tx.transportJoin.create({
@@ -198,6 +207,7 @@ export async function joinTransport(transportId: string): Promise<TransportActio
           userId: dbUser.id,
         },
       });
+      console.log("[transport-join] participant added", { transportId, userId: dbUser.id });
 
       const creatorName = transport.creator.name?.trim() || transport.creator.email.split("@")[0];
       const joinerName = dbUser.name?.trim() || dbUser.email.split("@")[0];
@@ -208,6 +218,26 @@ export async function joinTransport(transportId: string): Promise<TransportActio
       }).format(transport.date);
       const message = `היי ${creatorName}, שמי ${joinerName}. הצטרפתי עכשיו לנסיעה שלך מ${transport.origin} ל${transport.destination} ב-${rideDate}. נתראה!`;
 
+      const notification = await tx.notification.create({
+        data: {
+          recipientId: transport.creatorId,
+          actorId: dbUser.id,
+          transportId: transport.id,
+          type: "transport_joined",
+          title: "משתתף חדש בנסיעה",
+          message: `${joinerName} הצטרף/ה לנסיעה שלך מ${transport.origin} ל${transport.destination} בתאריך ${rideDate}.`,
+          metadata: {
+            joinerUserId: dbUser.id,
+            joinerName,
+            origin: transport.origin,
+            destination: transport.destination,
+            date: rideDate,
+          },
+        },
+        select: { id: true },
+      });
+      console.log("[transport-join] notification created", { notificationId: notification.id });
+
       await sendTransportJoinEmail({
         to: transport.creator.email,
         creatorName,
@@ -217,14 +247,50 @@ export async function joinTransport(transportId: string): Promise<TransportActio
         dateLabel: rideDate,
       });
 
-      return buildJoinWhatsAppUrl(transport.creator.phone ?? "", message) ?? undefined;
+      return {
+        notifyWhatsAppUrl: buildJoinWhatsAppUrl(transport.creator.phone ?? "", message) ?? undefined,
+        notificationId: notification.id,
+      };
     });
 
     revalidatePath("/transports");
     revalidatePath(`/transports/${transportId}`);
-    return { ok: true, notifyWhatsAppUrl };
+    return { ok: true, notifyWhatsAppUrl: result.notifyWhatsAppUrl, notificationId: result.notificationId };
   } catch (err) {
     const msg = err instanceof Error ? err.message : "לא הצלחנו להצטרף כרגע.";
+    console.error("[transport-join] failed", { transportId, joinerUserId: dbUser.id, error: msg });
+    return { ok: false, error: msg };
+  }
+}
+
+export async function leaveTransport(transportId: string): Promise<TransportActionResult> {
+  const dbUser = await requireDbUser(`/transports/${transportId}`);
+
+  try {
+    await prisma.$transaction(async (tx) => {
+      const transport = await tx.transport.findUnique({
+        where: { id: transportId },
+        select: { id: true, availableSeats: true, totalSeats: true },
+      });
+      if (!transport) throw new Error("נסיעה לא נמצאה.");
+
+      const deleted = await tx.transportJoin.deleteMany({
+        where: { transportId, userId: dbUser.id },
+      });
+      if (deleted.count === 0) throw new Error("את/ה לא רשום/ה לנסיעה הזו.");
+
+      const nextAvailable = Math.min(transport.totalSeats, transport.availableSeats + 1);
+      await tx.transport.update({
+        where: { id: transportId },
+        data: { availableSeats: nextAvailable },
+      });
+    });
+
+    revalidatePath("/transports");
+    revalidatePath(`/transports/${transportId}`);
+    return { ok: true };
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "לא הצלחנו לבטל את ההרשמה כרגע.";
     return { ok: false, error: msg };
   }
 }

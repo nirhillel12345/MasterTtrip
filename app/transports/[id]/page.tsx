@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { JoinTransportButton } from "./join-transport-button";
+import { LeaveTransportButton } from "./leave-transport-button";
 import { RemoveParticipantButton } from "./remove-participant-button";
 import { prisma } from "@/lib/prisma";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
@@ -60,6 +61,9 @@ export default async function TransportDetailPage({ params, searchParams }: Page
   const joinedParam =
     typeof sp.joined === "string" ? sp.joined : Array.isArray(sp.joined) ? sp.joined[0] : "";
   const showJoinedSuccess = joinedParam === "1";
+  const leftParam =
+    typeof sp.left === "string" ? sp.left : Array.isArray(sp.left) ? sp.left[0] : "";
+  const showLeftSuccess = leftParam === "1";
 
   const ride = await prisma.transport.findUnique({
     where: { id },
@@ -190,6 +194,11 @@ export default async function TransportDetailPage({ params, searchParams }: Page
                     נרשמת בהצלחה! הודעה נשלחה למארגן הנסיעה
                   </div>
                 ) : null}
+                {showLeftSuccess ? (
+                  <div className="mb-3 rounded-xl border border-slate-200 bg-slate-100 px-4 py-3 text-center text-sm font-semibold text-slate-700">
+                    ההרשמה בוטלה בהצלחה.
+                  </div>
+                ) : null}
                 {!isLoggedIn ? (
                   <Link
                     href={`/auth/login?next=${encodeURIComponent(ridePath)}`}
@@ -202,9 +211,7 @@ export default async function TransportDetailPage({ params, searchParams }: Page
                     זו הנסיעה שפרסמת. כאן אפשר לנהל את המשתתפים.
                   </div>
                 ) : alreadyJoined ? (
-                  <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-center text-sm font-semibold text-emerald-800">
-                    כבר הצטרפת לנסיעה הזאת 🎉
-                  </div>
+                  <LeaveTransportButton transportId={ride.id} />
                 ) : ride.availableSeats <= 0 ? (
                   <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-center text-sm font-semibold text-rose-700">
                     אין יותר מקומות פנויים בנסיעה הזו.

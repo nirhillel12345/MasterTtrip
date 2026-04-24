@@ -167,9 +167,27 @@ exports.Prisma.TransportJoinScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  recipientId: 'recipientId',
+  actorId: 'actorId',
+  transportId: 'transportId',
+  type: 'type',
+  title: 'title',
+  message: 'message',
+  readAt: 'readAt',
+  metadata: 'metadata'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -181,6 +199,12 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
 exports.ListingType = exports.$Enums.ListingType = {
   LOOKING_FOR: 'LOOKING_FOR',
   HAS_APARTMENT: 'HAS_APARTMENT'
@@ -190,7 +214,8 @@ exports.Prisma.ModelName = {
   User: 'User',
   Listing: 'Listing',
   Transport: 'Transport',
-  TransportJoin: 'TransportJoin'
+  TransportJoin: 'TransportJoin',
+  Notification: 'Notification'
 };
 
 /**
