@@ -230,8 +230,8 @@ export function HomeHero() {
                   />
                 </>
               ) : (
-                <div className="flex w-full min-w-0 flex-col gap-3 md:flex-row md:items-end md:gap-3 md:flex-1">
-                  <div className="w-full min-w-0 text-right md:flex-1">
+                <div className="grid w-full min-w-0 grid-cols-1 gap-3 md:grid-cols-4 md:items-end md:gap-3 md:flex-1">
+                  <div className="w-full min-w-0 text-right">
                     <span className="mb-1.5 block text-xs font-semibold text-slate-600 sm:text-sm">מוצא</span>
                     <DestinationCombobox
                       value={origin}
@@ -241,7 +241,7 @@ export function HomeHero() {
                       triggerClassName="min-h-[44px] px-3 py-2.5 sm:py-3"
                     />
                   </div>
-                  <div className="w-full min-w-0 text-right md:flex-1">
+                  <div className="w-full min-w-0 text-right">
                     <span className="mb-1.5 block text-xs font-semibold text-slate-600 sm:text-sm">יעד</span>
                     <DestinationCombobox
                       value={destination}
@@ -251,7 +251,7 @@ export function HomeHero() {
                       triggerClassName="min-h-[44px] px-3 py-2.5 sm:py-3"
                     />
                   </div>
-                  <label className="block w-full min-w-0 text-right md:flex-1">
+                  <label className="block w-full min-w-0 text-right">
                     <span className="mb-1.5 block text-xs font-semibold text-slate-600 sm:text-sm">תאריך</span>
                     <input
                       type="date"
@@ -263,11 +263,11 @@ export function HomeHero() {
                           applyFilters();
                         }
                       }}
-                      className="block min-h-[44px] w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200 sm:py-3"
+                      className="box-border block min-h-[44px] w-full max-w-full appearance-none rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200 sm:py-3"
                       dir="ltr"
                     />
                   </label>
-                  <label className="block w-full min-w-0 text-right md:flex-1">
+                  <label className="block w-full min-w-0 text-right">
                     <span className="mb-1.5 block text-xs font-semibold text-slate-600 sm:text-sm">שעת איסוף</span>
                     <input
                       type="time"
@@ -279,7 +279,7 @@ export function HomeHero() {
                           applyFilters();
                         }
                       }}
-                      className="block min-h-[44px] w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200 sm:py-3"
+                      className="box-border block min-h-[44px] w-full max-w-full appearance-none rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200 sm:py-3"
                       dir="ltr"
                     />
                   </label>

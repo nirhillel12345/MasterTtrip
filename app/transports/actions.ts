@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { sendEmail } from "@/lib/email";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { isAllowedDestination } from "@/lib/travel-destinations";
 
@@ -17,51 +18,44 @@ async function sendTransportJoinEmail(input: {
   origin: string;
   destination: string;
   dateLabel: string;
+  rideUrl: string;
 }) {
-  const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.RESEND_FROM_EMAIL ?? process.env.NOTIFICATION_FROM_EMAIL;
-  if (!apiKey || !from) {
-    return;
-  }
-
-  const subject = `${input.joinerName} has joined your ride`;
-  const text = `Hello ${input.creatorName},
-
-${input.joinerName} has joined your ride from ${input.origin} to ${input.destination} on ${input.dateLabel}.
-
-MasterTrip`;
-
-  const html = `<p>Hello ${input.creatorName},</p>
-<p><strong>${input.joinerName}</strong> has joined your ride from <strong>${input.origin}</strong> to <strong>${input.destination}</strong> on <strong>${input.dateLabel}</strong>.</p>
-<p>MasterTrip</p>`;
-
+  const subject = "מישהו הצטרף לנסיעה שלך ב-Master-Trip!";
+  const text = `${input.joinerName} joined your ride from ${input.origin} to ${input.destination}.
+Ride date: ${input.dateLabel}
+Ride link: ${input.rideUrl}`;
+  const html = `
+    <div style="font-family:Arial,Helvetica,sans-serif;line-height:1.5;color:#0f172a">
+      <h2 style="margin:0 0 12px 0">שלום ${input.creatorName},</h2>
+      <p style="margin:0 0 10px 0"><strong>${input.joinerName}</strong> joined your ride from <strong>${input.origin}</strong> to <strong>${input.destination}</strong>.</p>
+      <p style="margin:0 0 10px 0">תאריך נסיעה: <strong>${input.dateLabel}</strong></p>
+      <p style="margin:0 0 16px 0">
+        <a href="${input.rideUrl}" style="color:#06b6d4;text-decoration:none;font-weight:700">צפייה בנסיעה</a>
+      </p>
+      <p style="margin:0;color:#475569">MasterTrip</p>
+    </div>
+  `;
   try {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from,
-        to: [input.to],
-        subject,
-        text,
-        html,
-      }),
+    const result = await sendEmail({
+      to: input.to,
+      subject,
+      html,
+      text,
     });
-    console.log("[transport-join][email] status:", res.status, "to:", input.to);
+    console.log("[transport-join][email] sent", { to: input.to, id: result.data?.id ?? null });
   } catch (err) {
     console.error("[transport-email] failed to send notification", err);
   }
 }
 
 async function requireDbUser(nextPath?: string) {
+  console.log("[transport-auth] checking auth", { nextPath: nextPath ?? null });
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user?.email) {
+    console.log("[transport-auth] unauthenticated");
     const nextParam = nextPath ? `&next=${encodeURIComponent(nextPath)}` : "";
     redirect("/auth/login?error=" + encodeURIComponent("יש להתחבר") + nextParam);
   }
@@ -84,6 +78,7 @@ async function requireDbUser(nextPath?: string) {
             : null,
     },
   });
+  console.log("[transport-auth] user ready", { userId: dbUser.id, email: dbUser.email });
   return dbUser;
 }
 
@@ -103,6 +98,7 @@ export async function createTransport(input: {
   pricePerPerson: number;
   description: string;
 }): Promise<TransportActionResult> {
+  console.log("[transport-create] triggered");
   const dbUser = await requireDbUser("/transports/new");
 
   const origin = input.origin.trim();
@@ -238,6 +234,9 @@ export async function joinTransport(transportId: string): Promise<TransportActio
       });
       console.log("[transport-join] notification created", { notificationId: notification.id });
 
+      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+      const rideUrl = `${baseUrl.replace(/\/$/, "")}/transports/${transport.id}`;
+      console.log("[transport-join] sending email via resend", { to: transport.creator.email, rideUrl });
       await sendTransportJoinEmail({
         to: transport.creator.email,
         creatorName,
@@ -245,8 +244,10 @@ export async function joinTransport(transportId: string): Promise<TransportActio
         origin: transport.origin,
         destination: transport.destination,
         dateLabel: rideDate,
+        rideUrl,
       });
 
+      console.log("[transport-join] building whatsapp redirect");
       return {
         notifyWhatsAppUrl: buildJoinWhatsAppUrl(transport.creator.phone ?? "", message) ?? undefined,
         notificationId: notification.id,
