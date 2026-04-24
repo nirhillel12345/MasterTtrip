@@ -1,12 +1,17 @@
 import { Mail } from "lucide-react";
 import { signInWithGoogle, signInWithMagicLink } from "@/app/auth/actions";
+import { safeNextPath } from "@/lib/auth-redirect";
 
 type LoginPageProps = {
-  searchParams?: Promise<{ error?: string; success?: string }> | { error?: string; success?: string };
+  searchParams?:
+    | Promise<{ error?: string; success?: string; next?: string }>
+    | { error?: string; success?: string; next?: string };
 };
 
 async function resolveParams(
-  searchParams?: Promise<{ error?: string; success?: string }> | { error?: string; success?: string },
+  searchParams?:
+    | Promise<{ error?: string; success?: string; next?: string }>
+    | { error?: string; success?: string; next?: string },
 ) {
   if (!searchParams) return {};
   if ("then" in searchParams) return await searchParams;
@@ -26,6 +31,7 @@ function GoogleIcon() {
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const params = await resolveParams(searchParams);
+  const next = safeNextPath(typeof params.next === "string" ? params.next : undefined);
 
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-10 sm:px-6">
@@ -48,6 +54,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         ) : null}
 
         <form action={signInWithGoogle} className="mt-6">
+          <input type="hidden" name="next" value={next} />
           <button
             type="submit"
             className="inline-flex w-full items-center justify-center gap-3 rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
@@ -64,6 +71,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         </div>
 
         <form action={signInWithMagicLink} className="space-y-3">
+          <input type="hidden" name="next" value={next} />
           <label className="block">
             <span className="mb-1 block text-sm font-medium text-slate-700">אימייל</span>
             <div className="flex items-center gap-2 rounded-xl border border-slate-300 px-4 py-3 focus-within:border-cyan-500 focus-within:ring-2 focus-within:ring-cyan-200">

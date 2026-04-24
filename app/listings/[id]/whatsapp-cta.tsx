@@ -1,5 +1,9 @@
 import { MessageCircle } from "lucide-react";
 
+export function listingHasWhatsAppNumber(phoneRaw: string): boolean {
+  return phoneRaw.replace(/\D/g, "").length > 0;
+}
+
 function buildWhatsAppUrl(phoneRaw: string, title: string): string {
   const digits = phoneRaw.replace(/\D/g, "");
   if (!digits) return "#";

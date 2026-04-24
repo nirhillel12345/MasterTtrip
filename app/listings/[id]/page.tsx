@@ -3,10 +3,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ListingGallery } from "./listing-gallery";
-import { WhatsAppCta } from "./whatsapp-cta";
+import { WhatsAppCta, listingHasWhatsAppNumber } from "./whatsapp-cta";
 import { InstagramMark } from "@/app/components/instagram-mark";
+import { GatedListingContact } from "./gated-listing-contact";
 import { prisma } from "@/lib/prisma";
 import { instagramProfileUrl } from "@/lib/instagram";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { ListingType } from "@/generated/prisma";
 
 type PageProps = { params: Promise<{ id: string }> | { id: string } };
@@ -67,6 +69,14 @@ export default async function ListingDetailPage({ params }: PageProps) {
   });
 
   if (!listing) notFound();
+
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user: authUser },
+  } = await supabase.auth.getUser();
+  const isLoggedIn = Boolean(authUser);
+  const returnPath = `/listings/${listing.id}`;
+  const showWhatsAppGate = listingHasWhatsAppNumber(listing.whatsappNumber);
 
   const hostName = listing.user.name?.trim() || listing.user.email?.split("@")[0] || "מפרסם";
   const type = typeLabel(listing.type);
@@ -141,37 +151,49 @@ export default async function ListingDetailPage({ params }: PageProps) {
             <section className="rounded-2xl border border-slate-200/90 bg-white p-5 text-right shadow-md shadow-slate-900/5 sm:p-7">
               <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500 sm:text-sm">מפרסם המודעה</h2>
               <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
-                <Link
-                  href={`/profile/${listing.user.id}`}
-                  className="flex min-w-0 items-center gap-4 rounded-xl transition hover:bg-slate-50/80 sm:flex-1"
+                <GatedListingContact
+                  unlocked={isLoggedIn}
+                  returnPath={returnPath}
+                  className="min-w-0 overflow-hidden rounded-xl sm:flex-1"
                 >
-                  {listing.user.image ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={listing.user.image}
-                      alt=""
-                      className="h-14 w-14 shrink-0 rounded-full object-cover shadow-md ring-2 ring-slate-100 sm:h-16 sm:w-16"
-                    />
-                  ) : (
-                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-slate-200 to-slate-300 text-lg font-bold text-slate-700 shadow-md sm:h-16 sm:w-16">
-                      {hostName.slice(0, 1)}
-                    </div>
-                  )}
-                  <div className="min-w-0 flex-1 text-right">
-                    <p className="text-base font-semibold text-cyan-800 underline-offset-2 hover:underline sm:text-lg">{hostName}</p>
-                    <p className="text-sm text-slate-500">חבר בקהילת MasterTrip · לחצו לפרופיל</p>
-                  </div>
-                </Link>
-                {igUrl ? (
-                  <a
-                    href={igUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-gradient-to-br from-purple-600 to-pink-600 px-4 py-2.5 text-sm font-bold text-white shadow-md transition hover:opacity-95 active:scale-[0.99] sm:w-auto sm:self-center"
+                  <Link
+                    href={`/profile/${listing.user.id}`}
+                    className="flex min-w-0 items-center gap-4 rounded-xl transition hover:bg-slate-50/80 sm:flex-1"
                   >
-                    <InstagramMark className="h-5 w-5 shrink-0" />
-                    אינסטגרם
-                  </a>
+                    {listing.user.image ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={listing.user.image}
+                        alt=""
+                        className="h-14 w-14 shrink-0 rounded-full object-cover shadow-md ring-2 ring-slate-100 sm:h-16 sm:w-16"
+                      />
+                    ) : (
+                      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-slate-200 to-slate-300 text-lg font-bold text-slate-700 shadow-md sm:h-16 sm:w-16">
+                        {hostName.slice(0, 1)}
+                      </div>
+                    )}
+                    <div className="min-w-0 flex-1 text-right">
+                      <p className="text-base font-semibold text-cyan-800 underline-offset-2 hover:underline sm:text-lg">{hostName}</p>
+                      <p className="text-sm text-slate-500">חבר בקהילת MasterTrip · לחצו לפרופיל</p>
+                    </div>
+                  </Link>
+                </GatedListingContact>
+                {igUrl ? (
+                  <GatedListingContact
+                    unlocked={isLoggedIn}
+                    returnPath={returnPath}
+                    className="w-full shrink-0 overflow-hidden rounded-2xl sm:w-auto sm:self-center"
+                  >
+                    <a
+                      href={igUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-gradient-to-br from-purple-600 to-pink-600 px-4 py-2.5 text-sm font-bold text-white shadow-md transition hover:opacity-95 active:scale-[0.99] sm:w-auto sm:self-center"
+                    >
+                      <InstagramMark className="h-5 w-5 shrink-0" />
+                      אינסטגרם
+                    </a>
+                  </GatedListingContact>
                 ) : null}
               </div>
             </section>
@@ -182,7 +204,13 @@ export default async function ListingDetailPage({ params }: PageProps) {
               <p className="text-sm font-medium text-slate-500">מחיר</p>
               <p className="mt-1 text-3xl font-bold text-slate-900">{formatPrice(listing.price)}</p>
               <div className="mt-6">
-                <WhatsAppCta whatsappNumber={listing.whatsappNumber} listingTitle={listing.title} />
+                {showWhatsAppGate ? (
+                  <GatedListingContact unlocked={isLoggedIn} returnPath={returnPath} className="w-full overflow-hidden rounded-xl">
+                    <WhatsAppCta whatsappNumber={listing.whatsappNumber} listingTitle={listing.title} />
+                  </GatedListingContact>
+                ) : (
+                  <WhatsAppCta whatsappNumber={listing.whatsappNumber} listingTitle={listing.title} />
+                )}
               </div>
               <p className="mt-4 text-right text-xs leading-relaxed text-slate-500">
                 לחיצה על הכפתור תפתח את וואטסאפ עם הודעה מוכנה — ניתן לערוך לפני השליחה.
@@ -198,7 +226,13 @@ export default async function ListingDetailPage({ params }: PageProps) {
         style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
       >
         <div className="mx-auto max-w-lg pb-1">
-          <WhatsAppCta whatsappNumber={listing.whatsappNumber} listingTitle={listing.title} />
+          {showWhatsAppGate ? (
+            <GatedListingContact unlocked={isLoggedIn} returnPath={returnPath} className="w-full overflow-hidden rounded-xl">
+              <WhatsAppCta whatsappNumber={listing.whatsappNumber} listingTitle={listing.title} />
+            </GatedListingContact>
+          ) : (
+            <WhatsAppCta whatsappNumber={listing.whatsappNumber} listingTitle={listing.title} />
+          )}
         </div>
       </div>
     </div>

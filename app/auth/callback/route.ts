@@ -1,28 +1,53 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
+import {
+  AUTH_RETURN_PATH_COOKIE,
+  clearAuthReturnPathCookie,
+  safeNextPath,
+} from "@/lib/auth-redirect";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const runtime = "nodejs";
 
 export async function GET(request: Request) {
-  console.log("!!! CALLBACK REACHED !!!", request.url); // שורה לבדיקה
-  // תיקון חילוץ ה-URL והפרמטרים
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
-  const next = requestUrl.searchParams.get("next") ?? "/";
-
-  // הגדרת ה-Base URL - אם קיים משתנה סביבה נשתמש בו, אחרת ב-origin של הבקשה
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || requestUrl.origin;
 
+  const cookieStore = await cookies();
+  const fromCookie = cookieStore.get(AUTH_RETURN_PATH_COOKIE)?.value;
+  const fromQuery = requestUrl.searchParams.get("next");
+
+  console.log("[auth/callback] mt_auth_return cookie read:", fromCookie ?? "(absent)");
+  console.log("[auth/callback] next query param:", fromQuery ?? "(absent)");
+
+  const resolvedNext = safeNextPath(fromCookie ?? fromQuery);
+  console.log("[auth/callback] resolvedNext after safeNextPath:", resolvedNext);
+
   if (!code) {
-    return NextResponse.redirect(new URL("/auth/login?error=התחברות נכשלה", baseUrl));
+    const login = new URL("/auth/login", baseUrl);
+    login.searchParams.set("error", "התחברות נכשלה");
+    if (resolvedNext !== "/") {
+      login.searchParams.set("next", resolvedNext);
+    }
+    const res = NextResponse.redirect(login);
+    clearAuthReturnPathCookie(res);
+    return res;
   }
 
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.auth.exchangeCodeForSession(code);
 
   if (error) {
-    return NextResponse.redirect(new URL("/auth/login?error=התחברות נכשלה", baseUrl));
+    const login = new URL("/auth/login", baseUrl);
+    login.searchParams.set("error", "התחברות נכשלה");
+    if (resolvedNext !== "/") {
+      login.searchParams.set("next", resolvedNext);
+    }
+    const res = NextResponse.redirect(login);
+    clearAuthReturnPathCookie(res);
+    return res;
   }
 
   const {
@@ -30,7 +55,14 @@ export async function GET(request: Request) {
   } = await supabase.auth.getUser();
 
   if (!user?.email) {
-    return NextResponse.redirect(new URL("/auth/login?error=לא+נמצא+אימייל+בחשבון", baseUrl));
+    const login = new URL("/auth/login", baseUrl);
+    login.searchParams.set("error", "לא+נמצא+אימייל+בחשבון");
+    if (resolvedNext !== "/") {
+      login.searchParams.set("next", resolvedNext);
+    }
+    const res = NextResponse.redirect(login);
+    clearAuthReturnPathCookie(res);
+    return res;
   }
 
   const metadata = user.user_metadata ?? {};
@@ -62,13 +94,17 @@ export async function GET(request: Request) {
     });
   } catch (err) {
     console.error("Prisma error:", err);
-    return NextResponse.redirect(new URL("/auth/login?error=שגיאה+בסנכרון+המשתמש", baseUrl));
+    const login = new URL("/auth/login", baseUrl);
+    login.searchParams.set("error", "שגיאה+בסנכרון+המשתמש");
+    if (resolvedNext !== "/") {
+      login.searchParams.set("next", resolvedNext);
+    }
+    const res = NextResponse.redirect(login);
+    clearAuthReturnPathCookie(res);
+    return res;
   }
 
-  // הפניה סופית עם ה-baseUrl הנכון
-  // נגדיר את הכתובת בצורה מפורשת
-const baseUrl1: string = process.env.NEXT_PUBLIC_SITE_URL || "https://master-ttrip.vercel.app";
-
-// נשתמש ב-baseUrl במקום ב-origin הבעייתי
-return NextResponse.redirect(new URL(next, baseUrl1));
+  const res = NextResponse.redirect(new URL(resolvedNext, baseUrl));
+  clearAuthReturnPathCookie(res);
+  return res;
 }
