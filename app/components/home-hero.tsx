@@ -1,6 +1,11 @@
 "use client";
 
 import { DestinationCombobox } from "@/app/components/destination-combobox";
+import {
+  ISO_DAY,
+  ListingDateRangeFields,
+  addOneLocalDay,
+} from "@/app/components/listing-date-range-fields";
 import { isAllowedDestination } from "@/lib/travel-destinations";
 import { Search, SlidersHorizontal, Star } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -13,20 +18,20 @@ export function HomeHero() {
 
   const typeParam = (searchParams.get("type") as "" | "LOOKING_FOR" | "HAS_APARTMENT") || "";
   const cityParam = searchParams.get("city") ?? "";
-  const minParam = searchParams.get("min") ?? "";
-  const maxParam = searchParams.get("max") ?? "";
+  const dateFromParam = searchParams.get("from") ?? "";
+  const dateToParam = searchParams.get("to") ?? "";
 
   const [type, setType] = useState(typeParam);
   const [city, setCity] = useState(cityParam);
-  const [min, setMin] = useState(minParam);
-  const [max, setMax] = useState(maxParam);
+  const [dateFrom, setDateFrom] = useState(dateFromParam);
+  const [dateTo, setDateTo] = useState(dateToParam);
 
   useEffect(() => {
     setType(typeParam);
     setCity(cityParam);
-    setMin(minParam);
-    setMax(maxParam);
-  }, [typeParam, cityParam, minParam, maxParam]);
+    setDateFrom(dateFromParam);
+    setDateTo(dateToParam);
+  }, [typeParam, cityParam, dateFromParam, dateToParam]);
 
   const replaceUrl = useCallback(
     (patch: Record<string, string>) => {
@@ -47,36 +52,50 @@ export function HomeHero() {
     const c = city.trim();
     const safeCity = !c || isAllowedDestination(c) ? c : "";
     if (c && !isAllowedDestination(c)) setCity("");
-    replaceUrl({
+    const df = dateFrom.trim().slice(0, 10);
+    const dt = dateTo.trim().slice(0, 10);
+    const patch: Record<string, string> = {
       type,
       city: safeCity,
-      min,
-      max,
-    });
-  }, [replaceUrl, type, city, min, max]);
+      min: "",
+      max: "",
+    };
+    if (ISO_DAY.test(df) && ISO_DAY.test(dt)) {
+      patch.from = df;
+      patch.to = dt < df ? addOneLocalDay(df) : dt;
+    } else {
+      patch.from = "";
+      patch.to = "";
+    }
+
+    replaceUrl(patch);
+  }, [replaceUrl, type, city, dateFrom, dateTo]);
 
   const setLocationFilter = useCallback(
     (next: string) => {
       const trimmed = next.trim();
       setCity(trimmed);
-      replaceUrl({
-        type,
-        city: trimmed,
-        min,
-        max,
-      });
+      const df = dateFrom.trim().slice(0, 10);
+      const dt = dateTo.trim().slice(0, 10);
+      const patch: Record<string, string> = { type, city: trimmed, min: "", max: "" };
+      if (ISO_DAY.test(df) && ISO_DAY.test(dt)) {
+        patch.from = df;
+        patch.to = dt < df ? addOneLocalDay(df) : dt;
+      }
+
+      replaceUrl(patch);
     },
-    [replaceUrl, type, min, max],
+    [replaceUrl, type, dateFrom, dateTo],
   );
 
   const clearFilters = useCallback(() => {
     setType("");
     setCity("");
-    setMin("");
-    setMax("");
+    setDateFrom("");
+    setDateTo("");
     startTransition(() => {
       const params = new URLSearchParams(searchParams.toString());
-      ["type", "city", "min", "max"].forEach((k) => params.delete(k));
+      ["type", "city", "min", "max", "from", "to"].forEach((k) => params.delete(k));
       const s = params.toString();
       router.replace(s ? `/?${s}` : "/", { scroll: false });
     });
@@ -106,8 +125,8 @@ export function HomeHero() {
               <SlidersHorizontal className="h-4 w-4 text-cyan-600 sm:h-5 sm:w-5" />
             </div>
 
-            <div className="flex flex-col gap-4 md:flex-row md:items-end md:gap-4 lg:gap-5">
-              <div className="md:min-w-[11rem]">
+            <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:gap-3 xl:gap-4">
+              <div className="shrink-0 lg:min-w-[11rem]">
                 <span className="mb-1.5 block text-right text-xs font-semibold text-slate-600 sm:text-sm">סוג מודעה</span>
                 <div className="flex flex-wrap justify-end gap-2">
                   {(
@@ -133,7 +152,7 @@ export function HomeHero() {
                 </div>
               </div>
 
-              <div className="block min-w-0 flex-1 text-right md:min-w-0">
+              <div className="min-w-0 flex-1 text-right">
                 <span className="mb-1.5 block text-xs font-semibold text-slate-600 sm:text-sm">עיר / מיקום</span>
                 <DestinationCombobox
                   value={city}
@@ -144,52 +163,23 @@ export function HomeHero() {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3 md:max-w-[14rem] md:shrink-0 lg:max-w-[16rem]">
-                <label className="block text-right">
-                  <span className="mb-1.5 block text-xs font-semibold text-slate-600 sm:text-sm">מחיר מינימום</span>
-                  <input
-                    type="number"
-                    min={0}
-                    inputMode="decimal"
-                    placeholder="0"
-                    value={min}
-                    onChange={(e) => setMin(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        e.preventDefault();
-                        applyFilters();
-                      }
-                    }}
-                    dir="ltr"
-                    className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200 sm:py-3"
-                  />
-                </label>
-                <label className="block text-right">
-                  <span className="mb-1.5 block text-xs font-semibold text-slate-600 sm:text-sm">מחיר מקסימום</span>
-                  <input
-                    type="number"
-                    min={0}
-                    inputMode="decimal"
-                    placeholder="ללא הגבלה"
-                    value={max}
-                    onChange={(e) => setMax(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        e.preventDefault();
-                        applyFilters();
-                      }
-                    }}
-                    dir="ltr"
-                    className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200 sm:py-3"
-                  />
-                </label>
-              </div>
+              <ListingDateRangeFields
+                variant="toolbar"
+                className="w-full min-w-0 lg:w-auto lg:max-w-[min(100%,22rem)] xl:max-w-[24rem]"
+                startDate={dateFrom}
+                endDate={dateTo}
+                onChange={({ startDate, endDate }) => {
+                  setDateFrom(startDate);
+                  setDateTo(endDate);
+                }}
+                onEnterSubmit={applyFilters}
+              />
 
-              <div className="flex w-full flex-col gap-2 md:w-auto md:shrink-0 md:justify-end">
+              <div className="flex w-full shrink-0 flex-col gap-2 lg:w-auto lg:justify-end">
                 <button
                   type="button"
                   onClick={applyFilters}
-                  className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-l from-cyan-500 to-cyan-400 px-5 py-3 text-sm font-bold text-slate-900 shadow-lg shadow-cyan-900/20 transition hover:from-cyan-400 hover:to-cyan-300 active:scale-[0.98] md:min-h-[46px] md:w-auto md:px-6"
+                  className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-l from-cyan-500 to-cyan-400 px-5 py-3 text-sm font-bold text-slate-900 shadow-lg shadow-cyan-900/20 transition hover:from-cyan-400 hover:to-cyan-300 active:scale-[0.98] lg:min-h-[46px] lg:w-auto lg:px-6"
                 >
                   <Search className="h-4 w-4 shrink-0" aria-hidden />
                   חיפוש

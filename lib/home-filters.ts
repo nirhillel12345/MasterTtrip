@@ -1,11 +1,64 @@
 import type { Prisma } from "@/generated/prisma";
 
+const ISO_DAY = /^\d{4}-\d{2}-\d{2}$/;
+
+function addOneDayUtcNoon(isoDate: string): string {
+  const d = new Date(`${isoDate}T12:00:00.000Z`);
+  d.setUTCDate(d.getUTCDate() + 1);
+  return d.toISOString().slice(0, 10);
+}
+
+function normalizeAvailabilityRange(
+  from: string,
+  to: string,
+): { from: string; to: string } | null {
+  const a = from.trim().slice(0, 10);
+  const b = to.trim().slice(0, 10);
+  if (!ISO_DAY.test(a) || !ISO_DAY.test(b)) return null;
+  const start = new Date(`${a}T12:00:00.000Z`);
+  const end = new Date(`${b}T12:00:00.000Z`);
+  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return null;
+  const fromDay = a;
+  let toDay = b;
+  if (toDay < fromDay) toDay = addOneDayUtcNoon(fromDay);
+  return { from: fromDay, to: toDay };
+}
+
 export type HomeListingFilters = {
   type: "" | "LOOKING_FOR" | "HAS_APARTMENT";
   city: string;
-  min: string;
-  max: string;
+  /** YYYY-MM-DD from URL `from` / `to`; both valid = availability filter */
+  dateFrom: string;
+  dateTo: string;
 };
+
+/** Type + location only (no date constraints). */
+export function listingBaseWhereFromFilters(f: HomeListingFilters): Prisma.ListingWhereInput {
+  const and: Prisma.ListingWhereInput[] = [];
+
+  if (f.type === "LOOKING_FOR" || f.type === "HAS_APARTMENT") {
+    and.push({ type: f.type });
+  }
+
+  if (f.city) {
+    and.push({
+      location: { contains: f.city, mode: "insensitive" },
+    });
+  }
+
+  return and.length ? { AND: and } : {};
+}
+
+export function getHomeSearchDateRange(
+  f: HomeListingFilters,
+): { fromAt: Date; toAt: Date } | null {
+  const range = normalizeAvailabilityRange(f.dateFrom, f.dateTo);
+  if (!range) return null;
+  const fromAt = new Date(`${range.from}T12:00:00.000Z`);
+  const toAt = new Date(`${range.to}T12:00:00.000Z`);
+  if (Number.isNaN(fromAt.getTime()) || Number.isNaN(toAt.getTime())) return null;
+  return { fromAt, toAt };
+}
 
 export function parseHomeFilters(
   sp: Record<string, string | string[] | undefined>,
@@ -19,35 +72,30 @@ export function parseHomeFilters(
   const t = g("type");
   const type =
     t === "LOOKING_FOR" || t === "HAS_APARTMENT" ? (t as HomeListingFilters["type"]) : "";
+  const dateFrom = g("from").trim().slice(0, 10);
+  const dateTo = g("to").trim().slice(0, 10);
   return {
     type,
     city: g("city").trim(),
-    min: g("min").trim(),
-    max: g("max").trim(),
+    dateFrom,
+    dateTo,
   };
 }
 
 export function listingWhereFromFilters(f: HomeListingFilters): Prisma.ListingWhereInput {
-  const and: Prisma.ListingWhereInput[] = [];
-
-  if (f.type === "LOOKING_FOR" || f.type === "HAS_APARTMENT") {
-    and.push({ type: f.type });
+  const parts: Prisma.ListingWhereInput[] = [];
+  const base = listingBaseWhereFromFilters(f);
+  if (Object.keys(base).length > 0) {
+    parts.push(base);
   }
 
-  if (f.city) {
-    and.push({
-      location: { contains: f.city, mode: "insensitive" },
+  const dr = getHomeSearchDateRange(f);
+  if (dr) {
+    parts.push({
+      startDate: { lte: dr.fromAt },
+      endDate: { gte: dr.toAt },
     });
   }
 
-  const minN = f.min ? Number(f.min) : NaN;
-  const maxN = f.max ? Number(f.max) : NaN;
-  const price: { gte?: number; lte?: number } = {};
-  if (!Number.isNaN(minN) && minN >= 0) price.gte = minN;
-  if (!Number.isNaN(maxN) && maxN >= 0) price.lte = maxN;
-  if (Object.keys(price).length) {
-    and.push({ price });
-  }
-
-  return and.length ? { AND: and } : {};
+  return parts.length ? { AND: parts } : {};
 }

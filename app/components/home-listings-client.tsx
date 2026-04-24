@@ -3,8 +3,8 @@
 import dynamic from "next/dynamic";
 import { LayoutList, Map, MapPin, Plus } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
-import type { HomeListingListItem } from "@/lib/home-listings";
+import { useMemo, useState } from "react";
+import type { HomeFeedListings, HomeListingListItem } from "@/lib/home-listings";
 import { ListingCard } from "@/app/components/listing-card";
 
 const HomeMapLeaflet = dynamic(
@@ -18,12 +18,74 @@ const HomeMapLeaflet = dynamic(
 );
 
 type Props = {
-  listings: HomeListingListItem[];
+  feed: HomeFeedListings;
   hasActiveFilters: boolean;
 };
 
-export function HomeListingsClient({ listings, hasActiveFilters }: Props) {
+function ListingGrid({ items }: { items: HomeListingListItem[] }) {
+  return (
+    <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+      {items.map((listing) => (
+        <ListingCard
+          key={listing.id}
+          id={listing.id}
+          title={listing.title}
+          location={listing.location}
+          price={listing.price}
+          type={listing.type}
+          images={listing.images}
+        />
+      ))}
+    </div>
+  );
+}
+
+export function HomeListingsClient({ feed, hasActiveFilters }: Props) {
   const [mode, setMode] = useState<"list" | "map">("list");
+
+  const { exact, flexible, usedDateFilter, suggestFlexibleMessaging } = feed;
+
+  const totalCount = exact.length + flexible.length;
+
+  const mapListings = useMemo(() => [...exact, ...flexible], [exact, flexible]);
+
+  const listModeContent = usedDateFilter ? (
+    <div className="space-y-10">
+      {suggestFlexibleMessaging ? (
+        <div className="rounded-xl border border-amber-200/90 bg-amber-50 px-4 py-3 text-right text-sm font-medium text-amber-950 shadow-sm">
+          לא מצאנו בתאריכים המדוייקים שחיפשת , אבל מצאנו בשבילך תאריכים קרובים
+        </div>
+      ) : null}
+
+      {exact.length > 0 ? (
+        <section className="text-right" aria-labelledby="home-exact-heading">
+          <h3
+            id="home-exact-heading"
+            className="mb-4 text-lg font-semibold tracking-tight text-slate-900 sm:text-xl"
+          >
+            Exact Matches
+          </h3>
+          <ListingGrid items={exact} />
+        </section>
+      ) : null}
+
+      {flexible.length > 0 ? (
+        <section className="text-right" aria-labelledby="home-flex-heading">
+          <h3
+            id="home-flex-heading"
+            className={`mb-4 text-lg font-semibold tracking-tight text-slate-900 sm:text-xl ${
+              exact.length > 0 ? "pt-2" : ""
+            }`}
+          >
+            Flexible Dates
+          </h3>
+          <ListingGrid items={flexible} />
+        </section>
+      ) : null}
+    </div>
+  ) : (
+    <ListingGrid items={exact} />
+  );
 
   return (
     <>
@@ -33,10 +95,10 @@ export function HomeListingsClient({ listings, hasActiveFilters }: Props) {
           <p className="mt-1.5 text-sm leading-relaxed text-slate-600">דירות ושותפים שפורסמו לאחרונה בקהילה.</p>
         </div>
         <div className="flex flex-col items-stretch gap-2 sm:items-end">
-          {listings.length > 0 ? (
-            <p className="text-right text-sm font-medium text-slate-500">{listings.length} מודעות</p>
+          {totalCount > 0 ? (
+            <p className="text-right text-sm font-medium text-slate-500">{totalCount} מודעות</p>
           ) : null}
-          {listings.length > 0 ? (
+          {totalCount > 0 ? (
             <div
               className="inline-flex rounded-full border border-slate-200/90 bg-slate-100/90 p-1 shadow-inner ring-1 ring-slate-200/50"
               role="group"
@@ -72,7 +134,7 @@ export function HomeListingsClient({ listings, hasActiveFilters }: Props) {
         </div>
       </div>
 
-      {listings.length === 0 ? (
+      {totalCount === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white/90 px-5 py-14 text-center shadow-inner sm:rounded-3xl sm:px-8 sm:py-16">
           <div className="rounded-2xl bg-slate-100 p-4">
             <MapPin className="h-10 w-10 text-slate-400" />
@@ -82,7 +144,9 @@ export function HomeListingsClient({ listings, hasActiveFilters }: Props) {
           </h3>
           <p className="mt-2 max-w-md text-sm leading-relaxed text-slate-600">
             {hasActiveFilters
-              ? "נסו לשנות את הסינון או לנקות את המסננים."
+              ? feed.usedDateFilter
+                ? "לא נמצאו התאמות מדויקות או גמישות לטווח התאריכים. נסו טווח אחר או נקו את הסינון."
+                : "נסו לשנות את הסינון או לנקות את המסננים."
               : "היו הראשונים לפרסם — ועזרו למטיילים אחרים למצוא בית בטיול הגדול."}
           </p>
           <Link
@@ -94,21 +158,9 @@ export function HomeListingsClient({ listings, hasActiveFilters }: Props) {
           </Link>
         </div>
       ) : mode === "list" ? (
-        <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
-          {listings.map((listing) => (
-            <ListingCard
-              key={listing.id}
-              id={listing.id}
-              title={listing.title}
-              location={listing.location}
-              price={listing.price}
-              type={listing.type}
-              images={listing.images}
-            />
-          ))}
-        </div>
+        listModeContent
       ) : (
-        <HomeMapLeaflet listings={listings} />
+        <HomeMapLeaflet listings={mapListings} />
       )}
     </>
   );

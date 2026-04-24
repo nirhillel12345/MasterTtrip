@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarDays, Users } from "lucide-react";
+import { Users } from "lucide-react";
 import { useTransition, useState } from "react";
 import { createListing, updateListing } from "@/app/listings/actions";
 import { DestinationCombobox } from "@/app/components/destination-combobox";
@@ -13,20 +13,10 @@ import { uploadListingImagesToStorage } from "./upload-listing-images";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { isAllowedDestination } from "@/lib/travel-destinations";
 import type { ListingType } from "@/generated/prisma";
-
-function localISODate(d: Date): string {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
-}
-
-function addOneLocalDay(iso: string): string {
-  const [y, mo, da] = iso.split("-").map(Number);
-  const dt = new Date(y, mo - 1, da);
-  dt.setDate(dt.getDate() + 1);
-  return localISODate(dt);
-}
+import {
+  ListingDateRangeFields,
+  localISODate,
+} from "@/app/components/listing-date-range-fields";
 
 export type ListingFormInitial = {
   title: string;
@@ -79,22 +69,6 @@ export function ListingForm({ mode, listingId, initial }: Props) {
   const [existingImageUrls, setExistingImageUrls] = useState<string[]>(initial?.images ?? []);
 
   const maxNewPhotos = Math.max(0, 8 - existingImageUrls.length);
-
-  function handleStartChange(value: string) {
-    setStartDate(value);
-    setEndDate((prev) => {
-      if (!prev || prev < value) return addOneLocalDay(value);
-      return prev;
-    });
-  }
-
-  function handleEndChange(value: string) {
-    if (value < startDate) {
-      setEndDate(addOneLocalDay(startDate));
-    } else {
-      setEndDate(value);
-    }
-  }
 
   function handleFilesChange(next: File[]) {
     const MAX_BYTES = 4 * 1024 * 1024;
@@ -231,36 +205,15 @@ export function ListingForm({ mode, listingId, initial }: Props) {
         />
       </label>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <label className="block text-right">
-          <span className="mb-1 block text-sm font-medium text-slate-700">תאריך התחלה</span>
-          <div className="flex items-center gap-2 rounded-xl border border-slate-300 px-4 py-3 focus-within:border-cyan-500 focus-within:ring-2 focus-within:ring-cyan-200">
-            <CalendarDays className="h-4 w-4 text-slate-400" />
-            <input
-              type="date"
-              required
-              value={startDate}
-              onChange={(e) => handleStartChange(e.target.value)}
-              className="w-full text-sm outline-none"
-            />
-          </div>
-        </label>
-
-        <label className="block text-right">
-          <span className="mb-1 block text-sm font-medium text-slate-700">תאריך סיום</span>
-          <div className="flex items-center gap-2 rounded-xl border border-slate-300 px-4 py-3 focus-within:border-cyan-500 focus-within:ring-2 focus-within:ring-cyan-200">
-            <CalendarDays className="h-4 w-4 text-slate-400" />
-            <input
-              type="date"
-              required
-              value={endDate}
-              min={startDate}
-              onChange={(e) => handleEndChange(e.target.value)}
-              className="w-full text-sm outline-none"
-            />
-          </div>
-        </label>
-      </div>
+      <ListingDateRangeFields
+        variant="form"
+        startDate={startDate}
+        endDate={endDate}
+        onChange={({ startDate: s, endDate: en }) => {
+          setStartDate(s);
+          setEndDate(en);
+        }}
+      />
       <p className="text-xs text-slate-500">תאריך הסיום לא יכול להיות לפני תאריך ההתחלה (יתעדכן אוטומטית במידת הצורך).</p>
 
       <div className="block text-right">

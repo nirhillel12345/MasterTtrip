@@ -19,7 +19,7 @@ async function resolveSearchParams(
 }
 
 function suspenseKey(f: ReturnType<typeof parseHomeFilters>) {
-  return [f.type, f.city, f.min, f.max].join("|");
+  return [f.type, f.city, f.dateFrom, f.dateTo].join("|");
 }
 
 export default async function Home({ searchParams }: HomePageProps) {

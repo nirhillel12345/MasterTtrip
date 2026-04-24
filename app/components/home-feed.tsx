@@ -1,4 +1,4 @@
-import { getHomeListings } from "@/lib/home-listings";
+import { getHomeFeedListings } from "@/lib/home-listings";
 import { type HomeListingFilters } from "@/lib/home-filters";
 import { HomeListingsClient } from "@/app/components/home-listings-client";
 
@@ -8,10 +8,10 @@ type Props = {
 
 export async function HomeFeed({ filters }: Props) {
   const hasActiveFilters = Boolean(
-    filters.type || filters.city || filters.min || filters.max,
+    filters.type || filters.city || filters.dateFrom || filters.dateTo,
   );
 
-  const listings = await getHomeListings(filters);
+  const feed = await getHomeFeedListings(filters);
 
-  return <HomeListingsClient listings={listings} hasActiveFilters={hasActiveFilters} />;
+  return <HomeListingsClient feed={feed} hasActiveFilters={hasActiveFilters} />;
 }
