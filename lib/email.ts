@@ -9,21 +9,30 @@ type SendEmailInput = {
 
 export async function sendEmail(input: SendEmailInput) {
   const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.RESEND_FROM_EMAIL ?? process.env.NOTIFICATION_FROM_EMAIL;
+  const from = "onboarding@resend.dev";
 
   if (!apiKey) {
     throw new Error("Missing RESEND_API_KEY");
   }
-  if (!from) {
-    throw new Error("Missing RESEND_FROM_EMAIL (or NOTIFICATION_FROM_EMAIL)");
-  }
 
   const resend = new Resend(apiKey);
-  return resend.emails.send({
+  const { data, error } = await resend.emails.send({
     from,
     to: [input.to],
     subject: input.subject,
     html: input.html,
     text: input.text,
   });
+
+  if (error) {
+    console.error("RESEND API ERROR:", error);
+    throw new Error(error.message);
+  }
+
+  if (!data) {
+    console.error("RESEND API ERROR: data is null without explicit error");
+    throw new Error("Resend returned no data.");
+  }
+
+  return { data };
 }
