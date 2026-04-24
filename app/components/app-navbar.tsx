@@ -53,13 +53,13 @@ export function AppNavbar({ user }: Props) {
       >
         <Link
           href="/"
-          className="flex min-w-0 shrink-0 items-center gap-2 rounded-xl py-1 transition active:opacity-90"
+          className="flex min-w-0 flex-1 items-center gap-2 rounded-xl py-1 transition active:opacity-90 md:flex-none md:shrink-0"
           onClick={() => setOpen(false)}
         >
-          <div className="rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-500 p-2 text-white shadow-lg shadow-emerald-200">
+          <div className="shrink-0 rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-500 p-2 text-white shadow-lg shadow-emerald-200">
             <WandSparkles className="h-4 w-4" aria-hidden />
           </div>
-          <span className="text-lg font-bold tracking-tight text-slate-900">MasterTrip</span>
+          <span className="min-w-0 truncate text-lg font-bold tracking-tight text-slate-900">MasterTrip</span>
         </Link>
 
         <div className="hidden min-w-0 flex-1 items-center justify-center gap-1 md:flex lg:gap-2">
@@ -94,7 +94,17 @@ export function AppNavbar({ user }: Props) {
           ) : null}
         </div>
 
-        <div className="flex min-w-0 items-center justify-end gap-2">
+        <div className="flex min-w-0 shrink-0 items-center justify-end gap-2">
+          {!user ? (
+            <Link
+              href="/auth/login"
+              className="inline-flex shrink-0 items-center justify-center rounded-full bg-gradient-to-l from-cyan-500 to-cyan-400 px-2.5 py-1.5 text-xs font-bold text-slate-900 shadow-md shadow-cyan-900/15 transition hover:from-cyan-400 hover:to-cyan-300 active:scale-[0.97] md:hidden"
+              onClick={() => setOpen(false)}
+            >
+              נסו בחינם
+            </Link>
+          ) : null}
+
           <div className="hidden items-center gap-2 md:flex">
             {user ? (
               <>
