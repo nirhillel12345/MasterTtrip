@@ -18,15 +18,17 @@ enum ListingType {
 }
 
 model User {
-  id        String    @id @default(cuid())
-  email     String    @unique
-  name      String?
-  image     String?
-  bio       String?   @db.Text
-  instagram String?
-  phone     String?
-  isPremium Boolean   @default(false)
-  listings  Listing[]
+  id             String          @id @default(cuid())
+  email          String          @unique
+  name           String?
+  image          String?
+  bio            String?         @db.Text
+  instagram      String?
+  phone          String?
+  isPremium      Boolean         @default(false)
+  listings       Listing[]
+  transports     Transport[]     @relation("TransportCreator")
+  transportJoins TransportJoin[]
 }
 
 model Listing {
@@ -44,4 +46,30 @@ model Listing {
   images          String[]    @default([])
   userId          String
   user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Transport {
+  id             String          @id @default(cuid())
+  createdAt      DateTime        @default(now())
+  creatorId      String
+  creator        User            @relation("TransportCreator", fields: [creatorId], references: [id], onDelete: Cascade)
+  origin         String
+  destination    String
+  date           DateTime
+  totalSeats     Int
+  availableSeats Int
+  pricePerPerson Float
+  description    String          @db.Text
+  joins          TransportJoin[]
+}
+
+model TransportJoin {
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now())
+  transportId String
+  userId      String
+  transport   Transport @relation(fields: [transportId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([transportId, userId])
 }

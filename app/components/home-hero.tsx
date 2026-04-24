@@ -16,22 +16,34 @@ export function HomeHero() {
   const searchParams = useSearchParams();
   const [pending, startTransition] = useTransition();
 
-  const typeParam = (searchParams.get("type") as "" | "LOOKING_FOR" | "HAS_APARTMENT") || "";
+  const modeParam = (searchParams.get("mode") as "listings" | "transports") || "listings";
   const cityParam = searchParams.get("city") ?? "";
   const dateFromParam = searchParams.get("from") ?? "";
   const dateToParam = searchParams.get("to") ?? "";
+  const originParam = searchParams.get("origin") ?? "";
+  const destinationParam = searchParams.get("destination") ?? "";
+  const transportDateParam = searchParams.get("date") ?? "";
+  const pickupTimeParam = searchParams.get("time") ?? "";
 
-  const [type, setType] = useState(typeParam);
+  const [mode, setMode] = useState<"listings" | "transports">(modeParam);
   const [city, setCity] = useState(cityParam);
   const [dateFrom, setDateFrom] = useState(dateFromParam);
   const [dateTo, setDateTo] = useState(dateToParam);
+  const [origin, setOrigin] = useState(originParam);
+  const [destination, setDestination] = useState(destinationParam);
+  const [transportDate, setTransportDate] = useState(transportDateParam);
+  const [pickupTime, setPickupTime] = useState(pickupTimeParam);
 
   useEffect(() => {
-    setType(typeParam);
+    setMode(modeParam);
     setCity(cityParam);
     setDateFrom(dateFromParam);
     setDateTo(dateToParam);
-  }, [typeParam, cityParam, dateFromParam, dateToParam]);
+    setOrigin(originParam);
+    setDestination(destinationParam);
+    setTransportDate(transportDateParam);
+    setPickupTime(pickupTimeParam);
+  }, [modeParam, cityParam, dateFromParam, dateToParam, originParam, destinationParam, transportDateParam, pickupTimeParam]);
 
   const replaceUrl = useCallback(
     (patch: Record<string, string>) => {
@@ -49,16 +61,42 @@ export function HomeHero() {
   );
 
   const applyFilters = useCallback(() => {
+    if (mode === "transports") {
+      const o = origin.trim();
+      const d = destination.trim();
+      const safeOrigin = !o || isAllowedDestination(o) ? o : "";
+      const safeDestination = !d || isAllowedDestination(d) ? d : "";
+      if (o && !isAllowedDestination(o)) setOrigin("");
+      if (d && !isAllowedDestination(d)) setDestination("");
+
+      const td = transportDate.trim().slice(0, 10);
+      const pt = pickupTime.trim().slice(0, 5);
+      const params = new URLSearchParams();
+      if (safeOrigin) params.set("origin", safeOrigin);
+      if (safeDestination) params.set("destination", safeDestination);
+      if (ISO_DAY.test(td)) params.set("date", td);
+      if (/^\d{2}:\d{2}$/.test(pt)) params.set("time", pt);
+      const s = params.toString();
+      startTransition(() => {
+        router.push(s ? `/transports?${s}` : "/transports");
+      });
+      return;
+    }
+
     const c = city.trim();
     const safeCity = !c || isAllowedDestination(c) ? c : "";
     if (c && !isAllowedDestination(c)) setCity("");
     const df = dateFrom.trim().slice(0, 10);
     const dt = dateTo.trim().slice(0, 10);
     const patch: Record<string, string> = {
-      type,
+      mode: "listings",
       city: safeCity,
       min: "",
       max: "",
+      origin: "",
+      destination: "",
+      date: "",
+      time: "",
     };
     if (ISO_DAY.test(df) && ISO_DAY.test(dt)) {
       patch.from = df;
@@ -69,7 +107,7 @@ export function HomeHero() {
     }
 
     replaceUrl(patch);
-  }, [replaceUrl, type, city, dateFrom, dateTo]);
+  }, [replaceUrl, mode, city, dateFrom, dateTo, origin, destination, transportDate, pickupTime, router]);
 
   const setLocationFilter = useCallback(
     (next: string) => {
@@ -77,7 +115,16 @@ export function HomeHero() {
       setCity(trimmed);
       const df = dateFrom.trim().slice(0, 10);
       const dt = dateTo.trim().slice(0, 10);
-      const patch: Record<string, string> = { type, city: trimmed, min: "", max: "" };
+      const patch: Record<string, string> = {
+        mode: "listings",
+        city: trimmed,
+        min: "",
+        max: "",
+        origin: "",
+        destination: "",
+        date: "",
+        time: "",
+      };
       if (ISO_DAY.test(df) && ISO_DAY.test(dt)) {
         patch.from = df;
         patch.to = dt < df ? addOneLocalDay(df) : dt;
@@ -85,17 +132,23 @@ export function HomeHero() {
 
       replaceUrl(patch);
     },
-    [replaceUrl, type, dateFrom, dateTo],
+    [replaceUrl, dateFrom, dateTo],
   );
 
   const clearFilters = useCallback(() => {
-    setType("");
+    setMode("listings");
     setCity("");
     setDateFrom("");
     setDateTo("");
+    setOrigin("");
+    setDestination("");
+    setTransportDate("");
+    setPickupTime("");
     startTransition(() => {
       const params = new URLSearchParams(searchParams.toString());
-      ["type", "city", "min", "max", "from", "to"].forEach((k) => params.delete(k));
+      ["mode", "type", "city", "min", "max", "from", "to", "origin", "destination", "date", "time"].forEach((k) =>
+        params.delete(k),
+      );
       const s = params.toString();
       router.replace(s ? `/?${s}` : "/", { scroll: false });
     });
@@ -121,59 +174,117 @@ export function HomeHero() {
         >
           <div className="rounded-2xl border border-white/20 bg-white/[0.97] p-4 text-slate-900 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.35)] ring-1 ring-white/40 backdrop-blur-md sm:p-5 md:p-6">
             <div className="mb-4 flex items-center justify-end gap-2 border-b border-slate-100 pb-3">
-              <h2 className="text-sm font-bold text-slate-800 sm:text-base">חיפוש מודעות</h2>
+              <h2 className="text-sm font-bold text-slate-800 sm:text-base">
+                {mode === "listings" ? "חיפוש מודעות" : "חיפוש נסיעות ושאטלים"}
+              </h2>
               <SlidersHorizontal className="h-4 w-4 text-cyan-600 sm:h-5 sm:w-5" />
             </div>
 
+            <div className="mb-4 flex justify-end border-b border-slate-100 pb-3">
+              <div className="inline-flex rounded-full border border-slate-200 bg-slate-100 p-1">
+                <button
+                  type="button"
+                  onClick={() => setMode("listings")}
+                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition sm:px-4 sm:text-sm ${
+                    mode === "listings" ? "bg-white text-slate-900 shadow-sm" : "text-slate-600"
+                  }`}
+                >
+                  דירות
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setMode("transports")}
+                  className={`rounded-full px-3 py-1.5 text-xs font-semibold transition sm:px-4 sm:text-sm ${
+                    mode === "transports" ? "bg-white text-slate-900 shadow-sm" : "text-slate-600"
+                  }`}
+                >
+                  נסיעות ושאטלים
+                </button>
+              </div>
+            </div>
+
             <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:gap-3 xl:gap-4">
-              <div className="shrink-0 lg:min-w-[11rem]">
-                <span className="mb-1.5 block text-right text-xs font-semibold text-slate-600 sm:text-sm">סוג מודעה</span>
-                <div className="flex flex-wrap justify-end gap-2">
-                  {(
-                    [
-                      { v: "" as const, label: "הכל" },
-                      { v: "LOOKING_FOR" as const, label: "מחפש דירה" },
-                      { v: "HAS_APARTMENT" as const, label: "מציע דירה" },
-                    ] as const
-                  ).map((opt) => (
-                    <button
-                      key={opt.v || "all"}
-                      type="button"
-                      onClick={() => setType(opt.v)}
-                      className={`rounded-full px-3 py-2 text-xs font-semibold transition sm:px-4 sm:text-sm ${
-                        type === opt.v
-                          ? "bg-slate-900 text-white shadow-md ring-1 ring-slate-900/20"
-                          : "border border-slate-300 bg-white text-slate-700 hover:border-cyan-400 hover:bg-cyan-50/80 active:scale-[0.98]"
-                      }`}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
+              {mode === "listings" ? (
+                <>
+                  <div className="min-w-0 flex-1 text-right">
+                    <span className="mb-1.5 block text-xs font-semibold text-slate-600 sm:text-sm">יעד</span>
+                    <DestinationCombobox
+                      value={city}
+                      onChange={setLocationFilter}
+                      typingClearsValue={false}
+                      showLabel={false}
+                      triggerClassName="px-3 py-2.5 sm:py-3"
+                    />
+                  </div>
 
-              <div className="min-w-0 flex-1 text-right">
-                <span className="mb-1.5 block text-xs font-semibold text-slate-600 sm:text-sm">עיר / מיקום</span>
-                <DestinationCombobox
-                  value={city}
-                  onChange={setLocationFilter}
-                  typingClearsValue={false}
-                  showLabel={false}
-                  triggerClassName="px-3 py-2.5 sm:py-3"
-                />
-              </div>
-
-              <ListingDateRangeFields
-                variant="toolbar"
-                className="w-full min-w-0 lg:w-auto lg:max-w-[min(100%,22rem)] xl:max-w-[24rem]"
-                startDate={dateFrom}
-                endDate={dateTo}
-                onChange={({ startDate, endDate }) => {
-                  setDateFrom(startDate);
-                  setDateTo(endDate);
-                }}
-                onEnterSubmit={applyFilters}
-              />
+                  <ListingDateRangeFields
+                    variant="toolbar"
+                    className="w-full min-w-0 lg:w-auto lg:max-w-[min(100%,22rem)] xl:max-w-[24rem]"
+                    startDate={dateFrom}
+                    endDate={dateTo}
+                    onChange={({ startDate, endDate }) => {
+                      setDateFrom(startDate);
+                      setDateTo(endDate);
+                    }}
+                    onEnterSubmit={applyFilters}
+                  />
+                </>
+              ) : (
+                <>
+                  <div className="min-w-0 flex-1 text-right">
+                    <span className="mb-1.5 block text-xs font-semibold text-slate-600 sm:text-sm">מוצא</span>
+                    <DestinationCombobox
+                      value={origin}
+                      onChange={setOrigin}
+                      typingClearsValue={false}
+                      showLabel={false}
+                      triggerClassName="px-3 py-2.5 sm:py-3"
+                    />
+                  </div>
+                  <div className="min-w-0 flex-1 text-right">
+                    <span className="mb-1.5 block text-xs font-semibold text-slate-600 sm:text-sm">יעד</span>
+                    <DestinationCombobox
+                      value={destination}
+                      onChange={setDestination}
+                      typingClearsValue={false}
+                      showLabel={false}
+                      triggerClassName="px-3 py-2.5 sm:py-3"
+                    />
+                  </div>
+                  <label className="block min-w-0 text-right">
+                    <span className="mb-1.5 block text-xs font-semibold text-slate-600 sm:text-sm">תאריך</span>
+                    <input
+                      type="date"
+                      value={transportDate}
+                      onChange={(e) => setTransportDate(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          applyFilters();
+                        }
+                      }}
+                      className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200 sm:py-3"
+                      dir="ltr"
+                    />
+                  </label>
+                  <label className="block min-w-0 text-right">
+                    <span className="mb-1.5 block text-xs font-semibold text-slate-600 sm:text-sm">שעת איסוף</span>
+                    <input
+                      type="time"
+                      value={pickupTime}
+                      onChange={(e) => setPickupTime(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          applyFilters();
+                        }
+                      }}
+                      className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200 sm:py-3"
+                      dir="ltr"
+                    />
+                  </label>
+                </>
+              )}
 
               <div className="flex w-full shrink-0 flex-col gap-2 lg:w-auto lg:justify-end">
                 <button

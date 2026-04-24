@@ -147,6 +147,26 @@ exports.Prisma.ListingScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.TransportScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  creatorId: 'creatorId',
+  origin: 'origin',
+  destination: 'destination',
+  date: 'date',
+  totalSeats: 'totalSeats',
+  availableSeats: 'availableSeats',
+  pricePerPerson: 'pricePerPerson',
+  description: 'description'
+};
+
+exports.Prisma.TransportJoinScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  transportId: 'transportId',
+  userId: 'userId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -168,7 +188,9 @@ exports.ListingType = exports.$Enums.ListingType = {
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Listing: 'Listing'
+  Listing: 'Listing',
+  Transport: 'Transport',
+  TransportJoin: 'TransportJoin'
 };
 
 /**

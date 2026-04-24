@@ -1,6 +1,6 @@
 "use client";
 
-import { CircleUser, Home, LayoutGrid, LogOut, Menu, PenSquare, WandSparkles, X } from "lucide-react";
+import { Bus, CircleUser, Home, LayoutGrid, LogOut, Menu, PenSquare, WandSparkles, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { signOut } from "@/app/auth/actions";
@@ -75,6 +75,12 @@ export function AppNavbar({ user }: Props) {
           >
             <PenSquare className="h-4 w-4 text-cyan-200" />
             פרסום מודעה
+          </Link>
+          <Link href="/transports" className={desktopLinkClass}>
+            <span className="inline-flex items-center gap-1.5">
+              <Bus className="h-4 w-4 text-slate-500" />
+              נסיעות
+            </span>
           </Link>
           {user ? (
             <Link href="/my-listings" className={desktopLinkClass}>
@@ -216,6 +222,10 @@ export function AppNavbar({ user }: Props) {
           <Link href="/listings/new" className={mobileDrawerLinkClass} onClick={() => setOpen(false)}>
             פרסום מודעה
             <PenSquare className="h-5 w-5 shrink-0 text-cyan-600" aria-hidden />
+          </Link>
+          <Link href="/transports" className={mobileDrawerLinkClass} onClick={() => setOpen(false)}>
+            נסיעות ושאטלים
+            <Bus className="h-5 w-5 shrink-0 text-cyan-600" aria-hidden />
           </Link>
           {user ? (
             <Link href="/my-listings" className={mobileDrawerLinkClass} onClick={() => setOpen(false)}>

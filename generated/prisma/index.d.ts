@@ -23,6 +23,16 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  * 
  */
 export type Listing = $Result.DefaultSelection<Prisma.$ListingPayload>
+/**
+ * Model Transport
+ * 
+ */
+export type Transport = $Result.DefaultSelection<Prisma.$TransportPayload>
+/**
+ * Model TransportJoin
+ * 
+ */
+export type TransportJoin = $Result.DefaultSelection<Prisma.$TransportJoinPayload>
 
 /**
  * Enums
@@ -181,6 +191,26 @@ export class PrismaClient<
     * ```
     */
   get listing(): Prisma.ListingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.transport`: Exposes CRUD operations for the **Transport** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Transports
+    * const transports = await prisma.transport.findMany()
+    * ```
+    */
+  get transport(): Prisma.TransportDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.transportJoin`: Exposes CRUD operations for the **TransportJoin** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TransportJoins
+    * const transportJoins = await prisma.transportJoin.findMany()
+    * ```
+    */
+  get transportJoin(): Prisma.TransportJoinDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -616,7 +646,9 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
-    Listing: 'Listing'
+    Listing: 'Listing',
+    Transport: 'Transport',
+    TransportJoin: 'TransportJoin'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -632,7 +664,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "listing"
+      modelProps: "user" | "listing" | "transport" | "transportJoin"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -784,6 +816,154 @@ export namespace Prisma {
           }
         }
       }
+      Transport: {
+        payload: Prisma.$TransportPayload<ExtArgs>
+        fields: Prisma.TransportFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TransportFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransportPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TransportFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransportPayload>
+          }
+          findFirst: {
+            args: Prisma.TransportFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransportPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TransportFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransportPayload>
+          }
+          findMany: {
+            args: Prisma.TransportFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransportPayload>[]
+          }
+          create: {
+            args: Prisma.TransportCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransportPayload>
+          }
+          createMany: {
+            args: Prisma.TransportCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TransportCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransportPayload>[]
+          }
+          delete: {
+            args: Prisma.TransportDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransportPayload>
+          }
+          update: {
+            args: Prisma.TransportUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransportPayload>
+          }
+          deleteMany: {
+            args: Prisma.TransportDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TransportUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TransportUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransportPayload>[]
+          }
+          upsert: {
+            args: Prisma.TransportUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransportPayload>
+          }
+          aggregate: {
+            args: Prisma.TransportAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTransport>
+          }
+          groupBy: {
+            args: Prisma.TransportGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TransportGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TransportCountArgs<ExtArgs>
+            result: $Utils.Optional<TransportCountAggregateOutputType> | number
+          }
+        }
+      }
+      TransportJoin: {
+        payload: Prisma.$TransportJoinPayload<ExtArgs>
+        fields: Prisma.TransportJoinFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TransportJoinFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransportJoinPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TransportJoinFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransportJoinPayload>
+          }
+          findFirst: {
+            args: Prisma.TransportJoinFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransportJoinPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TransportJoinFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransportJoinPayload>
+          }
+          findMany: {
+            args: Prisma.TransportJoinFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransportJoinPayload>[]
+          }
+          create: {
+            args: Prisma.TransportJoinCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransportJoinPayload>
+          }
+          createMany: {
+            args: Prisma.TransportJoinCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TransportJoinCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransportJoinPayload>[]
+          }
+          delete: {
+            args: Prisma.TransportJoinDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransportJoinPayload>
+          }
+          update: {
+            args: Prisma.TransportJoinUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransportJoinPayload>
+          }
+          deleteMany: {
+            args: Prisma.TransportJoinDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TransportJoinUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TransportJoinUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransportJoinPayload>[]
+          }
+          upsert: {
+            args: Prisma.TransportJoinUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TransportJoinPayload>
+          }
+          aggregate: {
+            args: Prisma.TransportJoinAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTransportJoin>
+          }
+          groupBy: {
+            args: Prisma.TransportJoinGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TransportJoinGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TransportJoinCountArgs<ExtArgs>
+            result: $Utils.Optional<TransportJoinCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -894,6 +1074,8 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     user?: UserOmit
     listing?: ListingOmit
+    transport?: TransportOmit
+    transportJoin?: TransportJoinOmit
   }
 
   /* Types for Logging */
@@ -975,10 +1157,14 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     listings: number
+    transports: number
+    transportJoins: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     listings?: boolean | UserCountOutputTypeCountListingsArgs
+    transports?: boolean | UserCountOutputTypeCountTransportsArgs
+    transportJoins?: boolean | UserCountOutputTypeCountTransportJoinsArgs
   }
 
   // Custom InputTypes
@@ -997,6 +1183,51 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountListingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ListingWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountTransportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TransportWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountTransportJoinsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TransportJoinWhereInput
+  }
+
+
+  /**
+   * Count Type TransportCountOutputType
+   */
+
+  export type TransportCountOutputType = {
+    joins: number
+  }
+
+  export type TransportCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    joins?: boolean | TransportCountOutputTypeCountJoinsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TransportCountOutputType without action
+   */
+  export type TransportCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransportCountOutputType
+     */
+    select?: TransportCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TransportCountOutputType without action
+   */
+  export type TransportCountOutputTypeCountJoinsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TransportJoinWhereInput
   }
 
 
@@ -1193,6 +1424,8 @@ export namespace Prisma {
     phone?: boolean
     isPremium?: boolean
     listings?: boolean | User$listingsArgs<ExtArgs>
+    transports?: boolean | User$transportsArgs<ExtArgs>
+    transportJoins?: boolean | User$transportJoinsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1232,6 +1465,8 @@ export namespace Prisma {
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "image" | "bio" | "instagram" | "phone" | "isPremium", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     listings?: boolean | User$listingsArgs<ExtArgs>
+    transports?: boolean | User$transportsArgs<ExtArgs>
+    transportJoins?: boolean | User$transportJoinsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1241,6 +1476,8 @@ export namespace Prisma {
     name: "User"
     objects: {
       listings: Prisma.$ListingPayload<ExtArgs>[]
+      transports: Prisma.$TransportPayload<ExtArgs>[]
+      transportJoins: Prisma.$TransportJoinPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -1646,6 +1883,8 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     listings<T extends User$listingsArgs<ExtArgs> = {}>(args?: Subset<T, User$listingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    transports<T extends User$transportsArgs<ExtArgs> = {}>(args?: Subset<T, User$transportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    transportJoins<T extends User$transportJoinsArgs<ExtArgs> = {}>(args?: Subset<T, User$transportJoinsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransportJoinPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2097,6 +2336,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ListingScalarFieldEnum | ListingScalarFieldEnum[]
+  }
+
+  /**
+   * User.transports
+   */
+  export type User$transportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Transport
+     */
+    select?: TransportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Transport
+     */
+    omit?: TransportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportInclude<ExtArgs> | null
+    where?: TransportWhereInput
+    orderBy?: TransportOrderByWithRelationInput | TransportOrderByWithRelationInput[]
+    cursor?: TransportWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TransportScalarFieldEnum | TransportScalarFieldEnum[]
+  }
+
+  /**
+   * User.transportJoins
+   */
+  export type User$transportJoinsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransportJoin
+     */
+    select?: TransportJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransportJoin
+     */
+    omit?: TransportJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportJoinInclude<ExtArgs> | null
+    where?: TransportJoinWhereInput
+    orderBy?: TransportJoinOrderByWithRelationInput | TransportJoinOrderByWithRelationInput[]
+    cursor?: TransportJoinWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TransportJoinScalarFieldEnum | TransportJoinScalarFieldEnum[]
   }
 
   /**
@@ -3320,6 +3607,2264 @@ export namespace Prisma {
 
 
   /**
+   * Model Transport
+   */
+
+  export type AggregateTransport = {
+    _count: TransportCountAggregateOutputType | null
+    _avg: TransportAvgAggregateOutputType | null
+    _sum: TransportSumAggregateOutputType | null
+    _min: TransportMinAggregateOutputType | null
+    _max: TransportMaxAggregateOutputType | null
+  }
+
+  export type TransportAvgAggregateOutputType = {
+    totalSeats: number | null
+    availableSeats: number | null
+    pricePerPerson: number | null
+  }
+
+  export type TransportSumAggregateOutputType = {
+    totalSeats: number | null
+    availableSeats: number | null
+    pricePerPerson: number | null
+  }
+
+  export type TransportMinAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    creatorId: string | null
+    origin: string | null
+    destination: string | null
+    date: Date | null
+    totalSeats: number | null
+    availableSeats: number | null
+    pricePerPerson: number | null
+    description: string | null
+  }
+
+  export type TransportMaxAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    creatorId: string | null
+    origin: string | null
+    destination: string | null
+    date: Date | null
+    totalSeats: number | null
+    availableSeats: number | null
+    pricePerPerson: number | null
+    description: string | null
+  }
+
+  export type TransportCountAggregateOutputType = {
+    id: number
+    createdAt: number
+    creatorId: number
+    origin: number
+    destination: number
+    date: number
+    totalSeats: number
+    availableSeats: number
+    pricePerPerson: number
+    description: number
+    _all: number
+  }
+
+
+  export type TransportAvgAggregateInputType = {
+    totalSeats?: true
+    availableSeats?: true
+    pricePerPerson?: true
+  }
+
+  export type TransportSumAggregateInputType = {
+    totalSeats?: true
+    availableSeats?: true
+    pricePerPerson?: true
+  }
+
+  export type TransportMinAggregateInputType = {
+    id?: true
+    createdAt?: true
+    creatorId?: true
+    origin?: true
+    destination?: true
+    date?: true
+    totalSeats?: true
+    availableSeats?: true
+    pricePerPerson?: true
+    description?: true
+  }
+
+  export type TransportMaxAggregateInputType = {
+    id?: true
+    createdAt?: true
+    creatorId?: true
+    origin?: true
+    destination?: true
+    date?: true
+    totalSeats?: true
+    availableSeats?: true
+    pricePerPerson?: true
+    description?: true
+  }
+
+  export type TransportCountAggregateInputType = {
+    id?: true
+    createdAt?: true
+    creatorId?: true
+    origin?: true
+    destination?: true
+    date?: true
+    totalSeats?: true
+    availableSeats?: true
+    pricePerPerson?: true
+    description?: true
+    _all?: true
+  }
+
+  export type TransportAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Transport to aggregate.
+     */
+    where?: TransportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Transports to fetch.
+     */
+    orderBy?: TransportOrderByWithRelationInput | TransportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TransportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Transports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Transports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Transports
+    **/
+    _count?: true | TransportCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TransportAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TransportSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TransportMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TransportMaxAggregateInputType
+  }
+
+  export type GetTransportAggregateType<T extends TransportAggregateArgs> = {
+        [P in keyof T & keyof AggregateTransport]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTransport[P]>
+      : GetScalarType<T[P], AggregateTransport[P]>
+  }
+
+
+
+
+  export type TransportGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TransportWhereInput
+    orderBy?: TransportOrderByWithAggregationInput | TransportOrderByWithAggregationInput[]
+    by: TransportScalarFieldEnum[] | TransportScalarFieldEnum
+    having?: TransportScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TransportCountAggregateInputType | true
+    _avg?: TransportAvgAggregateInputType
+    _sum?: TransportSumAggregateInputType
+    _min?: TransportMinAggregateInputType
+    _max?: TransportMaxAggregateInputType
+  }
+
+  export type TransportGroupByOutputType = {
+    id: string
+    createdAt: Date
+    creatorId: string
+    origin: string
+    destination: string
+    date: Date
+    totalSeats: number
+    availableSeats: number
+    pricePerPerson: number
+    description: string
+    _count: TransportCountAggregateOutputType | null
+    _avg: TransportAvgAggregateOutputType | null
+    _sum: TransportSumAggregateOutputType | null
+    _min: TransportMinAggregateOutputType | null
+    _max: TransportMaxAggregateOutputType | null
+  }
+
+  type GetTransportGroupByPayload<T extends TransportGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TransportGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TransportGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TransportGroupByOutputType[P]>
+            : GetScalarType<T[P], TransportGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TransportSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    creatorId?: boolean
+    origin?: boolean
+    destination?: boolean
+    date?: boolean
+    totalSeats?: boolean
+    availableSeats?: boolean
+    pricePerPerson?: boolean
+    description?: boolean
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+    joins?: boolean | Transport$joinsArgs<ExtArgs>
+    _count?: boolean | TransportCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["transport"]>
+
+  export type TransportSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    creatorId?: boolean
+    origin?: boolean
+    destination?: boolean
+    date?: boolean
+    totalSeats?: boolean
+    availableSeats?: boolean
+    pricePerPerson?: boolean
+    description?: boolean
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["transport"]>
+
+  export type TransportSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    creatorId?: boolean
+    origin?: boolean
+    destination?: boolean
+    date?: boolean
+    totalSeats?: boolean
+    availableSeats?: boolean
+    pricePerPerson?: boolean
+    description?: boolean
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["transport"]>
+
+  export type TransportSelectScalar = {
+    id?: boolean
+    createdAt?: boolean
+    creatorId?: boolean
+    origin?: boolean
+    destination?: boolean
+    date?: boolean
+    totalSeats?: boolean
+    availableSeats?: boolean
+    pricePerPerson?: boolean
+    description?: boolean
+  }
+
+  export type TransportOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "creatorId" | "origin" | "destination" | "date" | "totalSeats" | "availableSeats" | "pricePerPerson" | "description", ExtArgs["result"]["transport"]>
+  export type TransportInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+    joins?: boolean | Transport$joinsArgs<ExtArgs>
+    _count?: boolean | TransportCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type TransportIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type TransportIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $TransportPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Transport"
+    objects: {
+      creator: Prisma.$UserPayload<ExtArgs>
+      joins: Prisma.$TransportJoinPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      createdAt: Date
+      creatorId: string
+      origin: string
+      destination: string
+      date: Date
+      totalSeats: number
+      availableSeats: number
+      pricePerPerson: number
+      description: string
+    }, ExtArgs["result"]["transport"]>
+    composites: {}
+  }
+
+  type TransportGetPayload<S extends boolean | null | undefined | TransportDefaultArgs> = $Result.GetResult<Prisma.$TransportPayload, S>
+
+  type TransportCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TransportFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TransportCountAggregateInputType | true
+    }
+
+  export interface TransportDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Transport'], meta: { name: 'Transport' } }
+    /**
+     * Find zero or one Transport that matches the filter.
+     * @param {TransportFindUniqueArgs} args - Arguments to find a Transport
+     * @example
+     * // Get one Transport
+     * const transport = await prisma.transport.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TransportFindUniqueArgs>(args: SelectSubset<T, TransportFindUniqueArgs<ExtArgs>>): Prisma__TransportClient<$Result.GetResult<Prisma.$TransportPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Transport that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TransportFindUniqueOrThrowArgs} args - Arguments to find a Transport
+     * @example
+     * // Get one Transport
+     * const transport = await prisma.transport.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TransportFindUniqueOrThrowArgs>(args: SelectSubset<T, TransportFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TransportClient<$Result.GetResult<Prisma.$TransportPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Transport that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransportFindFirstArgs} args - Arguments to find a Transport
+     * @example
+     * // Get one Transport
+     * const transport = await prisma.transport.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TransportFindFirstArgs>(args?: SelectSubset<T, TransportFindFirstArgs<ExtArgs>>): Prisma__TransportClient<$Result.GetResult<Prisma.$TransportPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Transport that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransportFindFirstOrThrowArgs} args - Arguments to find a Transport
+     * @example
+     * // Get one Transport
+     * const transport = await prisma.transport.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TransportFindFirstOrThrowArgs>(args?: SelectSubset<T, TransportFindFirstOrThrowArgs<ExtArgs>>): Prisma__TransportClient<$Result.GetResult<Prisma.$TransportPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Transports that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransportFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Transports
+     * const transports = await prisma.transport.findMany()
+     * 
+     * // Get first 10 Transports
+     * const transports = await prisma.transport.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const transportWithIdOnly = await prisma.transport.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TransportFindManyArgs>(args?: SelectSubset<T, TransportFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Transport.
+     * @param {TransportCreateArgs} args - Arguments to create a Transport.
+     * @example
+     * // Create one Transport
+     * const Transport = await prisma.transport.create({
+     *   data: {
+     *     // ... data to create a Transport
+     *   }
+     * })
+     * 
+     */
+    create<T extends TransportCreateArgs>(args: SelectSubset<T, TransportCreateArgs<ExtArgs>>): Prisma__TransportClient<$Result.GetResult<Prisma.$TransportPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Transports.
+     * @param {TransportCreateManyArgs} args - Arguments to create many Transports.
+     * @example
+     * // Create many Transports
+     * const transport = await prisma.transport.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TransportCreateManyArgs>(args?: SelectSubset<T, TransportCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Transports and returns the data saved in the database.
+     * @param {TransportCreateManyAndReturnArgs} args - Arguments to create many Transports.
+     * @example
+     * // Create many Transports
+     * const transport = await prisma.transport.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Transports and only return the `id`
+     * const transportWithIdOnly = await prisma.transport.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TransportCreateManyAndReturnArgs>(args?: SelectSubset<T, TransportCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransportPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Transport.
+     * @param {TransportDeleteArgs} args - Arguments to delete one Transport.
+     * @example
+     * // Delete one Transport
+     * const Transport = await prisma.transport.delete({
+     *   where: {
+     *     // ... filter to delete one Transport
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TransportDeleteArgs>(args: SelectSubset<T, TransportDeleteArgs<ExtArgs>>): Prisma__TransportClient<$Result.GetResult<Prisma.$TransportPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Transport.
+     * @param {TransportUpdateArgs} args - Arguments to update one Transport.
+     * @example
+     * // Update one Transport
+     * const transport = await prisma.transport.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TransportUpdateArgs>(args: SelectSubset<T, TransportUpdateArgs<ExtArgs>>): Prisma__TransportClient<$Result.GetResult<Prisma.$TransportPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Transports.
+     * @param {TransportDeleteManyArgs} args - Arguments to filter Transports to delete.
+     * @example
+     * // Delete a few Transports
+     * const { count } = await prisma.transport.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TransportDeleteManyArgs>(args?: SelectSubset<T, TransportDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Transports.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransportUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Transports
+     * const transport = await prisma.transport.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TransportUpdateManyArgs>(args: SelectSubset<T, TransportUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Transports and returns the data updated in the database.
+     * @param {TransportUpdateManyAndReturnArgs} args - Arguments to update many Transports.
+     * @example
+     * // Update many Transports
+     * const transport = await prisma.transport.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Transports and only return the `id`
+     * const transportWithIdOnly = await prisma.transport.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TransportUpdateManyAndReturnArgs>(args: SelectSubset<T, TransportUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransportPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Transport.
+     * @param {TransportUpsertArgs} args - Arguments to update or create a Transport.
+     * @example
+     * // Update or create a Transport
+     * const transport = await prisma.transport.upsert({
+     *   create: {
+     *     // ... data to create a Transport
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Transport we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TransportUpsertArgs>(args: SelectSubset<T, TransportUpsertArgs<ExtArgs>>): Prisma__TransportClient<$Result.GetResult<Prisma.$TransportPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Transports.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransportCountArgs} args - Arguments to filter Transports to count.
+     * @example
+     * // Count the number of Transports
+     * const count = await prisma.transport.count({
+     *   where: {
+     *     // ... the filter for the Transports we want to count
+     *   }
+     * })
+    **/
+    count<T extends TransportCountArgs>(
+      args?: Subset<T, TransportCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TransportCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Transport.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransportAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TransportAggregateArgs>(args: Subset<T, TransportAggregateArgs>): Prisma.PrismaPromise<GetTransportAggregateType<T>>
+
+    /**
+     * Group by Transport.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransportGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TransportGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TransportGroupByArgs['orderBy'] }
+        : { orderBy?: TransportGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TransportGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTransportGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Transport model
+   */
+  readonly fields: TransportFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Transport.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TransportClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    creator<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    joins<T extends Transport$joinsArgs<ExtArgs> = {}>(args?: Subset<T, Transport$joinsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransportJoinPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Transport model
+   */
+  interface TransportFieldRefs {
+    readonly id: FieldRef<"Transport", 'String'>
+    readonly createdAt: FieldRef<"Transport", 'DateTime'>
+    readonly creatorId: FieldRef<"Transport", 'String'>
+    readonly origin: FieldRef<"Transport", 'String'>
+    readonly destination: FieldRef<"Transport", 'String'>
+    readonly date: FieldRef<"Transport", 'DateTime'>
+    readonly totalSeats: FieldRef<"Transport", 'Int'>
+    readonly availableSeats: FieldRef<"Transport", 'Int'>
+    readonly pricePerPerson: FieldRef<"Transport", 'Float'>
+    readonly description: FieldRef<"Transport", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Transport findUnique
+   */
+  export type TransportFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Transport
+     */
+    select?: TransportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Transport
+     */
+    omit?: TransportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportInclude<ExtArgs> | null
+    /**
+     * Filter, which Transport to fetch.
+     */
+    where: TransportWhereUniqueInput
+  }
+
+  /**
+   * Transport findUniqueOrThrow
+   */
+  export type TransportFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Transport
+     */
+    select?: TransportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Transport
+     */
+    omit?: TransportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportInclude<ExtArgs> | null
+    /**
+     * Filter, which Transport to fetch.
+     */
+    where: TransportWhereUniqueInput
+  }
+
+  /**
+   * Transport findFirst
+   */
+  export type TransportFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Transport
+     */
+    select?: TransportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Transport
+     */
+    omit?: TransportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportInclude<ExtArgs> | null
+    /**
+     * Filter, which Transport to fetch.
+     */
+    where?: TransportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Transports to fetch.
+     */
+    orderBy?: TransportOrderByWithRelationInput | TransportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Transports.
+     */
+    cursor?: TransportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Transports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Transports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Transports.
+     */
+    distinct?: TransportScalarFieldEnum | TransportScalarFieldEnum[]
+  }
+
+  /**
+   * Transport findFirstOrThrow
+   */
+  export type TransportFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Transport
+     */
+    select?: TransportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Transport
+     */
+    omit?: TransportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportInclude<ExtArgs> | null
+    /**
+     * Filter, which Transport to fetch.
+     */
+    where?: TransportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Transports to fetch.
+     */
+    orderBy?: TransportOrderByWithRelationInput | TransportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Transports.
+     */
+    cursor?: TransportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Transports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Transports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Transports.
+     */
+    distinct?: TransportScalarFieldEnum | TransportScalarFieldEnum[]
+  }
+
+  /**
+   * Transport findMany
+   */
+  export type TransportFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Transport
+     */
+    select?: TransportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Transport
+     */
+    omit?: TransportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportInclude<ExtArgs> | null
+    /**
+     * Filter, which Transports to fetch.
+     */
+    where?: TransportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Transports to fetch.
+     */
+    orderBy?: TransportOrderByWithRelationInput | TransportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Transports.
+     */
+    cursor?: TransportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Transports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Transports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Transports.
+     */
+    distinct?: TransportScalarFieldEnum | TransportScalarFieldEnum[]
+  }
+
+  /**
+   * Transport create
+   */
+  export type TransportCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Transport
+     */
+    select?: TransportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Transport
+     */
+    omit?: TransportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Transport.
+     */
+    data: XOR<TransportCreateInput, TransportUncheckedCreateInput>
+  }
+
+  /**
+   * Transport createMany
+   */
+  export type TransportCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Transports.
+     */
+    data: TransportCreateManyInput | TransportCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Transport createManyAndReturn
+   */
+  export type TransportCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Transport
+     */
+    select?: TransportSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Transport
+     */
+    omit?: TransportOmit<ExtArgs> | null
+    /**
+     * The data used to create many Transports.
+     */
+    data: TransportCreateManyInput | TransportCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Transport update
+   */
+  export type TransportUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Transport
+     */
+    select?: TransportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Transport
+     */
+    omit?: TransportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Transport.
+     */
+    data: XOR<TransportUpdateInput, TransportUncheckedUpdateInput>
+    /**
+     * Choose, which Transport to update.
+     */
+    where: TransportWhereUniqueInput
+  }
+
+  /**
+   * Transport updateMany
+   */
+  export type TransportUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Transports.
+     */
+    data: XOR<TransportUpdateManyMutationInput, TransportUncheckedUpdateManyInput>
+    /**
+     * Filter which Transports to update
+     */
+    where?: TransportWhereInput
+    /**
+     * Limit how many Transports to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Transport updateManyAndReturn
+   */
+  export type TransportUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Transport
+     */
+    select?: TransportSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Transport
+     */
+    omit?: TransportOmit<ExtArgs> | null
+    /**
+     * The data used to update Transports.
+     */
+    data: XOR<TransportUpdateManyMutationInput, TransportUncheckedUpdateManyInput>
+    /**
+     * Filter which Transports to update
+     */
+    where?: TransportWhereInput
+    /**
+     * Limit how many Transports to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Transport upsert
+   */
+  export type TransportUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Transport
+     */
+    select?: TransportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Transport
+     */
+    omit?: TransportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Transport to update in case it exists.
+     */
+    where: TransportWhereUniqueInput
+    /**
+     * In case the Transport found by the `where` argument doesn't exist, create a new Transport with this data.
+     */
+    create: XOR<TransportCreateInput, TransportUncheckedCreateInput>
+    /**
+     * In case the Transport was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TransportUpdateInput, TransportUncheckedUpdateInput>
+  }
+
+  /**
+   * Transport delete
+   */
+  export type TransportDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Transport
+     */
+    select?: TransportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Transport
+     */
+    omit?: TransportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportInclude<ExtArgs> | null
+    /**
+     * Filter which Transport to delete.
+     */
+    where: TransportWhereUniqueInput
+  }
+
+  /**
+   * Transport deleteMany
+   */
+  export type TransportDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Transports to delete
+     */
+    where?: TransportWhereInput
+    /**
+     * Limit how many Transports to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Transport.joins
+   */
+  export type Transport$joinsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransportJoin
+     */
+    select?: TransportJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransportJoin
+     */
+    omit?: TransportJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportJoinInclude<ExtArgs> | null
+    where?: TransportJoinWhereInput
+    orderBy?: TransportJoinOrderByWithRelationInput | TransportJoinOrderByWithRelationInput[]
+    cursor?: TransportJoinWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TransportJoinScalarFieldEnum | TransportJoinScalarFieldEnum[]
+  }
+
+  /**
+   * Transport without action
+   */
+  export type TransportDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Transport
+     */
+    select?: TransportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Transport
+     */
+    omit?: TransportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TransportJoin
+   */
+
+  export type AggregateTransportJoin = {
+    _count: TransportJoinCountAggregateOutputType | null
+    _min: TransportJoinMinAggregateOutputType | null
+    _max: TransportJoinMaxAggregateOutputType | null
+  }
+
+  export type TransportJoinMinAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    transportId: string | null
+    userId: string | null
+  }
+
+  export type TransportJoinMaxAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    transportId: string | null
+    userId: string | null
+  }
+
+  export type TransportJoinCountAggregateOutputType = {
+    id: number
+    createdAt: number
+    transportId: number
+    userId: number
+    _all: number
+  }
+
+
+  export type TransportJoinMinAggregateInputType = {
+    id?: true
+    createdAt?: true
+    transportId?: true
+    userId?: true
+  }
+
+  export type TransportJoinMaxAggregateInputType = {
+    id?: true
+    createdAt?: true
+    transportId?: true
+    userId?: true
+  }
+
+  export type TransportJoinCountAggregateInputType = {
+    id?: true
+    createdAt?: true
+    transportId?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type TransportJoinAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TransportJoin to aggregate.
+     */
+    where?: TransportJoinWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TransportJoins to fetch.
+     */
+    orderBy?: TransportJoinOrderByWithRelationInput | TransportJoinOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TransportJoinWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TransportJoins from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TransportJoins.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TransportJoins
+    **/
+    _count?: true | TransportJoinCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TransportJoinMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TransportJoinMaxAggregateInputType
+  }
+
+  export type GetTransportJoinAggregateType<T extends TransportJoinAggregateArgs> = {
+        [P in keyof T & keyof AggregateTransportJoin]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTransportJoin[P]>
+      : GetScalarType<T[P], AggregateTransportJoin[P]>
+  }
+
+
+
+
+  export type TransportJoinGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TransportJoinWhereInput
+    orderBy?: TransportJoinOrderByWithAggregationInput | TransportJoinOrderByWithAggregationInput[]
+    by: TransportJoinScalarFieldEnum[] | TransportJoinScalarFieldEnum
+    having?: TransportJoinScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TransportJoinCountAggregateInputType | true
+    _min?: TransportJoinMinAggregateInputType
+    _max?: TransportJoinMaxAggregateInputType
+  }
+
+  export type TransportJoinGroupByOutputType = {
+    id: string
+    createdAt: Date
+    transportId: string
+    userId: string
+    _count: TransportJoinCountAggregateOutputType | null
+    _min: TransportJoinMinAggregateOutputType | null
+    _max: TransportJoinMaxAggregateOutputType | null
+  }
+
+  type GetTransportJoinGroupByPayload<T extends TransportJoinGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TransportJoinGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TransportJoinGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TransportJoinGroupByOutputType[P]>
+            : GetScalarType<T[P], TransportJoinGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TransportJoinSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    transportId?: boolean
+    userId?: boolean
+    transport?: boolean | TransportDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["transportJoin"]>
+
+  export type TransportJoinSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    transportId?: boolean
+    userId?: boolean
+    transport?: boolean | TransportDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["transportJoin"]>
+
+  export type TransportJoinSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    transportId?: boolean
+    userId?: boolean
+    transport?: boolean | TransportDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["transportJoin"]>
+
+  export type TransportJoinSelectScalar = {
+    id?: boolean
+    createdAt?: boolean
+    transportId?: boolean
+    userId?: boolean
+  }
+
+  export type TransportJoinOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "transportId" | "userId", ExtArgs["result"]["transportJoin"]>
+  export type TransportJoinInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    transport?: boolean | TransportDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type TransportJoinIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    transport?: boolean | TransportDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type TransportJoinIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    transport?: boolean | TransportDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $TransportJoinPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TransportJoin"
+    objects: {
+      transport: Prisma.$TransportPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      createdAt: Date
+      transportId: string
+      userId: string
+    }, ExtArgs["result"]["transportJoin"]>
+    composites: {}
+  }
+
+  type TransportJoinGetPayload<S extends boolean | null | undefined | TransportJoinDefaultArgs> = $Result.GetResult<Prisma.$TransportJoinPayload, S>
+
+  type TransportJoinCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TransportJoinFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TransportJoinCountAggregateInputType | true
+    }
+
+  export interface TransportJoinDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TransportJoin'], meta: { name: 'TransportJoin' } }
+    /**
+     * Find zero or one TransportJoin that matches the filter.
+     * @param {TransportJoinFindUniqueArgs} args - Arguments to find a TransportJoin
+     * @example
+     * // Get one TransportJoin
+     * const transportJoin = await prisma.transportJoin.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TransportJoinFindUniqueArgs>(args: SelectSubset<T, TransportJoinFindUniqueArgs<ExtArgs>>): Prisma__TransportJoinClient<$Result.GetResult<Prisma.$TransportJoinPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TransportJoin that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TransportJoinFindUniqueOrThrowArgs} args - Arguments to find a TransportJoin
+     * @example
+     * // Get one TransportJoin
+     * const transportJoin = await prisma.transportJoin.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TransportJoinFindUniqueOrThrowArgs>(args: SelectSubset<T, TransportJoinFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TransportJoinClient<$Result.GetResult<Prisma.$TransportJoinPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TransportJoin that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransportJoinFindFirstArgs} args - Arguments to find a TransportJoin
+     * @example
+     * // Get one TransportJoin
+     * const transportJoin = await prisma.transportJoin.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TransportJoinFindFirstArgs>(args?: SelectSubset<T, TransportJoinFindFirstArgs<ExtArgs>>): Prisma__TransportJoinClient<$Result.GetResult<Prisma.$TransportJoinPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TransportJoin that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransportJoinFindFirstOrThrowArgs} args - Arguments to find a TransportJoin
+     * @example
+     * // Get one TransportJoin
+     * const transportJoin = await prisma.transportJoin.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TransportJoinFindFirstOrThrowArgs>(args?: SelectSubset<T, TransportJoinFindFirstOrThrowArgs<ExtArgs>>): Prisma__TransportJoinClient<$Result.GetResult<Prisma.$TransportJoinPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TransportJoins that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransportJoinFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TransportJoins
+     * const transportJoins = await prisma.transportJoin.findMany()
+     * 
+     * // Get first 10 TransportJoins
+     * const transportJoins = await prisma.transportJoin.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const transportJoinWithIdOnly = await prisma.transportJoin.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TransportJoinFindManyArgs>(args?: SelectSubset<T, TransportJoinFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransportJoinPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TransportJoin.
+     * @param {TransportJoinCreateArgs} args - Arguments to create a TransportJoin.
+     * @example
+     * // Create one TransportJoin
+     * const TransportJoin = await prisma.transportJoin.create({
+     *   data: {
+     *     // ... data to create a TransportJoin
+     *   }
+     * })
+     * 
+     */
+    create<T extends TransportJoinCreateArgs>(args: SelectSubset<T, TransportJoinCreateArgs<ExtArgs>>): Prisma__TransportJoinClient<$Result.GetResult<Prisma.$TransportJoinPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TransportJoins.
+     * @param {TransportJoinCreateManyArgs} args - Arguments to create many TransportJoins.
+     * @example
+     * // Create many TransportJoins
+     * const transportJoin = await prisma.transportJoin.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TransportJoinCreateManyArgs>(args?: SelectSubset<T, TransportJoinCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TransportJoins and returns the data saved in the database.
+     * @param {TransportJoinCreateManyAndReturnArgs} args - Arguments to create many TransportJoins.
+     * @example
+     * // Create many TransportJoins
+     * const transportJoin = await prisma.transportJoin.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TransportJoins and only return the `id`
+     * const transportJoinWithIdOnly = await prisma.transportJoin.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TransportJoinCreateManyAndReturnArgs>(args?: SelectSubset<T, TransportJoinCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransportJoinPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TransportJoin.
+     * @param {TransportJoinDeleteArgs} args - Arguments to delete one TransportJoin.
+     * @example
+     * // Delete one TransportJoin
+     * const TransportJoin = await prisma.transportJoin.delete({
+     *   where: {
+     *     // ... filter to delete one TransportJoin
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TransportJoinDeleteArgs>(args: SelectSubset<T, TransportJoinDeleteArgs<ExtArgs>>): Prisma__TransportJoinClient<$Result.GetResult<Prisma.$TransportJoinPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TransportJoin.
+     * @param {TransportJoinUpdateArgs} args - Arguments to update one TransportJoin.
+     * @example
+     * // Update one TransportJoin
+     * const transportJoin = await prisma.transportJoin.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TransportJoinUpdateArgs>(args: SelectSubset<T, TransportJoinUpdateArgs<ExtArgs>>): Prisma__TransportJoinClient<$Result.GetResult<Prisma.$TransportJoinPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TransportJoins.
+     * @param {TransportJoinDeleteManyArgs} args - Arguments to filter TransportJoins to delete.
+     * @example
+     * // Delete a few TransportJoins
+     * const { count } = await prisma.transportJoin.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TransportJoinDeleteManyArgs>(args?: SelectSubset<T, TransportJoinDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TransportJoins.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransportJoinUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TransportJoins
+     * const transportJoin = await prisma.transportJoin.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TransportJoinUpdateManyArgs>(args: SelectSubset<T, TransportJoinUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TransportJoins and returns the data updated in the database.
+     * @param {TransportJoinUpdateManyAndReturnArgs} args - Arguments to update many TransportJoins.
+     * @example
+     * // Update many TransportJoins
+     * const transportJoin = await prisma.transportJoin.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TransportJoins and only return the `id`
+     * const transportJoinWithIdOnly = await prisma.transportJoin.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TransportJoinUpdateManyAndReturnArgs>(args: SelectSubset<T, TransportJoinUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransportJoinPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TransportJoin.
+     * @param {TransportJoinUpsertArgs} args - Arguments to update or create a TransportJoin.
+     * @example
+     * // Update or create a TransportJoin
+     * const transportJoin = await prisma.transportJoin.upsert({
+     *   create: {
+     *     // ... data to create a TransportJoin
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TransportJoin we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TransportJoinUpsertArgs>(args: SelectSubset<T, TransportJoinUpsertArgs<ExtArgs>>): Prisma__TransportJoinClient<$Result.GetResult<Prisma.$TransportJoinPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TransportJoins.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransportJoinCountArgs} args - Arguments to filter TransportJoins to count.
+     * @example
+     * // Count the number of TransportJoins
+     * const count = await prisma.transportJoin.count({
+     *   where: {
+     *     // ... the filter for the TransportJoins we want to count
+     *   }
+     * })
+    **/
+    count<T extends TransportJoinCountArgs>(
+      args?: Subset<T, TransportJoinCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TransportJoinCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TransportJoin.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransportJoinAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TransportJoinAggregateArgs>(args: Subset<T, TransportJoinAggregateArgs>): Prisma.PrismaPromise<GetTransportJoinAggregateType<T>>
+
+    /**
+     * Group by TransportJoin.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TransportJoinGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TransportJoinGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TransportJoinGroupByArgs['orderBy'] }
+        : { orderBy?: TransportJoinGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TransportJoinGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTransportJoinGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TransportJoin model
+   */
+  readonly fields: TransportJoinFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TransportJoin.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TransportJoinClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    transport<T extends TransportDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TransportDefaultArgs<ExtArgs>>): Prisma__TransportClient<$Result.GetResult<Prisma.$TransportPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TransportJoin model
+   */
+  interface TransportJoinFieldRefs {
+    readonly id: FieldRef<"TransportJoin", 'String'>
+    readonly createdAt: FieldRef<"TransportJoin", 'DateTime'>
+    readonly transportId: FieldRef<"TransportJoin", 'String'>
+    readonly userId: FieldRef<"TransportJoin", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TransportJoin findUnique
+   */
+  export type TransportJoinFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransportJoin
+     */
+    select?: TransportJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransportJoin
+     */
+    omit?: TransportJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportJoinInclude<ExtArgs> | null
+    /**
+     * Filter, which TransportJoin to fetch.
+     */
+    where: TransportJoinWhereUniqueInput
+  }
+
+  /**
+   * TransportJoin findUniqueOrThrow
+   */
+  export type TransportJoinFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransportJoin
+     */
+    select?: TransportJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransportJoin
+     */
+    omit?: TransportJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportJoinInclude<ExtArgs> | null
+    /**
+     * Filter, which TransportJoin to fetch.
+     */
+    where: TransportJoinWhereUniqueInput
+  }
+
+  /**
+   * TransportJoin findFirst
+   */
+  export type TransportJoinFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransportJoin
+     */
+    select?: TransportJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransportJoin
+     */
+    omit?: TransportJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportJoinInclude<ExtArgs> | null
+    /**
+     * Filter, which TransportJoin to fetch.
+     */
+    where?: TransportJoinWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TransportJoins to fetch.
+     */
+    orderBy?: TransportJoinOrderByWithRelationInput | TransportJoinOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TransportJoins.
+     */
+    cursor?: TransportJoinWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TransportJoins from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TransportJoins.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TransportJoins.
+     */
+    distinct?: TransportJoinScalarFieldEnum | TransportJoinScalarFieldEnum[]
+  }
+
+  /**
+   * TransportJoin findFirstOrThrow
+   */
+  export type TransportJoinFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransportJoin
+     */
+    select?: TransportJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransportJoin
+     */
+    omit?: TransportJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportJoinInclude<ExtArgs> | null
+    /**
+     * Filter, which TransportJoin to fetch.
+     */
+    where?: TransportJoinWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TransportJoins to fetch.
+     */
+    orderBy?: TransportJoinOrderByWithRelationInput | TransportJoinOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TransportJoins.
+     */
+    cursor?: TransportJoinWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TransportJoins from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TransportJoins.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TransportJoins.
+     */
+    distinct?: TransportJoinScalarFieldEnum | TransportJoinScalarFieldEnum[]
+  }
+
+  /**
+   * TransportJoin findMany
+   */
+  export type TransportJoinFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransportJoin
+     */
+    select?: TransportJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransportJoin
+     */
+    omit?: TransportJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportJoinInclude<ExtArgs> | null
+    /**
+     * Filter, which TransportJoins to fetch.
+     */
+    where?: TransportJoinWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TransportJoins to fetch.
+     */
+    orderBy?: TransportJoinOrderByWithRelationInput | TransportJoinOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TransportJoins.
+     */
+    cursor?: TransportJoinWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TransportJoins from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TransportJoins.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TransportJoins.
+     */
+    distinct?: TransportJoinScalarFieldEnum | TransportJoinScalarFieldEnum[]
+  }
+
+  /**
+   * TransportJoin create
+   */
+  export type TransportJoinCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransportJoin
+     */
+    select?: TransportJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransportJoin
+     */
+    omit?: TransportJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportJoinInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TransportJoin.
+     */
+    data: XOR<TransportJoinCreateInput, TransportJoinUncheckedCreateInput>
+  }
+
+  /**
+   * TransportJoin createMany
+   */
+  export type TransportJoinCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TransportJoins.
+     */
+    data: TransportJoinCreateManyInput | TransportJoinCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TransportJoin createManyAndReturn
+   */
+  export type TransportJoinCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransportJoin
+     */
+    select?: TransportJoinSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransportJoin
+     */
+    omit?: TransportJoinOmit<ExtArgs> | null
+    /**
+     * The data used to create many TransportJoins.
+     */
+    data: TransportJoinCreateManyInput | TransportJoinCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportJoinIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TransportJoin update
+   */
+  export type TransportJoinUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransportJoin
+     */
+    select?: TransportJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransportJoin
+     */
+    omit?: TransportJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportJoinInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TransportJoin.
+     */
+    data: XOR<TransportJoinUpdateInput, TransportJoinUncheckedUpdateInput>
+    /**
+     * Choose, which TransportJoin to update.
+     */
+    where: TransportJoinWhereUniqueInput
+  }
+
+  /**
+   * TransportJoin updateMany
+   */
+  export type TransportJoinUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TransportJoins.
+     */
+    data: XOR<TransportJoinUpdateManyMutationInput, TransportJoinUncheckedUpdateManyInput>
+    /**
+     * Filter which TransportJoins to update
+     */
+    where?: TransportJoinWhereInput
+    /**
+     * Limit how many TransportJoins to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TransportJoin updateManyAndReturn
+   */
+  export type TransportJoinUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransportJoin
+     */
+    select?: TransportJoinSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransportJoin
+     */
+    omit?: TransportJoinOmit<ExtArgs> | null
+    /**
+     * The data used to update TransportJoins.
+     */
+    data: XOR<TransportJoinUpdateManyMutationInput, TransportJoinUncheckedUpdateManyInput>
+    /**
+     * Filter which TransportJoins to update
+     */
+    where?: TransportJoinWhereInput
+    /**
+     * Limit how many TransportJoins to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportJoinIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TransportJoin upsert
+   */
+  export type TransportJoinUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransportJoin
+     */
+    select?: TransportJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransportJoin
+     */
+    omit?: TransportJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportJoinInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TransportJoin to update in case it exists.
+     */
+    where: TransportJoinWhereUniqueInput
+    /**
+     * In case the TransportJoin found by the `where` argument doesn't exist, create a new TransportJoin with this data.
+     */
+    create: XOR<TransportJoinCreateInput, TransportJoinUncheckedCreateInput>
+    /**
+     * In case the TransportJoin was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TransportJoinUpdateInput, TransportJoinUncheckedUpdateInput>
+  }
+
+  /**
+   * TransportJoin delete
+   */
+  export type TransportJoinDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransportJoin
+     */
+    select?: TransportJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransportJoin
+     */
+    omit?: TransportJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportJoinInclude<ExtArgs> | null
+    /**
+     * Filter which TransportJoin to delete.
+     */
+    where: TransportJoinWhereUniqueInput
+  }
+
+  /**
+   * TransportJoin deleteMany
+   */
+  export type TransportJoinDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TransportJoins to delete
+     */
+    where?: TransportJoinWhereInput
+    /**
+     * Limit how many TransportJoins to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TransportJoin without action
+   */
+  export type TransportJoinDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TransportJoin
+     */
+    select?: TransportJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TransportJoin
+     */
+    omit?: TransportJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransportJoinInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -3364,6 +5909,32 @@ export namespace Prisma {
   };
 
   export type ListingScalarFieldEnum = (typeof ListingScalarFieldEnum)[keyof typeof ListingScalarFieldEnum]
+
+
+  export const TransportScalarFieldEnum: {
+    id: 'id',
+    createdAt: 'createdAt',
+    creatorId: 'creatorId',
+    origin: 'origin',
+    destination: 'destination',
+    date: 'date',
+    totalSeats: 'totalSeats',
+    availableSeats: 'availableSeats',
+    pricePerPerson: 'pricePerPerson',
+    description: 'description'
+  };
+
+  export type TransportScalarFieldEnum = (typeof TransportScalarFieldEnum)[keyof typeof TransportScalarFieldEnum]
+
+
+  export const TransportJoinScalarFieldEnum: {
+    id: 'id',
+    createdAt: 'createdAt',
+    transportId: 'transportId',
+    userId: 'userId'
+  };
+
+  export type TransportJoinScalarFieldEnum = (typeof TransportJoinScalarFieldEnum)[keyof typeof TransportJoinScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -3488,6 +6059,8 @@ export namespace Prisma {
     phone?: StringNullableFilter<"User"> | string | null
     isPremium?: BoolFilter<"User"> | boolean
     listings?: ListingListRelationFilter
+    transports?: TransportListRelationFilter
+    transportJoins?: TransportJoinListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -3500,6 +6073,8 @@ export namespace Prisma {
     phone?: SortOrderInput | SortOrder
     isPremium?: SortOrder
     listings?: ListingOrderByRelationAggregateInput
+    transports?: TransportOrderByRelationAggregateInput
+    transportJoins?: TransportJoinOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -3515,6 +6090,8 @@ export namespace Prisma {
     phone?: StringNullableFilter<"User"> | string | null
     isPremium?: BoolFilter<"User"> | boolean
     listings?: ListingListRelationFilter
+    transports?: TransportListRelationFilter
+    transportJoins?: TransportJoinListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -3642,6 +6219,145 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"Listing"> | string
   }
 
+  export type TransportWhereInput = {
+    AND?: TransportWhereInput | TransportWhereInput[]
+    OR?: TransportWhereInput[]
+    NOT?: TransportWhereInput | TransportWhereInput[]
+    id?: StringFilter<"Transport"> | string
+    createdAt?: DateTimeFilter<"Transport"> | Date | string
+    creatorId?: StringFilter<"Transport"> | string
+    origin?: StringFilter<"Transport"> | string
+    destination?: StringFilter<"Transport"> | string
+    date?: DateTimeFilter<"Transport"> | Date | string
+    totalSeats?: IntFilter<"Transport"> | number
+    availableSeats?: IntFilter<"Transport"> | number
+    pricePerPerson?: FloatFilter<"Transport"> | number
+    description?: StringFilter<"Transport"> | string
+    creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+    joins?: TransportJoinListRelationFilter
+  }
+
+  export type TransportOrderByWithRelationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    creatorId?: SortOrder
+    origin?: SortOrder
+    destination?: SortOrder
+    date?: SortOrder
+    totalSeats?: SortOrder
+    availableSeats?: SortOrder
+    pricePerPerson?: SortOrder
+    description?: SortOrder
+    creator?: UserOrderByWithRelationInput
+    joins?: TransportJoinOrderByRelationAggregateInput
+  }
+
+  export type TransportWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: TransportWhereInput | TransportWhereInput[]
+    OR?: TransportWhereInput[]
+    NOT?: TransportWhereInput | TransportWhereInput[]
+    createdAt?: DateTimeFilter<"Transport"> | Date | string
+    creatorId?: StringFilter<"Transport"> | string
+    origin?: StringFilter<"Transport"> | string
+    destination?: StringFilter<"Transport"> | string
+    date?: DateTimeFilter<"Transport"> | Date | string
+    totalSeats?: IntFilter<"Transport"> | number
+    availableSeats?: IntFilter<"Transport"> | number
+    pricePerPerson?: FloatFilter<"Transport"> | number
+    description?: StringFilter<"Transport"> | string
+    creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+    joins?: TransportJoinListRelationFilter
+  }, "id">
+
+  export type TransportOrderByWithAggregationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    creatorId?: SortOrder
+    origin?: SortOrder
+    destination?: SortOrder
+    date?: SortOrder
+    totalSeats?: SortOrder
+    availableSeats?: SortOrder
+    pricePerPerson?: SortOrder
+    description?: SortOrder
+    _count?: TransportCountOrderByAggregateInput
+    _avg?: TransportAvgOrderByAggregateInput
+    _max?: TransportMaxOrderByAggregateInput
+    _min?: TransportMinOrderByAggregateInput
+    _sum?: TransportSumOrderByAggregateInput
+  }
+
+  export type TransportScalarWhereWithAggregatesInput = {
+    AND?: TransportScalarWhereWithAggregatesInput | TransportScalarWhereWithAggregatesInput[]
+    OR?: TransportScalarWhereWithAggregatesInput[]
+    NOT?: TransportScalarWhereWithAggregatesInput | TransportScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Transport"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Transport"> | Date | string
+    creatorId?: StringWithAggregatesFilter<"Transport"> | string
+    origin?: StringWithAggregatesFilter<"Transport"> | string
+    destination?: StringWithAggregatesFilter<"Transport"> | string
+    date?: DateTimeWithAggregatesFilter<"Transport"> | Date | string
+    totalSeats?: IntWithAggregatesFilter<"Transport"> | number
+    availableSeats?: IntWithAggregatesFilter<"Transport"> | number
+    pricePerPerson?: FloatWithAggregatesFilter<"Transport"> | number
+    description?: StringWithAggregatesFilter<"Transport"> | string
+  }
+
+  export type TransportJoinWhereInput = {
+    AND?: TransportJoinWhereInput | TransportJoinWhereInput[]
+    OR?: TransportJoinWhereInput[]
+    NOT?: TransportJoinWhereInput | TransportJoinWhereInput[]
+    id?: StringFilter<"TransportJoin"> | string
+    createdAt?: DateTimeFilter<"TransportJoin"> | Date | string
+    transportId?: StringFilter<"TransportJoin"> | string
+    userId?: StringFilter<"TransportJoin"> | string
+    transport?: XOR<TransportScalarRelationFilter, TransportWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type TransportJoinOrderByWithRelationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    transportId?: SortOrder
+    userId?: SortOrder
+    transport?: TransportOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type TransportJoinWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    transportId_userId?: TransportJoinTransportIdUserIdCompoundUniqueInput
+    AND?: TransportJoinWhereInput | TransportJoinWhereInput[]
+    OR?: TransportJoinWhereInput[]
+    NOT?: TransportJoinWhereInput | TransportJoinWhereInput[]
+    createdAt?: DateTimeFilter<"TransportJoin"> | Date | string
+    transportId?: StringFilter<"TransportJoin"> | string
+    userId?: StringFilter<"TransportJoin"> | string
+    transport?: XOR<TransportScalarRelationFilter, TransportWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "transportId_userId">
+
+  export type TransportJoinOrderByWithAggregationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    transportId?: SortOrder
+    userId?: SortOrder
+    _count?: TransportJoinCountOrderByAggregateInput
+    _max?: TransportJoinMaxOrderByAggregateInput
+    _min?: TransportJoinMinOrderByAggregateInput
+  }
+
+  export type TransportJoinScalarWhereWithAggregatesInput = {
+    AND?: TransportJoinScalarWhereWithAggregatesInput | TransportJoinScalarWhereWithAggregatesInput[]
+    OR?: TransportJoinScalarWhereWithAggregatesInput[]
+    NOT?: TransportJoinScalarWhereWithAggregatesInput | TransportJoinScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TransportJoin"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"TransportJoin"> | Date | string
+    transportId?: StringWithAggregatesFilter<"TransportJoin"> | string
+    userId?: StringWithAggregatesFilter<"TransportJoin"> | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -3652,6 +6368,8 @@ export namespace Prisma {
     phone?: string | null
     isPremium?: boolean
     listings?: ListingCreateNestedManyWithoutUserInput
+    transports?: TransportCreateNestedManyWithoutCreatorInput
+    transportJoins?: TransportJoinCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -3664,6 +6382,8 @@ export namespace Prisma {
     phone?: string | null
     isPremium?: boolean
     listings?: ListingUncheckedCreateNestedManyWithoutUserInput
+    transports?: TransportUncheckedCreateNestedManyWithoutCreatorInput
+    transportJoins?: TransportJoinUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -3676,6 +6396,8 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     listings?: ListingUpdateManyWithoutUserNestedInput
+    transports?: TransportUpdateManyWithoutCreatorNestedInput
+    transportJoins?: TransportJoinUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -3688,6 +6410,8 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
+    transports?: TransportUncheckedUpdateManyWithoutCreatorNestedInput
+    transportJoins?: TransportJoinUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -3834,6 +6558,147 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type TransportCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    origin: string
+    destination: string
+    date: Date | string
+    totalSeats: number
+    availableSeats: number
+    pricePerPerson: number
+    description: string
+    creator: UserCreateNestedOneWithoutTransportsInput
+    joins?: TransportJoinCreateNestedManyWithoutTransportInput
+  }
+
+  export type TransportUncheckedCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    creatorId: string
+    origin: string
+    destination: string
+    date: Date | string
+    totalSeats: number
+    availableSeats: number
+    pricePerPerson: number
+    description: string
+    joins?: TransportJoinUncheckedCreateNestedManyWithoutTransportInput
+  }
+
+  export type TransportUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalSeats?: IntFieldUpdateOperationsInput | number
+    availableSeats?: IntFieldUpdateOperationsInput | number
+    pricePerPerson?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    creator?: UserUpdateOneRequiredWithoutTransportsNestedInput
+    joins?: TransportJoinUpdateManyWithoutTransportNestedInput
+  }
+
+  export type TransportUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalSeats?: IntFieldUpdateOperationsInput | number
+    availableSeats?: IntFieldUpdateOperationsInput | number
+    pricePerPerson?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    joins?: TransportJoinUncheckedUpdateManyWithoutTransportNestedInput
+  }
+
+  export type TransportCreateManyInput = {
+    id?: string
+    createdAt?: Date | string
+    creatorId: string
+    origin: string
+    destination: string
+    date: Date | string
+    totalSeats: number
+    availableSeats: number
+    pricePerPerson: number
+    description: string
+  }
+
+  export type TransportUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalSeats?: IntFieldUpdateOperationsInput | number
+    availableSeats?: IntFieldUpdateOperationsInput | number
+    pricePerPerson?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TransportUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalSeats?: IntFieldUpdateOperationsInput | number
+    availableSeats?: IntFieldUpdateOperationsInput | number
+    pricePerPerson?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TransportJoinCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    transport: TransportCreateNestedOneWithoutJoinsInput
+    user: UserCreateNestedOneWithoutTransportJoinsInput
+  }
+
+  export type TransportJoinUncheckedCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    transportId: string
+    userId: string
+  }
+
+  export type TransportJoinUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transport?: TransportUpdateOneRequiredWithoutJoinsNestedInput
+    user?: UserUpdateOneRequiredWithoutTransportJoinsNestedInput
+  }
+
+  export type TransportJoinUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transportId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TransportJoinCreateManyInput = {
+    id?: string
+    createdAt?: Date | string
+    transportId: string
+    userId: string
+  }
+
+  export type TransportJoinUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TransportJoinUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transportId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -3875,12 +6740,32 @@ export namespace Prisma {
     none?: ListingWhereInput
   }
 
+  export type TransportListRelationFilter = {
+    every?: TransportWhereInput
+    some?: TransportWhereInput
+    none?: TransportWhereInput
+  }
+
+  export type TransportJoinListRelationFilter = {
+    every?: TransportJoinWhereInput
+    some?: TransportJoinWhereInput
+    none?: TransportJoinWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type ListingOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TransportOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TransportJoinOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -4126,6 +7011,88 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type TransportCountOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    creatorId?: SortOrder
+    origin?: SortOrder
+    destination?: SortOrder
+    date?: SortOrder
+    totalSeats?: SortOrder
+    availableSeats?: SortOrder
+    pricePerPerson?: SortOrder
+    description?: SortOrder
+  }
+
+  export type TransportAvgOrderByAggregateInput = {
+    totalSeats?: SortOrder
+    availableSeats?: SortOrder
+    pricePerPerson?: SortOrder
+  }
+
+  export type TransportMaxOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    creatorId?: SortOrder
+    origin?: SortOrder
+    destination?: SortOrder
+    date?: SortOrder
+    totalSeats?: SortOrder
+    availableSeats?: SortOrder
+    pricePerPerson?: SortOrder
+    description?: SortOrder
+  }
+
+  export type TransportMinOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    creatorId?: SortOrder
+    origin?: SortOrder
+    destination?: SortOrder
+    date?: SortOrder
+    totalSeats?: SortOrder
+    availableSeats?: SortOrder
+    pricePerPerson?: SortOrder
+    description?: SortOrder
+  }
+
+  export type TransportSumOrderByAggregateInput = {
+    totalSeats?: SortOrder
+    availableSeats?: SortOrder
+    pricePerPerson?: SortOrder
+  }
+
+  export type TransportScalarRelationFilter = {
+    is?: TransportWhereInput
+    isNot?: TransportWhereInput
+  }
+
+  export type TransportJoinTransportIdUserIdCompoundUniqueInput = {
+    transportId: string
+    userId: string
+  }
+
+  export type TransportJoinCountOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    transportId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type TransportJoinMaxOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    transportId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type TransportJoinMinOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    transportId?: SortOrder
+    userId?: SortOrder
+  }
+
   export type ListingCreateNestedManyWithoutUserInput = {
     create?: XOR<ListingCreateWithoutUserInput, ListingUncheckedCreateWithoutUserInput> | ListingCreateWithoutUserInput[] | ListingUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ListingCreateOrConnectWithoutUserInput | ListingCreateOrConnectWithoutUserInput[]
@@ -4133,11 +7100,39 @@ export namespace Prisma {
     connect?: ListingWhereUniqueInput | ListingWhereUniqueInput[]
   }
 
+  export type TransportCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<TransportCreateWithoutCreatorInput, TransportUncheckedCreateWithoutCreatorInput> | TransportCreateWithoutCreatorInput[] | TransportUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: TransportCreateOrConnectWithoutCreatorInput | TransportCreateOrConnectWithoutCreatorInput[]
+    createMany?: TransportCreateManyCreatorInputEnvelope
+    connect?: TransportWhereUniqueInput | TransportWhereUniqueInput[]
+  }
+
+  export type TransportJoinCreateNestedManyWithoutUserInput = {
+    create?: XOR<TransportJoinCreateWithoutUserInput, TransportJoinUncheckedCreateWithoutUserInput> | TransportJoinCreateWithoutUserInput[] | TransportJoinUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TransportJoinCreateOrConnectWithoutUserInput | TransportJoinCreateOrConnectWithoutUserInput[]
+    createMany?: TransportJoinCreateManyUserInputEnvelope
+    connect?: TransportJoinWhereUniqueInput | TransportJoinWhereUniqueInput[]
+  }
+
   export type ListingUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<ListingCreateWithoutUserInput, ListingUncheckedCreateWithoutUserInput> | ListingCreateWithoutUserInput[] | ListingUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ListingCreateOrConnectWithoutUserInput | ListingCreateOrConnectWithoutUserInput[]
     createMany?: ListingCreateManyUserInputEnvelope
     connect?: ListingWhereUniqueInput | ListingWhereUniqueInput[]
+  }
+
+  export type TransportUncheckedCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<TransportCreateWithoutCreatorInput, TransportUncheckedCreateWithoutCreatorInput> | TransportCreateWithoutCreatorInput[] | TransportUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: TransportCreateOrConnectWithoutCreatorInput | TransportCreateOrConnectWithoutCreatorInput[]
+    createMany?: TransportCreateManyCreatorInputEnvelope
+    connect?: TransportWhereUniqueInput | TransportWhereUniqueInput[]
+  }
+
+  export type TransportJoinUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<TransportJoinCreateWithoutUserInput, TransportJoinUncheckedCreateWithoutUserInput> | TransportJoinCreateWithoutUserInput[] | TransportJoinUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TransportJoinCreateOrConnectWithoutUserInput | TransportJoinCreateOrConnectWithoutUserInput[]
+    createMany?: TransportJoinCreateManyUserInputEnvelope
+    connect?: TransportJoinWhereUniqueInput | TransportJoinWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -4166,6 +7161,34 @@ export namespace Prisma {
     deleteMany?: ListingScalarWhereInput | ListingScalarWhereInput[]
   }
 
+  export type TransportUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<TransportCreateWithoutCreatorInput, TransportUncheckedCreateWithoutCreatorInput> | TransportCreateWithoutCreatorInput[] | TransportUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: TransportCreateOrConnectWithoutCreatorInput | TransportCreateOrConnectWithoutCreatorInput[]
+    upsert?: TransportUpsertWithWhereUniqueWithoutCreatorInput | TransportUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: TransportCreateManyCreatorInputEnvelope
+    set?: TransportWhereUniqueInput | TransportWhereUniqueInput[]
+    disconnect?: TransportWhereUniqueInput | TransportWhereUniqueInput[]
+    delete?: TransportWhereUniqueInput | TransportWhereUniqueInput[]
+    connect?: TransportWhereUniqueInput | TransportWhereUniqueInput[]
+    update?: TransportUpdateWithWhereUniqueWithoutCreatorInput | TransportUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: TransportUpdateManyWithWhereWithoutCreatorInput | TransportUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: TransportScalarWhereInput | TransportScalarWhereInput[]
+  }
+
+  export type TransportJoinUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TransportJoinCreateWithoutUserInput, TransportJoinUncheckedCreateWithoutUserInput> | TransportJoinCreateWithoutUserInput[] | TransportJoinUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TransportJoinCreateOrConnectWithoutUserInput | TransportJoinCreateOrConnectWithoutUserInput[]
+    upsert?: TransportJoinUpsertWithWhereUniqueWithoutUserInput | TransportJoinUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TransportJoinCreateManyUserInputEnvelope
+    set?: TransportJoinWhereUniqueInput | TransportJoinWhereUniqueInput[]
+    disconnect?: TransportJoinWhereUniqueInput | TransportJoinWhereUniqueInput[]
+    delete?: TransportJoinWhereUniqueInput | TransportJoinWhereUniqueInput[]
+    connect?: TransportJoinWhereUniqueInput | TransportJoinWhereUniqueInput[]
+    update?: TransportJoinUpdateWithWhereUniqueWithoutUserInput | TransportJoinUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TransportJoinUpdateManyWithWhereWithoutUserInput | TransportJoinUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TransportJoinScalarWhereInput | TransportJoinScalarWhereInput[]
+  }
+
   export type ListingUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<ListingCreateWithoutUserInput, ListingUncheckedCreateWithoutUserInput> | ListingCreateWithoutUserInput[] | ListingUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ListingCreateOrConnectWithoutUserInput | ListingCreateOrConnectWithoutUserInput[]
@@ -4178,6 +7201,34 @@ export namespace Prisma {
     update?: ListingUpdateWithWhereUniqueWithoutUserInput | ListingUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: ListingUpdateManyWithWhereWithoutUserInput | ListingUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: ListingScalarWhereInput | ListingScalarWhereInput[]
+  }
+
+  export type TransportUncheckedUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<TransportCreateWithoutCreatorInput, TransportUncheckedCreateWithoutCreatorInput> | TransportCreateWithoutCreatorInput[] | TransportUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: TransportCreateOrConnectWithoutCreatorInput | TransportCreateOrConnectWithoutCreatorInput[]
+    upsert?: TransportUpsertWithWhereUniqueWithoutCreatorInput | TransportUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: TransportCreateManyCreatorInputEnvelope
+    set?: TransportWhereUniqueInput | TransportWhereUniqueInput[]
+    disconnect?: TransportWhereUniqueInput | TransportWhereUniqueInput[]
+    delete?: TransportWhereUniqueInput | TransportWhereUniqueInput[]
+    connect?: TransportWhereUniqueInput | TransportWhereUniqueInput[]
+    update?: TransportUpdateWithWhereUniqueWithoutCreatorInput | TransportUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: TransportUpdateManyWithWhereWithoutCreatorInput | TransportUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: TransportScalarWhereInput | TransportScalarWhereInput[]
+  }
+
+  export type TransportJoinUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TransportJoinCreateWithoutUserInput, TransportJoinUncheckedCreateWithoutUserInput> | TransportJoinCreateWithoutUserInput[] | TransportJoinUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TransportJoinCreateOrConnectWithoutUserInput | TransportJoinCreateOrConnectWithoutUserInput[]
+    upsert?: TransportJoinUpsertWithWhereUniqueWithoutUserInput | TransportJoinUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TransportJoinCreateManyUserInputEnvelope
+    set?: TransportJoinWhereUniqueInput | TransportJoinWhereUniqueInput[]
+    disconnect?: TransportJoinWhereUniqueInput | TransportJoinWhereUniqueInput[]
+    delete?: TransportJoinWhereUniqueInput | TransportJoinWhereUniqueInput[]
+    connect?: TransportJoinWhereUniqueInput | TransportJoinWhereUniqueInput[]
+    update?: TransportJoinUpdateWithWhereUniqueWithoutUserInput | TransportJoinUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TransportJoinUpdateManyWithWhereWithoutUserInput | TransportJoinUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TransportJoinScalarWhereInput | TransportJoinScalarWhereInput[]
   }
 
   export type ListingCreateimagesInput = {
@@ -4225,6 +7276,90 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutListingsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutListingsInput, UserUpdateWithoutListingsInput>, UserUncheckedUpdateWithoutListingsInput>
+  }
+
+  export type UserCreateNestedOneWithoutTransportsInput = {
+    create?: XOR<UserCreateWithoutTransportsInput, UserUncheckedCreateWithoutTransportsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTransportsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type TransportJoinCreateNestedManyWithoutTransportInput = {
+    create?: XOR<TransportJoinCreateWithoutTransportInput, TransportJoinUncheckedCreateWithoutTransportInput> | TransportJoinCreateWithoutTransportInput[] | TransportJoinUncheckedCreateWithoutTransportInput[]
+    connectOrCreate?: TransportJoinCreateOrConnectWithoutTransportInput | TransportJoinCreateOrConnectWithoutTransportInput[]
+    createMany?: TransportJoinCreateManyTransportInputEnvelope
+    connect?: TransportJoinWhereUniqueInput | TransportJoinWhereUniqueInput[]
+  }
+
+  export type TransportJoinUncheckedCreateNestedManyWithoutTransportInput = {
+    create?: XOR<TransportJoinCreateWithoutTransportInput, TransportJoinUncheckedCreateWithoutTransportInput> | TransportJoinCreateWithoutTransportInput[] | TransportJoinUncheckedCreateWithoutTransportInput[]
+    connectOrCreate?: TransportJoinCreateOrConnectWithoutTransportInput | TransportJoinCreateOrConnectWithoutTransportInput[]
+    createMany?: TransportJoinCreateManyTransportInputEnvelope
+    connect?: TransportJoinWhereUniqueInput | TransportJoinWhereUniqueInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutTransportsNestedInput = {
+    create?: XOR<UserCreateWithoutTransportsInput, UserUncheckedCreateWithoutTransportsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTransportsInput
+    upsert?: UserUpsertWithoutTransportsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTransportsInput, UserUpdateWithoutTransportsInput>, UserUncheckedUpdateWithoutTransportsInput>
+  }
+
+  export type TransportJoinUpdateManyWithoutTransportNestedInput = {
+    create?: XOR<TransportJoinCreateWithoutTransportInput, TransportJoinUncheckedCreateWithoutTransportInput> | TransportJoinCreateWithoutTransportInput[] | TransportJoinUncheckedCreateWithoutTransportInput[]
+    connectOrCreate?: TransportJoinCreateOrConnectWithoutTransportInput | TransportJoinCreateOrConnectWithoutTransportInput[]
+    upsert?: TransportJoinUpsertWithWhereUniqueWithoutTransportInput | TransportJoinUpsertWithWhereUniqueWithoutTransportInput[]
+    createMany?: TransportJoinCreateManyTransportInputEnvelope
+    set?: TransportJoinWhereUniqueInput | TransportJoinWhereUniqueInput[]
+    disconnect?: TransportJoinWhereUniqueInput | TransportJoinWhereUniqueInput[]
+    delete?: TransportJoinWhereUniqueInput | TransportJoinWhereUniqueInput[]
+    connect?: TransportJoinWhereUniqueInput | TransportJoinWhereUniqueInput[]
+    update?: TransportJoinUpdateWithWhereUniqueWithoutTransportInput | TransportJoinUpdateWithWhereUniqueWithoutTransportInput[]
+    updateMany?: TransportJoinUpdateManyWithWhereWithoutTransportInput | TransportJoinUpdateManyWithWhereWithoutTransportInput[]
+    deleteMany?: TransportJoinScalarWhereInput | TransportJoinScalarWhereInput[]
+  }
+
+  export type TransportJoinUncheckedUpdateManyWithoutTransportNestedInput = {
+    create?: XOR<TransportJoinCreateWithoutTransportInput, TransportJoinUncheckedCreateWithoutTransportInput> | TransportJoinCreateWithoutTransportInput[] | TransportJoinUncheckedCreateWithoutTransportInput[]
+    connectOrCreate?: TransportJoinCreateOrConnectWithoutTransportInput | TransportJoinCreateOrConnectWithoutTransportInput[]
+    upsert?: TransportJoinUpsertWithWhereUniqueWithoutTransportInput | TransportJoinUpsertWithWhereUniqueWithoutTransportInput[]
+    createMany?: TransportJoinCreateManyTransportInputEnvelope
+    set?: TransportJoinWhereUniqueInput | TransportJoinWhereUniqueInput[]
+    disconnect?: TransportJoinWhereUniqueInput | TransportJoinWhereUniqueInput[]
+    delete?: TransportJoinWhereUniqueInput | TransportJoinWhereUniqueInput[]
+    connect?: TransportJoinWhereUniqueInput | TransportJoinWhereUniqueInput[]
+    update?: TransportJoinUpdateWithWhereUniqueWithoutTransportInput | TransportJoinUpdateWithWhereUniqueWithoutTransportInput[]
+    updateMany?: TransportJoinUpdateManyWithWhereWithoutTransportInput | TransportJoinUpdateManyWithWhereWithoutTransportInput[]
+    deleteMany?: TransportJoinScalarWhereInput | TransportJoinScalarWhereInput[]
+  }
+
+  export type TransportCreateNestedOneWithoutJoinsInput = {
+    create?: XOR<TransportCreateWithoutJoinsInput, TransportUncheckedCreateWithoutJoinsInput>
+    connectOrCreate?: TransportCreateOrConnectWithoutJoinsInput
+    connect?: TransportWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutTransportJoinsInput = {
+    create?: XOR<UserCreateWithoutTransportJoinsInput, UserUncheckedCreateWithoutTransportJoinsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTransportJoinsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type TransportUpdateOneRequiredWithoutJoinsNestedInput = {
+    create?: XOR<TransportCreateWithoutJoinsInput, TransportUncheckedCreateWithoutJoinsInput>
+    connectOrCreate?: TransportCreateOrConnectWithoutJoinsInput
+    upsert?: TransportUpsertWithoutJoinsInput
+    connect?: TransportWhereUniqueInput
+    update?: XOR<XOR<TransportUpdateToOneWithWhereWithoutJoinsInput, TransportUpdateWithoutJoinsInput>, TransportUncheckedUpdateWithoutJoinsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutTransportJoinsNestedInput = {
+    create?: XOR<UserCreateWithoutTransportJoinsInput, UserUncheckedCreateWithoutTransportJoinsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTransportJoinsInput
+    upsert?: UserUpsertWithoutTransportJoinsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTransportJoinsInput, UserUpdateWithoutTransportJoinsInput>, UserUncheckedUpdateWithoutTransportJoinsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -4449,6 +7584,64 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TransportCreateWithoutCreatorInput = {
+    id?: string
+    createdAt?: Date | string
+    origin: string
+    destination: string
+    date: Date | string
+    totalSeats: number
+    availableSeats: number
+    pricePerPerson: number
+    description: string
+    joins?: TransportJoinCreateNestedManyWithoutTransportInput
+  }
+
+  export type TransportUncheckedCreateWithoutCreatorInput = {
+    id?: string
+    createdAt?: Date | string
+    origin: string
+    destination: string
+    date: Date | string
+    totalSeats: number
+    availableSeats: number
+    pricePerPerson: number
+    description: string
+    joins?: TransportJoinUncheckedCreateNestedManyWithoutTransportInput
+  }
+
+  export type TransportCreateOrConnectWithoutCreatorInput = {
+    where: TransportWhereUniqueInput
+    create: XOR<TransportCreateWithoutCreatorInput, TransportUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type TransportCreateManyCreatorInputEnvelope = {
+    data: TransportCreateManyCreatorInput | TransportCreateManyCreatorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TransportJoinCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    transport: TransportCreateNestedOneWithoutJoinsInput
+  }
+
+  export type TransportJoinUncheckedCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    transportId: string
+  }
+
+  export type TransportJoinCreateOrConnectWithoutUserInput = {
+    where: TransportJoinWhereUniqueInput
+    create: XOR<TransportJoinCreateWithoutUserInput, TransportJoinUncheckedCreateWithoutUserInput>
+  }
+
+  export type TransportJoinCreateManyUserInputEnvelope = {
+    data: TransportJoinCreateManyUserInput | TransportJoinCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ListingUpsertWithWhereUniqueWithoutUserInput = {
     where: ListingWhereUniqueInput
     update: XOR<ListingUpdateWithoutUserInput, ListingUncheckedUpdateWithoutUserInput>
@@ -4484,6 +7677,64 @@ export namespace Prisma {
     userId?: StringFilter<"Listing"> | string
   }
 
+  export type TransportUpsertWithWhereUniqueWithoutCreatorInput = {
+    where: TransportWhereUniqueInput
+    update: XOR<TransportUpdateWithoutCreatorInput, TransportUncheckedUpdateWithoutCreatorInput>
+    create: XOR<TransportCreateWithoutCreatorInput, TransportUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type TransportUpdateWithWhereUniqueWithoutCreatorInput = {
+    where: TransportWhereUniqueInput
+    data: XOR<TransportUpdateWithoutCreatorInput, TransportUncheckedUpdateWithoutCreatorInput>
+  }
+
+  export type TransportUpdateManyWithWhereWithoutCreatorInput = {
+    where: TransportScalarWhereInput
+    data: XOR<TransportUpdateManyMutationInput, TransportUncheckedUpdateManyWithoutCreatorInput>
+  }
+
+  export type TransportScalarWhereInput = {
+    AND?: TransportScalarWhereInput | TransportScalarWhereInput[]
+    OR?: TransportScalarWhereInput[]
+    NOT?: TransportScalarWhereInput | TransportScalarWhereInput[]
+    id?: StringFilter<"Transport"> | string
+    createdAt?: DateTimeFilter<"Transport"> | Date | string
+    creatorId?: StringFilter<"Transport"> | string
+    origin?: StringFilter<"Transport"> | string
+    destination?: StringFilter<"Transport"> | string
+    date?: DateTimeFilter<"Transport"> | Date | string
+    totalSeats?: IntFilter<"Transport"> | number
+    availableSeats?: IntFilter<"Transport"> | number
+    pricePerPerson?: FloatFilter<"Transport"> | number
+    description?: StringFilter<"Transport"> | string
+  }
+
+  export type TransportJoinUpsertWithWhereUniqueWithoutUserInput = {
+    where: TransportJoinWhereUniqueInput
+    update: XOR<TransportJoinUpdateWithoutUserInput, TransportJoinUncheckedUpdateWithoutUserInput>
+    create: XOR<TransportJoinCreateWithoutUserInput, TransportJoinUncheckedCreateWithoutUserInput>
+  }
+
+  export type TransportJoinUpdateWithWhereUniqueWithoutUserInput = {
+    where: TransportJoinWhereUniqueInput
+    data: XOR<TransportJoinUpdateWithoutUserInput, TransportJoinUncheckedUpdateWithoutUserInput>
+  }
+
+  export type TransportJoinUpdateManyWithWhereWithoutUserInput = {
+    where: TransportJoinScalarWhereInput
+    data: XOR<TransportJoinUpdateManyMutationInput, TransportJoinUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type TransportJoinScalarWhereInput = {
+    AND?: TransportJoinScalarWhereInput | TransportJoinScalarWhereInput[]
+    OR?: TransportJoinScalarWhereInput[]
+    NOT?: TransportJoinScalarWhereInput | TransportJoinScalarWhereInput[]
+    id?: StringFilter<"TransportJoin"> | string
+    createdAt?: DateTimeFilter<"TransportJoin"> | Date | string
+    transportId?: StringFilter<"TransportJoin"> | string
+    userId?: StringFilter<"TransportJoin"> | string
+  }
+
   export type UserCreateWithoutListingsInput = {
     id?: string
     email: string
@@ -4493,6 +7744,8 @@ export namespace Prisma {
     instagram?: string | null
     phone?: string | null
     isPremium?: boolean
+    transports?: TransportCreateNestedManyWithoutCreatorInput
+    transportJoins?: TransportJoinCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutListingsInput = {
@@ -4504,6 +7757,8 @@ export namespace Prisma {
     instagram?: string | null
     phone?: string | null
     isPremium?: boolean
+    transports?: TransportUncheckedCreateNestedManyWithoutCreatorInput
+    transportJoins?: TransportJoinUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutListingsInput = {
@@ -4531,6 +7786,8 @@ export namespace Prisma {
     instagram?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    transports?: TransportUpdateManyWithoutCreatorNestedInput
+    transportJoins?: TransportJoinUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutListingsInput = {
@@ -4542,6 +7799,250 @@ export namespace Prisma {
     instagram?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+    transports?: TransportUncheckedUpdateManyWithoutCreatorNestedInput
+    transportJoins?: TransportJoinUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutTransportsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    image?: string | null
+    bio?: string | null
+    instagram?: string | null
+    phone?: string | null
+    isPremium?: boolean
+    listings?: ListingCreateNestedManyWithoutUserInput
+    transportJoins?: TransportJoinCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutTransportsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    image?: string | null
+    bio?: string | null
+    instagram?: string | null
+    phone?: string | null
+    isPremium?: boolean
+    listings?: ListingUncheckedCreateNestedManyWithoutUserInput
+    transportJoins?: TransportJoinUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutTransportsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutTransportsInput, UserUncheckedCreateWithoutTransportsInput>
+  }
+
+  export type TransportJoinCreateWithoutTransportInput = {
+    id?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutTransportJoinsInput
+  }
+
+  export type TransportJoinUncheckedCreateWithoutTransportInput = {
+    id?: string
+    createdAt?: Date | string
+    userId: string
+  }
+
+  export type TransportJoinCreateOrConnectWithoutTransportInput = {
+    where: TransportJoinWhereUniqueInput
+    create: XOR<TransportJoinCreateWithoutTransportInput, TransportJoinUncheckedCreateWithoutTransportInput>
+  }
+
+  export type TransportJoinCreateManyTransportInputEnvelope = {
+    data: TransportJoinCreateManyTransportInput | TransportJoinCreateManyTransportInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutTransportsInput = {
+    update: XOR<UserUpdateWithoutTransportsInput, UserUncheckedUpdateWithoutTransportsInput>
+    create: XOR<UserCreateWithoutTransportsInput, UserUncheckedCreateWithoutTransportsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutTransportsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutTransportsInput, UserUncheckedUpdateWithoutTransportsInput>
+  }
+
+  export type UserUpdateWithoutTransportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    listings?: ListingUpdateManyWithoutUserNestedInput
+    transportJoins?: TransportJoinUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutTransportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
+    transportJoins?: TransportJoinUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type TransportJoinUpsertWithWhereUniqueWithoutTransportInput = {
+    where: TransportJoinWhereUniqueInput
+    update: XOR<TransportJoinUpdateWithoutTransportInput, TransportJoinUncheckedUpdateWithoutTransportInput>
+    create: XOR<TransportJoinCreateWithoutTransportInput, TransportJoinUncheckedCreateWithoutTransportInput>
+  }
+
+  export type TransportJoinUpdateWithWhereUniqueWithoutTransportInput = {
+    where: TransportJoinWhereUniqueInput
+    data: XOR<TransportJoinUpdateWithoutTransportInput, TransportJoinUncheckedUpdateWithoutTransportInput>
+  }
+
+  export type TransportJoinUpdateManyWithWhereWithoutTransportInput = {
+    where: TransportJoinScalarWhereInput
+    data: XOR<TransportJoinUpdateManyMutationInput, TransportJoinUncheckedUpdateManyWithoutTransportInput>
+  }
+
+  export type TransportCreateWithoutJoinsInput = {
+    id?: string
+    createdAt?: Date | string
+    origin: string
+    destination: string
+    date: Date | string
+    totalSeats: number
+    availableSeats: number
+    pricePerPerson: number
+    description: string
+    creator: UserCreateNestedOneWithoutTransportsInput
+  }
+
+  export type TransportUncheckedCreateWithoutJoinsInput = {
+    id?: string
+    createdAt?: Date | string
+    creatorId: string
+    origin: string
+    destination: string
+    date: Date | string
+    totalSeats: number
+    availableSeats: number
+    pricePerPerson: number
+    description: string
+  }
+
+  export type TransportCreateOrConnectWithoutJoinsInput = {
+    where: TransportWhereUniqueInput
+    create: XOR<TransportCreateWithoutJoinsInput, TransportUncheckedCreateWithoutJoinsInput>
+  }
+
+  export type UserCreateWithoutTransportJoinsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    image?: string | null
+    bio?: string | null
+    instagram?: string | null
+    phone?: string | null
+    isPremium?: boolean
+    listings?: ListingCreateNestedManyWithoutUserInput
+    transports?: TransportCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserUncheckedCreateWithoutTransportJoinsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    image?: string | null
+    bio?: string | null
+    instagram?: string | null
+    phone?: string | null
+    isPremium?: boolean
+    listings?: ListingUncheckedCreateNestedManyWithoutUserInput
+    transports?: TransportUncheckedCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserCreateOrConnectWithoutTransportJoinsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutTransportJoinsInput, UserUncheckedCreateWithoutTransportJoinsInput>
+  }
+
+  export type TransportUpsertWithoutJoinsInput = {
+    update: XOR<TransportUpdateWithoutJoinsInput, TransportUncheckedUpdateWithoutJoinsInput>
+    create: XOR<TransportCreateWithoutJoinsInput, TransportUncheckedCreateWithoutJoinsInput>
+    where?: TransportWhereInput
+  }
+
+  export type TransportUpdateToOneWithWhereWithoutJoinsInput = {
+    where?: TransportWhereInput
+    data: XOR<TransportUpdateWithoutJoinsInput, TransportUncheckedUpdateWithoutJoinsInput>
+  }
+
+  export type TransportUpdateWithoutJoinsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalSeats?: IntFieldUpdateOperationsInput | number
+    availableSeats?: IntFieldUpdateOperationsInput | number
+    pricePerPerson?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    creator?: UserUpdateOneRequiredWithoutTransportsNestedInput
+  }
+
+  export type TransportUncheckedUpdateWithoutJoinsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalSeats?: IntFieldUpdateOperationsInput | number
+    availableSeats?: IntFieldUpdateOperationsInput | number
+    pricePerPerson?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserUpsertWithoutTransportJoinsInput = {
+    update: XOR<UserUpdateWithoutTransportJoinsInput, UserUncheckedUpdateWithoutTransportJoinsInput>
+    create: XOR<UserCreateWithoutTransportJoinsInput, UserUncheckedCreateWithoutTransportJoinsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutTransportJoinsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutTransportJoinsInput, UserUncheckedUpdateWithoutTransportJoinsInput>
+  }
+
+  export type UserUpdateWithoutTransportJoinsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    listings?: ListingUpdateManyWithoutUserNestedInput
+    transports?: TransportUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutTransportJoinsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
+    transports?: TransportUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type ListingCreateManyUserInput = {
@@ -4557,6 +8058,24 @@ export namespace Prisma {
     whatsappNumber: string
     roommatesNeeded: number
     images?: ListingCreateimagesInput | string[]
+  }
+
+  export type TransportCreateManyCreatorInput = {
+    id?: string
+    createdAt?: Date | string
+    origin: string
+    destination: string
+    date: Date | string
+    totalSeats: number
+    availableSeats: number
+    pricePerPerson: number
+    description: string
+  }
+
+  export type TransportJoinCreateManyUserInput = {
+    id?: string
+    createdAt?: Date | string
+    transportId: string
   }
 
   export type ListingUpdateWithoutUserInput = {
@@ -4602,6 +8121,86 @@ export namespace Prisma {
     whatsappNumber?: StringFieldUpdateOperationsInput | string
     roommatesNeeded?: IntFieldUpdateOperationsInput | number
     images?: ListingUpdateimagesInput | string[]
+  }
+
+  export type TransportUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalSeats?: IntFieldUpdateOperationsInput | number
+    availableSeats?: IntFieldUpdateOperationsInput | number
+    pricePerPerson?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    joins?: TransportJoinUpdateManyWithoutTransportNestedInput
+  }
+
+  export type TransportUncheckedUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalSeats?: IntFieldUpdateOperationsInput | number
+    availableSeats?: IntFieldUpdateOperationsInput | number
+    pricePerPerson?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+    joins?: TransportJoinUncheckedUpdateManyWithoutTransportNestedInput
+  }
+
+  export type TransportUncheckedUpdateManyWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalSeats?: IntFieldUpdateOperationsInput | number
+    availableSeats?: IntFieldUpdateOperationsInput | number
+    pricePerPerson?: FloatFieldUpdateOperationsInput | number
+    description?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TransportJoinUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transport?: TransportUpdateOneRequiredWithoutJoinsNestedInput
+  }
+
+  export type TransportJoinUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transportId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TransportJoinUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transportId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TransportJoinCreateManyTransportInput = {
+    id?: string
+    createdAt?: Date | string
+    userId: string
+  }
+
+  export type TransportJoinUpdateWithoutTransportInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutTransportJoinsNestedInput
+  }
+
+  export type TransportJoinUncheckedUpdateWithoutTransportInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TransportJoinUncheckedUpdateManyWithoutTransportInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
 
