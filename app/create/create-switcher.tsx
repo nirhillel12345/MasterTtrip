@@ -9,7 +9,7 @@ export function CreateSwitcher() {
   const [tab, setTab] = useState<"apartment" | "ride">("apartment");
 
   return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/60 sm:p-8">
+    <div className="max-w-full overflow-x-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/60 sm:p-8">
       <div className="mb-4 flex justify-end">
         <div className="inline-flex rounded-full border border-slate-200 bg-slate-100 p-1">
           <button
