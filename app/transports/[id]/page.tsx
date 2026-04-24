@@ -7,11 +7,24 @@ import { RemoveParticipantButton } from "./remove-participant-button";
 import { prisma } from "@/lib/prisma";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
-type PageProps = { params: Promise<{ id: string }> | { id: string } };
+type PageProps = {
+  params: Promise<{ id: string }> | { id: string };
+  searchParams?:
+    | Promise<Record<string, string | string[] | undefined>>
+    | Record<string, string | string[] | undefined>;
+};
 
 async function resolveParams(params: PageProps["params"]) {
   if (params && "then" in params) return await params;
   return params ?? { id: "" };
+}
+
+async function resolveSearchParams(
+  searchParams?: PageProps["searchParams"],
+): Promise<Record<string, string | string[] | undefined>> {
+  if (!searchParams) return {};
+  if ("then" in searchParams) return await searchParams;
+  return searchParams;
 }
 
 function formatDate(d: Date) {
@@ -41,8 +54,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default async function TransportDetailPage({ params }: PageProps) {
+export default async function TransportDetailPage({ params, searchParams }: PageProps) {
   const { id } = await resolveParams(params);
+  const sp = await resolveSearchParams(searchParams);
+  const joinedParam =
+    typeof sp.joined === "string" ? sp.joined : Array.isArray(sp.joined) ? sp.joined[0] : "";
+  const showJoinedSuccess = joinedParam === "1";
 
   const ride = await prisma.transport.findUnique({
     where: { id },
@@ -168,6 +185,11 @@ export default async function TransportDetailPage({ params }: PageProps) {
               <p className="mt-4 text-sm text-slate-600">מארגן הנסיעה: {creatorName}</p>
 
               <div className="mt-6">
+                {showJoinedSuccess ? (
+                  <div className="mb-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-center text-sm font-semibold text-emerald-800">
+                    נרשמת בהצלחה! הודעה נשלחה למארגן הנסיעה
+                  </div>
+                ) : null}
                 {!isLoggedIn ? (
                   <Link
                     href={`/auth/login?next=${encodeURIComponent(ridePath)}`}

@@ -1,7 +1,7 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { joinTransport } from "@/app/transports/actions";
 
@@ -12,6 +12,8 @@ type Props = {
 
 export function JoinTransportButton({ transportId, disabled = false }: Props) {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,7 +31,10 @@ export function JoinTransportButton({ transportId, disabled = false }: Props) {
     if (res.notifyWhatsAppUrl) {
       window.open(res.notifyWhatsAppUrl, "_blank", "noopener,noreferrer");
     }
-    router.refresh();
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("joined", "1");
+    const nextUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
+    router.replace(nextUrl, { scroll: false });
   }
 
   return (

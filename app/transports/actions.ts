@@ -10,6 +10,51 @@ export type TransportActionResult =
   | { ok: true; notifyWhatsAppUrl?: string }
   | { ok: false; error: string };
 
+async function sendTransportJoinEmail(input: {
+  to: string;
+  creatorName: string;
+  joinerName: string;
+  origin: string;
+  destination: string;
+  dateLabel: string;
+}) {
+  const apiKey = process.env.RESEND_API_KEY;
+  const from = process.env.RESEND_FROM_EMAIL ?? process.env.NOTIFICATION_FROM_EMAIL;
+  if (!apiKey || !from) {
+    return;
+  }
+
+  const subject = `${input.joinerName} has joined your ride`;
+  const text = `Hello ${input.creatorName},
+
+${input.joinerName} has joined your ride from ${input.origin} to ${input.destination} on ${input.dateLabel}.
+
+MasterTrip`;
+
+  const html = `<p>Hello ${input.creatorName},</p>
+<p><strong>${input.joinerName}</strong> has joined your ride from <strong>${input.origin}</strong> to <strong>${input.destination}</strong> on <strong>${input.dateLabel}</strong>.</p>
+<p>MasterTrip</p>`;
+
+  try {
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from,
+        to: [input.to],
+        subject,
+        text,
+        html,
+      }),
+    });
+  } catch (err) {
+    console.error("[transport-email] failed to send notification", err);
+  }
+}
+
 async function requireDbUser(nextPath?: string) {
   const supabase = await createSupabaseServerClient();
   const {
@@ -155,12 +200,23 @@ export async function joinTransport(transportId: string): Promise<TransportActio
       });
 
       const creatorName = transport.creator.name?.trim() || transport.creator.email.split("@")[0];
+      const joinerName = dbUser.name?.trim() || dbUser.email.split("@")[0];
       const rideDate = new Intl.DateTimeFormat("he-IL", {
         day: "numeric",
         month: "long",
         year: "numeric",
       }).format(transport.date);
-      const message = `היי ${creatorName}, ראיתי ב-MasterTrip שפרסמת נסיעה מ${transport.origin} ל${transport.destination} ב-${rideDate}. אשמח להצטרף!`;
+      const message = `היי ${creatorName}, שמי ${joinerName}. הצטרפתי עכשיו לנסיעה שלך מ${transport.origin} ל${transport.destination} ב-${rideDate}. נתראה!`;
+
+      await sendTransportJoinEmail({
+        to: transport.creator.email,
+        creatorName,
+        joinerName,
+        origin: transport.origin,
+        destination: transport.destination,
+        dateLabel: rideDate,
+      });
+
       return buildJoinWhatsAppUrl(transport.creator.phone ?? "", message) ?? undefined;
     });
 
