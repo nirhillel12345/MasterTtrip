@@ -101,6 +101,16 @@ export function AppNavbar({ user }: Props) {
         </div>
 
         <div className="flex min-w-0 shrink-0 items-center justify-end gap-2">
+          {user ? (
+            <Link
+              href="/transports"
+              className="inline-flex shrink-0 items-center justify-center gap-1 rounded-full bg-gradient-to-l from-cyan-500 to-cyan-400 px-3 py-1.5 text-xs font-bold text-slate-900 shadow-md shadow-cyan-900/15 transition hover:from-cyan-400 hover:to-cyan-300 active:scale-[0.97] md:hidden"
+              onClick={() => setOpen(false)}
+            >
+              <Bus className="h-3.5 w-3.5" />
+              הסעות
+            </Link>
+          ) : null}
           {!user ? (
             <Link
               href="/auth/login"
@@ -220,16 +230,16 @@ export function AppNavbar({ user }: Props) {
             <Home className="h-5 w-5 shrink-0 text-cyan-600" aria-hidden />
           </Link>
           <Link href="/create" className={mobileDrawerLinkClass} onClick={() => setOpen(false)}>
-            פרסום מודעה 
+            פרסום מודעה
             <PenSquare className="h-5 w-5 shrink-0 text-cyan-600" aria-hidden />
           </Link>
           <Link href="/transports" className={mobileDrawerLinkClass} onClick={() => setOpen(false)}>
-            נסיעות ושאטלים
+            נסיעות והסעות
             <Bus className="h-5 w-5 shrink-0 text-cyan-600" aria-hidden />
           </Link>
           {user ? (
             <Link href="/my-listings" className={mobileDrawerLinkClass} onClick={() => setOpen(false)}>
-              המודעות שלי
+              הדירות שלי
               <LayoutGrid className="h-5 w-5 shrink-0 text-cyan-600" aria-hidden />
             </Link>
           ) : null}
