@@ -37,11 +37,13 @@ export async function GET(request: Request) {
   }
 
   const supabase = await createSupabaseServerClient();
+  console.log("[auth/callback] Exchanging code starting with:", code.substring(0, 5));
   const { error } = await supabase.auth.exchangeCodeForSession(code);
 
   if (error) {
+    console.error("[auth/callback] Supabase Exchange Error:", error.message, error.status, error.code);
     const login = new URL("/auth/login", baseUrl);
-    login.searchParams.set("error", "התחברות נכשלה 1");
+    login.searchParams.set("error", `AuthError: ${error.message}`);
     if (resolvedNext !== "/") {
       login.searchParams.set("next", resolvedNext);
     }
