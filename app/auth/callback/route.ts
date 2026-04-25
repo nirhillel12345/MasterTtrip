@@ -27,7 +27,7 @@ export async function GET(request: Request) {
 
   if (!code) {
     const login = new URL("/auth/login", baseUrl);
-    login.searchParams.set("error", "התחברות נכשלה");
+    login.searchParams.set("error", "התחברות נכשלה 0 ");
     if (resolvedNext !== "/") {
       login.searchParams.set("next", resolvedNext);
     }
@@ -41,7 +41,7 @@ export async function GET(request: Request) {
 
   if (error) {
     const login = new URL("/auth/login", baseUrl);
-    login.searchParams.set("error", "התחברות נכשלה");
+    login.searchParams.set("error", "התחברות נכשלה 1");
     if (resolvedNext !== "/") {
       login.searchParams.set("next", resolvedNext);
     }

@@ -27,6 +27,23 @@ export default async function Home({ searchParams }: HomePageProps) {
   const raw = await resolveSearchParams(searchParams);
   const filters = parseHomeFilters(raw);
   const status = typeof raw.status === "string" ? raw.status : undefined;
+  const getParam = (key: string) => {
+    const v = raw[key];
+    if (typeof v === "string") return v.trim();
+    if (Array.isArray(v) && typeof v[0] === "string") return v[0].trim();
+    return "";
+  };
+  const origin = getParam("origin");
+  const destination = getParam("destination");
+  const transportDate = getParam("date");
+  const isSearching = Boolean(
+    filters.city ||
+      filters.dateFrom ||
+      filters.dateTo ||
+      origin ||
+      destination ||
+      transportDate,
+  );
 
   const supabase = await createSupabaseServerClient();
   const {
@@ -67,7 +84,7 @@ export default async function Home({ searchParams }: HomePageProps) {
           <HomeHero />
         </Suspense>
 
-        <HowItWorks />
+        {!isSearching ? <HowItWorks /> : null}
 
         <section className="mx-auto w-full max-w-6xl px-4 pb-14 pt-2 sm:px-6 sm:pb-16 sm:pt-4">
           <Suspense key={suspenseKey(filters)} fallback={<HomeFeedSkeleton />}>
