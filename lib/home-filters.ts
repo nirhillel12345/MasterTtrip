@@ -25,20 +25,15 @@ function normalizeAvailabilityRange(
 }
 
 export type HomeListingFilters = {
-  type: "" | "LOOKING_FOR" | "HAS_APARTMENT";
   city: string;
   /** YYYY-MM-DD from URL `from` / `to`; both valid = availability filter */
   dateFrom: string;
   dateTo: string;
 };
 
-/** Type + location only (no date constraints). */
+/** Location (+ only listings that offer a place / sublet). */
 export function listingBaseWhereFromFilters(f: HomeListingFilters): Prisma.ListingWhereInput {
-  const and: Prisma.ListingWhereInput[] = [];
-
-  if (f.type === "LOOKING_FOR" || f.type === "HAS_APARTMENT") {
-    and.push({ type: f.type });
-  }
+  const and: Prisma.ListingWhereInput[] = [{ type: "HAS_APARTMENT" }];
 
   if (f.city) {
     and.push({
@@ -69,13 +64,9 @@ export function parseHomeFilters(
     if (Array.isArray(v) && v[0]) return v[0];
     return "";
   };
-  const t = g("type");
-  const type =
-    t === "LOOKING_FOR" || t === "HAS_APARTMENT" ? (t as HomeListingFilters["type"]) : "";
   const dateFrom = g("from").trim().slice(0, 10);
   const dateTo = g("to").trim().slice(0, 10);
   return {
-    type,
     city: g("city").trim(),
     dateFrom,
     dateTo,

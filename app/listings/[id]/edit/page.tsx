@@ -49,7 +49,6 @@ export default async function EditListingPage({ params }: PageProps) {
     endDate: toInputDate(listing.endDate),
     whatsappNumber: listing.whatsappNumber,
     roommatesNeeded: listing.roommatesNeeded,
-    type: listing.type,
     images: [...listing.images],
   };
 
@@ -67,7 +66,9 @@ export default async function EditListingPage({ params }: PageProps) {
 
         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/60 sm:p-8">
           <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">עריכת מודעה</h1>
-          <p className="mt-2 text-sm text-slate-600">עדכנו את הפרטים ושמרו — התמונות הקיימות נשמרות עד שתסירו אותן.</p>
+          <p className="mt-2 text-sm text-slate-600">
+            עדכנו את הפרטים ושמרו — התמונות הקיימות נשמרות עד שתסירו אותן. כל המודעות כאן מוגדרות כדירה / סאבלט פנוי.
+          </p>
 
           <ListingForm mode="edit" listingId={id} initial={initial} />
         </div>

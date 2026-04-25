@@ -220,7 +220,7 @@ export function AppNavbar({ user }: Props) {
             <Home className="h-5 w-5 shrink-0 text-cyan-600" aria-hidden />
           </Link>
           <Link href="/create" className={mobileDrawerLinkClass} onClick={() => setOpen(false)}>
-            פרסום מודעה
+            פרסום מודעה 
             <PenSquare className="h-5 w-5 shrink-0 text-cyan-600" aria-hidden />
           </Link>
           <Link href="/transports" className={mobileDrawerLinkClass} onClick={() => setOpen(false)}>

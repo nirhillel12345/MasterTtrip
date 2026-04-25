@@ -9,14 +9,14 @@ const FALLBACK_IMAGE =
 function typeBadge(type: ListingType): { label: string; className: string; Icon: typeof Search } {
   if (type === "HAS_APARTMENT") {
     return {
-      label: "יש דירה",
+      label: "דירה / סאבלט",
       className: "bg-emerald-600/95 text-white",
       Icon: Home,
     };
   }
   return {
-    label: "מחפש שותפים",
-    className: "bg-amber-500/95 text-slate-900",
+    label: "מודעה ישנה",
+    className: "bg-slate-500/90 text-white",
     Icon: Search,
   };
 }

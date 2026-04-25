@@ -12,7 +12,6 @@ import { PropertyPhotos } from "./property-photos";
 import { uploadListingImagesToStorage } from "./upload-listing-images";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { isAllowedDestination } from "@/lib/travel-destinations";
-import type { ListingType } from "@/generated/prisma";
 import {
   ListingDateRangeFields,
   localISODate,
@@ -26,7 +25,6 @@ export type ListingFormInitial = {
   endDate: string;
   whatsappNumber: string;
   roommatesNeeded: number;
-  type: ListingType;
   images: string[];
 };
 
@@ -61,9 +59,6 @@ export function ListingForm({ mode, listingId, initial }: Props) {
   );
   const [roommatesNeeded, setRoommatesNeeded] = useState(
     initial != null ? String(initial.roommatesNeeded) : "",
-  );
-  const [listingType, setListingType] = useState<ListingType>(
-    initial?.type ?? "LOOKING_FOR",
   );
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [existingImageUrls, setExistingImageUrls] = useState<string[]>(initial?.images ?? []);
@@ -126,7 +121,6 @@ export function ListingForm({ mode, listingId, initial }: Props) {
         whatsappNumber: whatsappNumber ?? "",
         roommatesNeeded: Number(roommatesNeeded),
         imageUrls,
-        type: listingType,
       };
 
       if (mode === "edit") {
@@ -152,30 +146,12 @@ export function ListingForm({ mode, listingId, initial }: Props) {
         </div>
       ) : null}
 
-      <div>
-        <span className="mb-2 block text-sm font-medium text-slate-700">סוג מודעה</span>
-        <div className="flex flex-wrap justify-end gap-2">
-          {(
-            [
-              { v: "LOOKING_FOR" as const, label: "מחפש דירה / שותפים" },
-              { v: "HAS_APARTMENT" as const, label: "יש לי דירה / סאבלט" },
-            ] as const
-          ).map((opt) => (
-            <button
-              key={opt.v}
-              type="button"
-              onClick={() => setListingType(opt.v)}
-              className={`rounded-full px-4 py-2 text-sm font-semibold transition active:scale-[0.98] ${
-                listingType === opt.v
-                  ? "bg-slate-900 text-white shadow-md"
-                  : "border border-slate-300 bg-white text-slate-700 hover:border-cyan-400 hover:bg-cyan-50/50"
-              }`}
-            >
-              {opt.label}
-            </button>
-          ))}
+      {mode === "create" ? (
+        <div className="rounded-xl border border-cyan-200/80 bg-cyan-50/60 px-4 py-3 text-right text-sm leading-relaxed text-slate-700">
+          <strong className="font-semibold text-slate-900">מחפשים דירה?</strong> כאן מפרסמים רק מי שיש לו דירה,
+          סאבלט או חדר פנוי ומחפש שותפים. המחיר, התמונות והתיאור אמורים לתאר את המקום שאתם מציעים.
         </div>
-      </div>
+      ) : null}
 
       <label className="block text-right">
         <span className="mb-1 block text-sm font-medium text-slate-700">כותרת המודעה</span>
@@ -183,7 +159,7 @@ export function ListingForm({ mode, listingId, initial }: Props) {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
-          placeholder="למשל: מחפש/ת שותפ/ה לדירה בבנגקוק"
+          placeholder="למשל: חדר בדירה משותפת ליד החוף — פנוי מיידית"
           className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
         />
       </label>
@@ -191,7 +167,7 @@ export function ListingForm({ mode, listingId, initial }: Props) {
       <DestinationCombobox value={location} onChange={setLocation} error={destinationError} />
 
       <label className="block text-right">
-        <span className="mb-1 block text-sm font-medium text-slate-700">מחיר ללילה/לחודש</span>
+        <span className="mb-1 block text-sm font-medium text-slate-700">מחיר ללילה (למקום שאתם מציעים)</span>
         <input
           value={price}
           onChange={(e) => setPrice(e.target.value)}
@@ -199,7 +175,7 @@ export function ListingForm({ mode, listingId, initial }: Props) {
           min="1"
           step="0.01"
           required
-          placeholder="למשל: 120"
+          placeholder="למשל: 120 — לפי מה שגובים מהשותף"
           dir="ltr"
           className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
         />
@@ -225,7 +201,7 @@ export function ListingForm({ mode, listingId, initial }: Props) {
       </div>
 
       <label className="block text-right">
-        <span className="mb-1 block text-sm font-medium text-slate-700">מספר שותפים חסרים</span>
+        <span className="mb-1 block text-sm font-medium text-slate-700">כמה שותפים חסרים בדירה?</span>
         <div className="flex items-center gap-2 rounded-xl border border-slate-300 px-4 py-3 focus-within:border-cyan-500 focus-within:ring-2 focus-within:ring-cyan-200">
           <Users className="h-4 w-4 text-slate-400" />
           <input
@@ -235,7 +211,7 @@ export function ListingForm({ mode, listingId, initial }: Props) {
             min="0"
             step="1"
             required
-            placeholder="למשל: 2"
+            placeholder="למשל: 2 — לפי מספר המיטות/חדרים הפנויים"
             dir="ltr"
             className="w-full text-sm outline-none placeholder:text-slate-400"
           />
@@ -270,12 +246,17 @@ export function ListingForm({ mode, listingId, initial }: Props) {
       ) : null}
 
       {maxNewPhotos > 0 ? (
-        <PropertyPhotos
-          files={imageFiles}
-          onFilesChange={handleFilesChange}
-          disabled={pending}
-          maxFiles={maxNewPhotos}
-        />
+        <div className="space-y-2 text-right">
+          <p className="text-xs leading-relaxed text-slate-500">
+            תמונות של הדירה, הסאבלט או החדר עוזרות למטיילים להבין מה מקבלים — זה חלק מרכזי מהמודעה.
+          </p>
+          <PropertyPhotos
+            files={imageFiles}
+            onFilesChange={handleFilesChange}
+            disabled={pending}
+            maxFiles={maxNewPhotos}
+          />
+        </div>
       ) : (
         <p className="text-right text-sm text-slate-500">הגעתם למקסימום 8 תמונות. הסירו תמונה קיימת כדי להוסיף חדשה.</p>
       )}

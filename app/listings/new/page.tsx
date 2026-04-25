@@ -30,7 +30,7 @@ export default async function NewListingPage({ searchParams }: NewListingPagePro
             פרסמו דירה/סאבלט
           </h1>
           <p className="mt-2 text-sm text-slate-600">
-            טופס מהיר למציאת שותפים ישראלים לטיול הגדול.
+            פרסמו דירה, סאבלט או חדר פנוי ומצאו שותפים — לא ניתן לפרסם כאן חיפוש דירה כמטייל.
           </p>
 
           {params.error ? (

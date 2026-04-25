@@ -42,9 +42,9 @@ function formatHebrewDate(d: Date): string {
 
 function typeLabel(type: ListingType): { label: string; className: string; Icon: typeof Search } {
   if (type === "HAS_APARTMENT") {
-    return { label: "יש דירה", className: "bg-emerald-100 text-emerald-900", Icon: Home };
+    return { label: "דירה / סאבלט פנוי", className: "bg-emerald-100 text-emerald-900", Icon: Home };
   }
-  return { label: "מחפש דירה", className: "bg-amber-100 text-amber-950", Icon: Search };
+  return { label: "סוג מודעה ישן (לא נתמך)", className: "bg-slate-200 text-slate-800", Icon: Search };
 }
 
 export default async function ListingDetailPage({ params }: PageProps) {

@@ -6,7 +6,6 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
 import { normalizeListingWhatsappToE164 } from "@/lib/listing-whatsapp-e164";
 import { isAllowedDestination } from "@/lib/travel-destinations";
-import type { ListingType } from "@/generated/prisma";
 
 export type ListingActionResult = { error: string } | undefined;
 
@@ -55,7 +54,6 @@ export async function createListing(input: {
   whatsappNumber: string;
   roommatesNeeded: number;
   imageUrls: string[];
-  type: ListingType;
 }): Promise<ListingActionResult> {
   const title = input.title.trim();
   const location = input.location.trim();
@@ -82,10 +80,6 @@ export async function createListing(input: {
     roommatesNeeded > 50
   ) {
     return { error: "מספר שותפים לא תקין." };
-  }
-
-  if (input.type !== "LOOKING_FOR" && input.type !== "HAS_APARTMENT") {
-    return { error: "סוג מודעה לא תקין." };
   }
 
   const startDay = input.startDate.slice(0, 10);
@@ -115,9 +109,9 @@ export async function createListing(input: {
   await prisma.listing.create({
     data: {
       title,
-      description: `מודעת שותפים עבור ${title}`,
+      description: `דירה / סאבלט פנוי: ${title}`,
       location,
-      type: input.type,
+      type: "HAS_APARTMENT",
       price,
       startDate: start,
       endDate: end,
@@ -144,7 +138,6 @@ export async function updateListing(
     whatsappNumber: string;
     roommatesNeeded: number;
     imageUrls: string[];
-    type: ListingType;
   },
 ): Promise<ListingActionResult> {
   const title = input.title.trim();
@@ -164,10 +157,6 @@ export async function updateListing(
   if (!Number.isInteger(roommatesNeeded) || roommatesNeeded < 0 || roommatesNeeded > 50) {
     return { error: "מספר שותפים לא תקין." };
   }
-  if (input.type !== "LOOKING_FOR" && input.type !== "HAS_APARTMENT") {
-    return { error: "סוג מודעה לא תקין." };
-  }
-
   let startDay = input.startDate.slice(0, 10);
   let endDay = input.endDate.slice(0, 10);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(startDay) || !/^\d{4}-\d{2}-\d{2}$/.test(endDay)) {
@@ -194,9 +183,9 @@ export async function updateListing(
     where: { id: listingId },
     data: {
       title,
-      description: `מודעת שותפים עבור ${title}`,
+      description: `דירה / סאבלט פנוי: ${title}`,
       location,
-      type: input.type,
+      type: "HAS_APARTMENT",
       price,
       startDate: start,
       endDate: end,

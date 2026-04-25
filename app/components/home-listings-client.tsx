@@ -92,7 +92,7 @@ export function HomeListingsClient({ feed, hasActiveFilters }: Props) {
       <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
         <div className="text-right">
           <h2 className="text-xl font-semibold tracking-tight text-slate-900 sm:text-2xl">מודעות אחרונות</h2>
-          <p className="mt-1.5 text-sm leading-relaxed text-slate-600">דירות ושותפים שפורסמו לאחרונה בקהילה.</p>
+          <p className="mt-1.5 text-sm leading-relaxed text-slate-600">דירות וסאבלטים פנויים שפורסמו לאחרונה.</p>
         </div>
         <div className="flex flex-col items-stretch gap-2 sm:items-end">
           {totalCount > 0 ? (
