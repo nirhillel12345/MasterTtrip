@@ -162,10 +162,10 @@ export function HomeHero() {
           אמון של מטיילים ישראלים ברחבי העולם
         </div>
         <h1 className="max-w-3xl text-2xl font-semibold leading-snug tracking-tight sm:text-4xl md:text-5xl">
-          הפסיקו לגלול בוואטסאפ - מצאו בית בטיול הגדול
+         כל מה שצריך כדי למצוא שותפים , דירות ומעברים במקום אחד
         </h1>
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-200 sm:mt-4 sm:text-base">
-          גלו שותפים מאומתים, דירות מדויקות וחיבורים מעולים לטיול הבא שלכם בחיפוש אחד פשוט.
+        כל מה שמטיילים צריכים כדי להתחבר , להתארגן ולהמשיך ליעד הבא - חפשו לפי יעד ותאריכים והתחברו לאנשים שמתאימים לכם
         </p>
 
         <div

@@ -7,6 +7,7 @@ import { WhatsAppCta, listingHasWhatsAppNumber } from "./whatsapp-cta";
 import { InstagramMark } from "@/app/components/instagram-mark";
 import { GatedListingContact } from "./gated-listing-contact";
 import { prisma } from "@/lib/prisma";
+import { formatListingNightPrice } from "@/lib/listing-price";
 import { instagramProfileUrl } from "@/lib/instagram";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { ListingType } from "@/generated/prisma";
@@ -37,10 +38,6 @@ function formatHebrewDate(d: Date): string {
     month: "long",
     year: "numeric",
   }).format(d);
-}
-
-function formatPrice(price: number): string {
-  return `${price.toLocaleString("he-IL")} ₪`;
 }
 
 function typeLabel(type: ListingType): { label: string; className: string; Icon: typeof Search } {
@@ -118,7 +115,9 @@ export default async function ListingDetailPage({ params }: PageProps) {
                 <span className="min-w-0 text-base font-medium leading-relaxed sm:text-lg">{listing.location}</span>
                 <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-cyan-600" aria-hidden />
               </p>
-              <p className="mt-4 text-2xl font-bold text-slate-900 sm:text-3xl lg:hidden">{formatPrice(listing.price)}</p>
+              <p className="mt-4 text-2xl font-bold tabular-nums text-slate-900 sm:text-3xl lg:hidden">
+                {formatListingNightPrice(listing.price)}
+              </p>
             </div>
 
             <section className="rounded-2xl border border-slate-200/90 bg-white p-5 text-right shadow-md shadow-slate-900/5 sm:p-7">
@@ -201,8 +200,8 @@ export default async function ListingDetailPage({ params }: PageProps) {
 
           <aside className="hidden lg:sticky lg:top-24 lg:block">
             <div className="rounded-2xl border border-slate-200/90 bg-white p-6 text-right shadow-xl shadow-slate-900/10 ring-1 ring-slate-100/80">
-              <p className="text-sm font-medium text-slate-500">מחיר</p>
-              <p className="mt-1 text-3xl font-bold text-slate-900">{formatPrice(listing.price)}</p>
+              <p className="text-sm font-medium text-slate-500">מחיר ללילה</p>
+              <p className="mt-1 text-3xl font-bold tabular-nums text-slate-900">{formatListingNightPrice(listing.price)}</p>
               <div className="mt-6">
                 {showWhatsAppGate ? (
                   <GatedListingContact unlocked={isLoggedIn} returnPath={returnPath} className="w-full overflow-hidden rounded-xl">

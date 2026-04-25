@@ -1,13 +1,10 @@
 import { Home, Search } from "lucide-react";
 import Link from "next/link";
 import type { ListingType } from "@/generated/prisma";
+import { formatListingNightPrice } from "@/lib/listing-price";
 
 const FALLBACK_IMAGE =
   "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80";
-
-function formatPrice(price: number): string {
-  return `${price.toLocaleString("he-IL")} ₪`;
-}
 
 function typeBadge(type: ListingType): { label: string; className: string; Icon: typeof Search } {
   if (type === "HAS_APARTMENT") {
@@ -59,7 +56,7 @@ export function ListingCard({ id, title, location, price, type, images }: Listin
       <div className="space-y-1.5 p-4 text-right sm:p-5">
         <h3 className="line-clamp-2 text-[15px] font-semibold leading-snug text-slate-900 sm:text-base">{title}</h3>
         <p className="text-sm leading-relaxed text-slate-500">{location}</p>
-        <p className="pt-1 text-sm font-bold text-slate-900 sm:text-base">{formatPrice(price)}</p>
+        <p className="pt-1 text-sm font-bold tabular-nums text-slate-900 sm:text-base">{formatListingNightPrice(price)}</p>
         <p className="text-xs text-slate-400">לחצו לפרטים</p>
       </div>
     </Link>

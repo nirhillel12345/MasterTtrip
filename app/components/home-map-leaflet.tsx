@@ -8,15 +8,12 @@ import { MarkerClusterGroup } from "@/app/components/marker-cluster-group";
 import type { HomeListingListItem } from "@/lib/home-listings";
 import { coordinatesForListingLocation, jitterListingPosition } from "@/lib/destination-coordinates";
 import { getHomeMapTileConfig } from "@/lib/map-tiles";
+import { formatListingNightPrice } from "@/lib/listing-price";
 
 import "leaflet/dist/leaflet.css";
 
 const FALLBACK_IMAGE =
   "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80";
-
-function formatPrice(price: number): string {
-  return `${price.toLocaleString("he-IL")} ₪`;
-}
 
 type Props = {
   listings: HomeListingListItem[];
@@ -121,7 +118,7 @@ export function HomeMapLeaflet({ listings }: Props) {
                         className="aspect-[16/10] w-full rounded-lg object-cover shadow-sm"
                       />
                       <p className="mt-2 line-clamp-2 text-sm font-bold leading-snug text-slate-900">{listing.title}</p>
-                      <p className="mt-1 text-sm font-semibold text-cyan-700">{formatPrice(listing.price)}</p>
+                      <p className="mt-1 text-sm font-semibold tabular-nums text-cyan-700">{formatListingNightPrice(listing.price)}</p>
                       <p className="mt-1 text-xs font-medium text-cyan-600 underline-offset-2 hover:underline">לפרטים מלאים</p>
                     </Link>
                   </div>
