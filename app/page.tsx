@@ -3,6 +3,7 @@ import { AppNavbar } from "@/app/components/app-navbar";
 import { HomeFeed } from "@/app/components/home-feed";
 import { HomeFeedSkeleton } from "@/app/components/home-feed-skeleton";
 import { HomeHero } from "@/app/components/home-hero";
+import { HowItWorks } from "@/app/components/how-it-works";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { parseHomeFilters } from "@/lib/home-filters";
 
@@ -65,6 +66,8 @@ export default async function Home({ searchParams }: HomePageProps) {
         <Suspense fallback={<div className="mx-auto h-[28rem] max-w-6xl animate-pulse rounded-2xl bg-slate-200/80 px-4 sm:px-6" />}>
           <HomeHero />
         </Suspense>
+
+        <HowItWorks />
 
         <section className="mx-auto w-full max-w-6xl px-4 pb-14 pt-2 sm:px-6 sm:pb-16 sm:pt-4">
           <Suspense key={suspenseKey(filters)} fallback={<HomeFeedSkeleton />}>
