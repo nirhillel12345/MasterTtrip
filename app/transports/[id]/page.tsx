@@ -85,9 +85,10 @@ export default async function TransportDetailPage({ params, searchParams }: Page
   const authEmail = user?.email ?? null;
   const isLoggedIn = Boolean(authEmail);
   const dbCurrentUser = authEmail
-    ? await prisma.user.findUnique({ where: { email: authEmail }, select: { id: true } })
+    ? await prisma.user.findUnique({ where: { email: authEmail }, select: { id: true, phone: true } })
     : null;
   const currentUserId = dbCurrentUser?.id ?? null;
+  const currentUserPhone = dbCurrentUser?.phone ?? null;
   const isCreator = currentUserId === ride.creatorId;
   const alreadyJoined = currentUserId ? ride.joins.some((j) => j.userId === currentUserId) : false;
   const ridePath = `/transports/${ride.id}`;
@@ -217,7 +218,7 @@ export default async function TransportDetailPage({ params, searchParams }: Page
                     אין יותר מקומות פנויים בנסיעה הזו.
                   </div>
                 ) : (
-                  <JoinTransportButton transportId={ride.id} />
+                  <JoinTransportButton transportId={ride.id} initialPhone={currentUserPhone} />
                 )}
               </div>
 

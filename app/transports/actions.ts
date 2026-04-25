@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/email";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { isAllowedDestination } from "@/lib/travel-destinations";
+import { normalizeListingWhatsappToE164 } from "@/lib/listing-whatsapp-e164";
 
 export type TransportActionResult =
   | { ok: true; notifyWhatsAppUrl?: string; notificationId?: string }
@@ -15,6 +16,7 @@ async function sendTransportJoinEmail(input: {
   to: string;
   creatorName: string;
   joinerName: string;
+  joinerPhone?: string | null;
   origin: string;
   destination: string;
   dateLabel: string;
@@ -23,12 +25,15 @@ async function sendTransportJoinEmail(input: {
   const subject = "מישהו הצטרף לנסיעה שלך ב-Master-Trip!";
   const text = `${input.joinerName} joined your ride from ${input.origin} to ${input.destination}.
 Ride date: ${input.dateLabel}
+Joiner phone: ${input.joinerPhone ?? "לא הוזן"}
 Ride link: ${input.rideUrl}`;
+  const phoneLine = input.joinerPhone ? `<p style="margin:0 0 10px 0">טלפון ליצירת קשר: <strong>${input.joinerPhone}</strong></p>` : "";
   const html = `
     <div style="font-family:Arial,Helvetica,sans-serif;line-height:1.5;color:#0f172a">
       <h2 style="margin:0 0 12px 0">שלום ${input.creatorName},</h2>
       <p style="margin:0 0 10px 0"><strong>${input.joinerName}</strong> joined your ride from <strong>${input.origin}</strong> to <strong>${input.destination}</strong>.</p>
       <p style="margin:0 0 10px 0">תאריך נסיעה: <strong>${input.dateLabel}</strong></p>
+      ${phoneLine}
       <p style="margin:0 0 16px 0">
         <a href="${input.rideUrl}" style="color:#06b6d4;text-decoration:none;font-weight:700">צפייה בנסיעה</a>
       </p>
@@ -87,6 +92,23 @@ function buildJoinWhatsAppUrl(phoneRaw: string, transportTitle: string): string 
   if (!digits) return null;
   const msg = transportTitle;
   return `https://wa.me/${digits}?text=${encodeURIComponent(msg)}`;
+}
+
+export async function updateUserPhone(phoneRaw: string): Promise<TransportActionResult> {
+  const dbUser = await requireDbUser();
+  const parsed = normalizeListingWhatsappToE164(phoneRaw);
+  if (!parsed.ok) {
+    return { ok: false, error: parsed.error };
+  }
+
+  await prisma.user.update({
+    where: { id: dbUser.id },
+    data: { phone: parsed.e164 },
+  });
+
+  revalidatePath("/profile");
+  revalidatePath(`/profile/${dbUser.id}`);
+  return { ok: true };
 }
 
 export async function createTransport(input: {
@@ -158,6 +180,9 @@ export async function createTransport(input: {
 export async function joinTransport(transportId: string): Promise<TransportActionResult> {
   const dbUser = await requireDbUser(`/transports/${transportId}`);
   console.log("[transport-join] triggered", { transportId, joinerUserId: dbUser.id, joinerEmail: dbUser.email });
+  if (!dbUser.phone?.trim()) {
+    return { ok: false, error: "לפני ההצטרפות יש להזין מספר וואטסאפ." };
+  }
 
   try {
     const result = await prisma.$transaction(async (tx) => {
@@ -207,12 +232,14 @@ export async function joinTransport(transportId: string): Promise<TransportActio
 
       const creatorName = transport.creator.name?.trim() || transport.creator.email.split("@")[0];
       const joinerName = dbUser.name?.trim() || dbUser.email.split("@")[0];
+      const joinerPhone = dbUser.phone?.trim() || null;
       const rideDate = new Intl.DateTimeFormat("he-IL", {
         day: "numeric",
         month: "long",
         year: "numeric",
       }).format(transport.date);
-      const message = `היי ${creatorName}, שמי ${joinerName}. הצטרפתי עכשיו לנסיעה שלך מ${transport.origin} ל${transport.destination} ב-${rideDate}. נתראה!`;
+      const phoneSuffix = joinerPhone ? ` הטלפון שלי: ${joinerPhone}.` : "";
+      const message = `היי ${creatorName}, שמי ${joinerName}. הצטרפתי עכשיו לנסיעה שלך מ${transport.origin} ל${transport.destination} ב-${rideDate}.${phoneSuffix} נתראה!`;
 
       const notification = await tx.notification.create({
         data: {
@@ -241,6 +268,7 @@ export async function joinTransport(transportId: string): Promise<TransportActio
         to: transport.creator.email,
         creatorName,
         joinerName,
+        joinerPhone,
         origin: transport.origin,
         destination: transport.destination,
         dateLabel: rideDate,
