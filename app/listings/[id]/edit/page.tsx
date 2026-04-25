@@ -45,6 +45,7 @@ export default async function EditListingPage({ params }: PageProps) {
     title: listing.title,
     location: listing.location,
     price: listing.price,
+    description: listing.description,
     startDate: toInputDate(listing.startDate),
     endDate: toInputDate(listing.endDate),
     whatsappNumber: listing.whatsappNumber,

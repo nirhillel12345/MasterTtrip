@@ -21,6 +21,7 @@ export type ListingFormInitial = {
   title: string;
   location: string;
   price: number;
+  description: string;
   startDate: string;
   endDate: string;
   whatsappNumber: string;
@@ -43,6 +44,7 @@ export function ListingForm({ mode, listingId, initial }: Props) {
   const [title, setTitle] = useState(initial?.title ?? "");
   const [location, setLocation] = useState(initial?.location ?? "");
   const [price, setPrice] = useState(initial != null ? String(initial.price) : "");
+  const [description, setDescription] = useState(initial?.description ?? "");
   const [startDate, setStartDate] = useState(
     initial?.startDate ?? localISODate(new Date()),
   );
@@ -116,6 +118,7 @@ export function ListingForm({ mode, listingId, initial }: Props) {
         title,
         location,
         price: Number(price),
+        description,
         startDate,
         endDate,
         whatsappNumber: whatsappNumber ?? "",
@@ -177,6 +180,17 @@ export function ListingForm({ mode, listingId, initial }: Props) {
           required
           placeholder="למשל: 120 — לפי מה שגובים מהשותף"
           dir="ltr"
+          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
+        />
+      </label>
+
+      <label className="block text-right">
+        <span className="mb-1 block text-sm font-medium text-slate-700">תיאור חופשי / מידע נוסף</span>
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          rows={5}
+          placeholder="אופציונלי: כתבו מה חשוב לדעת על המקום, על האווירה בדירה, חוקים, ציוד קיים ועוד."
           className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
         />
       </label>

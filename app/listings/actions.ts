@@ -49,6 +49,7 @@ export async function createListing(input: {
   title: string;
   location: string;
   price: number;
+  description: string;
   startDate: string;
   endDate: string;
   whatsappNumber: string;
@@ -57,6 +58,7 @@ export async function createListing(input: {
 }): Promise<ListingActionResult> {
   const title = input.title.trim();
   const location = input.location.trim();
+  const description = input.description.trim();
   if (!title || !location || !isAllowedDestination(location)) {
     return { error: "יש לבחור יעד מהרשימה." };
   }
@@ -109,7 +111,7 @@ export async function createListing(input: {
   await prisma.listing.create({
     data: {
       title,
-      description: `דירה / סאבלט פנוי: ${title}`,
+      description,
       location,
       type: "HAS_APARTMENT",
       price,
@@ -133,6 +135,7 @@ export async function updateListing(
     title: string;
     location: string;
     price: number;
+    description: string;
     startDate: string;
     endDate: string;
     whatsappNumber: string;
@@ -142,6 +145,7 @@ export async function updateListing(
 ): Promise<ListingActionResult> {
   const title = input.title.trim();
   const location = input.location.trim();
+  const description = input.description.trim();
   if (!title || !location || !isAllowedDestination(location)) {
     return { error: "יש לבחור יעד מהרשימה." };
   }
@@ -183,7 +187,7 @@ export async function updateListing(
     where: { id: listingId },
     data: {
       title,
-      description: `דירה / סאבלט פנוי: ${title}`,
+      description,
       location,
       type: "HAS_APARTMENT",
       price,

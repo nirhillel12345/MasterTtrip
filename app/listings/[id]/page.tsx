@@ -79,6 +79,7 @@ export default async function ListingDetailPage({ params }: PageProps) {
   const type = typeLabel(listing.type);
   const igHandle = listing.user.instagram?.trim();
   const igUrl = igHandle ? instagramProfileUrl(igHandle) : "";
+  const freeTextDescription = listing.description.trim();
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900" dir="rtl">
@@ -140,12 +141,14 @@ export default async function ListingDetailPage({ params }: PageProps) {
               </p>
             </section>
 
-            <section className="rounded-2xl border border-slate-200/90 bg-white p-5 text-right shadow-md shadow-slate-900/5 sm:p-7">
-              <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500 sm:text-sm">תיאור</h2>
-              <p className="mt-3 whitespace-pre-wrap text-[15px] leading-relaxed text-slate-700 sm:text-base">
-                {listing.description}
-              </p>
-            </section>
+            {freeTextDescription ? (
+              <section className="rounded-2xl border border-slate-200/90 bg-white p-5 text-right shadow-md shadow-slate-900/5 sm:p-7">
+                <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500 sm:text-sm">מידע נוסף</h2>
+                <p className="mt-3 whitespace-pre-wrap text-[15px] leading-relaxed text-slate-700 sm:text-base">
+                  {freeTextDescription}
+                </p>
+              </section>
+            ) : null}
 
             <section className="rounded-2xl border border-slate-200/90 bg-white p-5 text-right shadow-md shadow-slate-900/5 sm:p-7">
               <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500 sm:text-sm">מפרסם המודעה</h2>
