@@ -17,9 +17,24 @@ enum ListingType {
   HAS_APARTMENT
 }
 
+/// Pending email OTP for password sign-up; cleared after successful verification.
+model VerificationToken {
+  id         String   @id @default(cuid())
+  email      String   @unique
+  token      String
+  expiresAt  DateTime
+  /// Supabase Auth user id (`auth.users.id`) — required to confirm email via Admin API.
+  authUserId String
+  createdAt  DateTime @default(now())
+}
+
 model User {
   id                    String          @id @default(cuid())
   email                 String          @unique
+  emailVerified         Boolean         @default(false)
+  verificationCode      String?
+  verificationCodeSentAt DateTime?
+  verificationCodeExpiresAt DateTime?
   name                  String?
   image                 String?
   bio                   String?         @db.Text

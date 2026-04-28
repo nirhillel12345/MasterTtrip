@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { prisma } from "@/lib/prisma";
+import { syncAuthUserToPrisma } from "@/lib/auth-user-sync";
 import {
   AUTH_RETURN_PATH_COOKIE,
   clearAuthReturnPathCookie,
@@ -67,33 +67,8 @@ export async function GET(request: Request) {
     return res;
   }
 
-  const metadata = user.user_metadata ?? {};
-  const name =
-    typeof metadata.full_name === "string"
-      ? metadata.full_name
-      : typeof metadata.name === "string"
-        ? metadata.name
-        : null;
-  const image =
-    typeof metadata.avatar_url === "string"
-      ? metadata.avatar_url
-      : typeof metadata.picture === "string"
-        ? metadata.picture
-        : null;
-
   try {
-    await prisma.user.upsert({
-      where: { email: user.email },
-      update: {
-        name,
-        image,
-      },
-      create: {
-        email: user.email,
-        name,
-        image,
-      },
-    });
+    await syncAuthUserToPrisma(user);
   } catch (err) {
     console.error("Prisma error:", err);
     const login = new URL("/auth/login", baseUrl);

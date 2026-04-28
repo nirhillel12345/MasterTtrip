@@ -120,9 +120,22 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.VerificationTokenScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  token: 'token',
+  expiresAt: 'expiresAt',
+  authUserId: 'authUserId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
+  emailVerified: 'emailVerified',
+  verificationCode: 'verificationCode',
+  verificationCodeSentAt: 'verificationCodeSentAt',
+  verificationCodeExpiresAt: 'verificationCodeExpiresAt',
   name: 'name',
   image: 'image',
   bio: 'bio',
@@ -211,6 +224,7 @@ exports.ListingType = exports.$Enums.ListingType = {
 };
 
 exports.Prisma.ModelName = {
+  VerificationToken: 'VerificationToken',
   User: 'User',
   Listing: 'Listing',
   Transport: 'Transport',
