@@ -371,16 +371,12 @@ export async function signUpWithPassword(_prev: AuthFormState, formData: FormDat
 export async function verifySignupOtp(_prev: AuthFormState, formData: FormData): Promise<AuthFormState> {
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const token = String(formData.get("token") ?? "").trim();
-  const password = String(formData.get("password") ?? "");
 
   if (!email) {
     return { error: "חסר אימייל לאימות." };
   }
   if (!/^\d{6}$/.test(token)) {
     return { error: "יש להזין קוד אימות בן 6 ספרות." };
-  }
-  if (password.length < 6) {
-    return { error: "יש להזין סיסמה תקינה (לפחות 6 תווים)." };
   }
 
   const row = await prisma.verificationToken.findUnique({
@@ -458,11 +454,27 @@ export async function verifySignupOtp(_prev: AuthFormState, formData: FormData):
     return { error: "האימות הצליח, אך מחיקת קוד האימות נכשלה. נסו שוב." };
   }
 
-  // Create a real auth session immediately so cookies are attached before redirecting.
+  // Establish session without asking for password again by creating a magic link
+  // and verifying its token hash server-side (sets cookies in this response).
+  const { data: linkData, error: linkErr } = await adminClient.auth.admin.generateLink({
+    type: "magiclink",
+    email,
+  });
+  const tokenHash =
+    (linkData?.properties as { hashed_token?: string; token_hash?: string } | undefined)?.hashed_token ??
+    (linkData?.properties as { hashed_token?: string; token_hash?: string } | undefined)?.token_hash;
+  if (linkErr || !tokenHash) {
+    console.error("[auth] admin.generateLink magiclink failed:", linkErr?.message ?? "missing token hash");
+    return { error: "האימות הצליח, אבל יצירת התחברות אוטומטית נכשלה. התחברו ידנית." };
+  }
+
   const supabase = await createSupabaseServerClient();
-  const { error: signInErr } = await supabase.auth.signInWithPassword({ email, password });
-  if (signInErr) {
-    console.error("[auth] signInWithPassword after verify failed:", signInErr.message, signInErr.code);
+  const { error: verifyErr } = await supabase.auth.verifyOtp({
+    token_hash: tokenHash,
+    type: "magiclink",
+  });
+  if (verifyErr) {
+    console.error("[auth] verifyOtp after generateLink failed:", verifyErr.message, verifyErr.code);
     return { error: "האימות הצליח, אבל ההתחברות האוטומטית נכשלה. התחברו ידנית." };
   }
 
