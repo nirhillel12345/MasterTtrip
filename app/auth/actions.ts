@@ -371,12 +371,16 @@ export async function signUpWithPassword(_prev: AuthFormState, formData: FormDat
 export async function verifySignupOtp(_prev: AuthFormState, formData: FormData): Promise<AuthFormState> {
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const token = String(formData.get("token") ?? "").trim();
+  const password = String(formData.get("password") ?? "");
 
   if (!email) {
     return { error: "חסר אימייל לאימות." };
   }
   if (!/^\d{6}$/.test(token)) {
     return { error: "יש להזין קוד אימות בן 6 ספרות." };
+  }
+  if (password.length < 6) {
+    return { error: "יש להזין סיסמה תקינה (לפחות 6 תווים)." };
   }
 
   const row = await prisma.verificationToken.findUnique({
@@ -454,20 +458,15 @@ export async function verifySignupOtp(_prev: AuthFormState, formData: FormData):
     return { error: "האימות הצליח, אך מחיקת קוד האימות נכשלה. נסו שוב." };
   }
 
-  // Establish session without asking for password again by issuing a one-time magic link.
-  const origin = await siteOriginFromHeaders();
-  const redirectTo = `${origin}/auth/callback?next=${encodeURIComponent("/")}`;
-  const { data: linkData, error: linkErr } = await adminClient.auth.admin.generateLink({
-    type: "magiclink",
-    email,
-    options: { redirectTo },
-  });
-  if (linkErr || !linkData?.properties?.action_link) {
-    console.error("[auth] admin.generateLink magiclink failed:", linkErr?.message ?? "missing action_link");
-    return { error: "האימות הצליח, אך כניסה אוטומטית נכשלה. התחברו ידנית." };
+  // Create a real auth session immediately so cookies are attached before redirecting.
+  const supabase = await createSupabaseServerClient();
+  const { error: signInErr } = await supabase.auth.signInWithPassword({ email, password });
+  if (signInErr) {
+    console.error("[auth] signInWithPassword after verify failed:", signInErr.message, signInErr.code);
+    return { error: "האימות הצליח, אבל ההתחברות האוטומטית נכשלה. התחברו ידנית." };
   }
 
-  redirect(linkData.properties.action_link);
+  redirect("/");
 }
 
 async function resendVerificationCodeEmailOnly(email: string): Promise<AuthFormState> {

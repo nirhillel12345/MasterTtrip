@@ -32,6 +32,19 @@ export function VerifyForm({ email, nextPath }: Props) {
         <input type="hidden" name="email" value={email} />
         <input type="hidden" name="next" value={nextPath} />
 
+        <label className="block text-right">
+          <span className="mb-1 block text-sm font-medium text-slate-700">סיסמה</span>
+          <input
+            name="password"
+            type="password"
+            autoComplete="current-password"
+            required
+            minLength={6}
+            className="w-full rounded-xl border border-slate-300 px-4 py-3 text-right outline-none transition placeholder:text-slate-400 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
+            placeholder="הסיסמה שבחרתם בהרשמה"
+          />
+        </label>
+
         {verifyState?.error ? (
           <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">{verifyState.error}</div>
         ) : null}
