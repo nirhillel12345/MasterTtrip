@@ -13,6 +13,8 @@ export const runtime = "nodejs";
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
+  const tokenHash = requestUrl.searchParams.get("token_hash");
+  const otpType = requestUrl.searchParams.get("type");
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || requestUrl.origin;
 
   const cookieStore = await cookies();
@@ -25,7 +27,7 @@ export async function GET(request: Request) {
   const resolvedNext = safeNextPath(fromCookie ?? fromQuery);
   console.log("[auth/callback] resolvedNext after safeNextPath:", resolvedNext);
 
-  if (!code) {
+  if (!code && !tokenHash) {
     const login = new URL("/auth/login", baseUrl);
     login.searchParams.set("error", "התחברות נכשלה 0 ");
     if (resolvedNext !== "/") {
@@ -37,8 +39,29 @@ export async function GET(request: Request) {
   }
 
   const supabase = await createSupabaseServerClient();
-  console.log("[auth/callback] Exchanging code starting with:", code.substring(0, 5));
-  const { error } = await supabase.auth.exchangeCodeForSession(code);
+  let error: { message: string; status?: number; code?: string } | null = null;
+
+  if (code) {
+    console.log("[auth/callback] Exchanging code starting with:", code.substring(0, 5));
+    const result = await supabase.auth.exchangeCodeForSession(code);
+    error = result.error;
+  } else if (tokenHash && otpType) {
+    console.log("[auth/callback] Verifying OTP token hash for type:", otpType);
+    const result = await supabase.auth.verifyOtp({
+      token_hash: tokenHash,
+      type: otpType as "magiclink" | "signup" | "invite" | "recovery" | "email_change" | "email",
+    });
+    error = result.error;
+  } else {
+    const login = new URL("/auth/login", baseUrl);
+    login.searchParams.set("error", "קישור ההתחברות אינו תקין או חסר");
+    if (resolvedNext !== "/") {
+      login.searchParams.set("next", resolvedNext);
+    }
+    const res = NextResponse.redirect(login);
+    clearAuthReturnPathCookie(res);
+    return res;
+  }
 
   if (error) {
     console.error("[auth/callback] Supabase Exchange Error:", error.message, error.status, error.code);
