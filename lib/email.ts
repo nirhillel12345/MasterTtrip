@@ -9,7 +9,7 @@ type SendEmailInput = {
 
 export async function sendEmail(input: SendEmailInput) {
   const apiKey = process.env.RESEND_API_KEY;
-  const from = "onboarding@resend.dev";
+  const from = process.env.RESEND_FROM_EMAIL?.trim() || "noreply@mastertrip.online";
 
   if (!apiKey) {
     throw new Error("Missing RESEND_API_KEY");

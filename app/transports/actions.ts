@@ -261,7 +261,7 @@ export async function joinTransport(transportId: string): Promise<TransportActio
       });
       console.log("[transport-join] notification created", { notificationId: notification.id });
 
-      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://mastertrip.online";
       const rideUrl = `${baseUrl.replace(/\/$/, "")}/transports/${transport.id}`;
       console.log("[transport-join] sending email via resend", { to: transport.creator.email, rideUrl });
       await sendTransportJoinEmail({
