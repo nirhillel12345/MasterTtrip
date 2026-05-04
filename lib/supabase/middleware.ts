@@ -37,7 +37,7 @@ export async function updateSession(request: NextRequest) {
     if (!user && needsAuth) {
       // במקום לשכפל את request.nextUrl שעלול להכיל localhost
       // אנחנו בונים URL חדש שמבוסס על הכתובת האמיתית
-      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://mastertrip.online";
+      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.mastertrip.online";
       const loginUrl = new URL("/auth/login", baseUrl);
       
       loginUrl.searchParams.set("error", "יש להתחבר כדי להמשיך");

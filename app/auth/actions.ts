@@ -523,7 +523,7 @@ async function siteOriginFromHeaders(): Promise<string> {
   const host = headerStore.get("host");
   const proto = headerStore.get("x-forwarded-proto") ?? "http";
   if (host) return `${proto}://${host}`.replace(/\/$/, "");
-  return "https://mastertrip.online";
+  return "https://www.mastertrip.online";
 }
 
 export async function signOut() {
