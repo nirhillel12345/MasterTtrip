@@ -7,9 +7,22 @@ type SendEmailInput = {
   text?: string;
 };
 
+/** Resend `from` must use your verified domain — not Gmail. */
+const DEFAULT_FROM = "MasterTrip <noreply@mastertrip.online>";
+
+function resolveResendFrom(): string {
+  const raw = process.env.RESEND_FROM_EMAIL?.trim();
+  if (!raw) return DEFAULT_FROM;
+  if (raw.includes("<") && raw.includes(">")) return raw;
+  if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(raw)) {
+    return `MasterTrip <${raw}>`;
+  }
+  return raw;
+}
+
 export async function sendEmail(input: SendEmailInput) {
   const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.RESEND_FROM_EMAIL?.trim() || "noreply@mastertrip.online";
+  const from = resolveResendFrom();
 
   if (!apiKey) {
     throw new Error("Missing RESEND_API_KEY");
