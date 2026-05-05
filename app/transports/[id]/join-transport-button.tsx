@@ -42,6 +42,7 @@ export function JoinTransportButton({ transportId, initialPhone = null, disabled
     params.set("joined", "1");
     const nextUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
     router.replace(nextUrl, { scroll: false });
+    router.refresh();
   }
 
   async function onPrimaryClick() {

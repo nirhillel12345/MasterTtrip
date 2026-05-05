@@ -8,9 +8,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { isAllowedDestination } from "@/lib/travel-destinations";
 import { normalizeListingWhatsappToE164 } from "@/lib/listing-whatsapp-e164";
 
-export type TransportActionResult =
-  | { ok: true; notificationId?: string }
-  | { ok: false; error: string };
+export type TransportActionResult = { ok: true } | { ok: false; error: string };
 
 async function sendTransportJoinEmail(input: {
   to: string;
@@ -178,7 +176,7 @@ export async function joinTransport(transportId: string): Promise<TransportActio
   }
 
   try {
-    const result = await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx) => {
       const transport = await tx.transport.findUnique({
         where: { id: transportId },
         select: {
@@ -265,14 +263,11 @@ export async function joinTransport(transportId: string): Promise<TransportActio
         rideUrl,
       });
 
-      return {
-        notificationId: notification.id,
-      };
     });
 
     revalidatePath("/transports");
     revalidatePath(`/transports/${transportId}`);
-    return { ok: true, notificationId: result.notificationId };
+    return { ok: true };
   } catch (err) {
     const msg = err instanceof Error ? err.message : "לא הצלחנו להצטרף כרגע.";
     console.error("[transport-join] failed", { transportId, joinerUserId: dbUser.id, error: msg });

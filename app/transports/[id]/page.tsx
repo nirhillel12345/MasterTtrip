@@ -2,7 +2,7 @@ import { CalendarDays, ChevronRight, Clock3, MapPin, Users } from "lucide-react"
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ContactOrganizerWhatsApp } from "./contact-organizer-whatsapp";
+import { ContactOrganizerButton } from "./contact-organizer-button";
 import { JoinTransportButton } from "./join-transport-button";
 import { LeaveTransportButton } from "./leave-transport-button";
 import { RemoveParticipantButton } from "./remove-participant-button";
@@ -100,6 +100,12 @@ export default async function TransportDetailPage({ params, searchParams }: Page
   const creatorName = ride.creator.name?.trim() || ride.creator.email.split("@")[0];
   const joinerDisplayName =
     dbCurrentUser?.name?.trim() || dbCurrentUser?.email.split("@")[0] || "משתמש";
+  const rideDateLabel = formatDate(ride.date);
+  const contactTransportDetails = {
+    origin: ride.origin,
+    destination: ride.destination,
+    dateLabel: rideDateLabel,
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900" dir="rtl">
@@ -190,19 +196,17 @@ export default async function TransportDetailPage({ params, searchParams }: Page
 
             {alreadyJoined && !isCreator ? (
               <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-md shadow-slate-900/5 sm:p-7">
-                <h2 className="text-right text-sm font-bold uppercase tracking-wider text-slate-500">יצירת קשר</h2>
+                <h2 className="text-right text-sm font-bold uppercase tracking-wider text-slate-500">יצירת קשר עם המארגן</h2>
                 <p className="mt-2 text-right text-sm text-slate-600">
-                  לאחר ההצטרפות תוכלו לשלוח למארגן הודעת וואטסאפ עם פרטי הנסיעה.
+                  שלחו הודעת וואטסאפ עם פרטי הנסיעה — רק אחרי שהצטרפתם לנסיעה.
                 </p>
                 <div className="mt-4">
-                  <ContactOrganizerWhatsApp
-                    organizerPhone={ride.creator.phone}
-                    organizerDisplayName={creatorName}
-                    joinerName={joinerDisplayName}
+                  <ContactOrganizerButton
+                    phone={ride.creator.phone}
+                    organizerName={creatorName}
+                    userName={joinerDisplayName}
                     joinerPhone={dbCurrentUser?.phone ?? null}
-                    origin={ride.origin}
-                    destination={ride.destination}
-                    rideDate={ride.date}
+                    transportDetails={contactTransportDetails}
                   />
                 </div>
               </section>

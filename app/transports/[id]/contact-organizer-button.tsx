@@ -3,17 +3,24 @@
 import {
   buildTransportJoinPrefilledMessage,
   buildWhatsAppUrl,
-  formatTransportDateLabel,
 } from "@/lib/transport-join-whatsapp";
 
-type Props = {
-  organizerPhone: string | null;
-  organizerDisplayName: string;
-  joinerName: string;
-  joinerPhone: string | null;
+export type ContactOrganizerTransportDetails = {
   origin: string;
   destination: string;
-  rideDate: Date;
+  /** Preformatted ride date (Hebrew), same as used in emails/messages */
+  dateLabel: string;
+};
+
+type Props = {
+  /** Organizer WhatsApp / phone (any format); digits extracted for wa.me */
+  phone: string | null;
+  /** Display name of organizer (for message greeting) */
+  organizerName: string;
+  /** Current user display name (joiner) */
+  userName: string;
+  joinerPhone: string | null;
+  transportDetails: ContactOrganizerTransportDetails;
 };
 
 function WhatsAppGlyph({ className }: { className?: string }) {
@@ -24,25 +31,22 @@ function WhatsAppGlyph({ className }: { className?: string }) {
   );
 }
 
-export function ContactOrganizerWhatsApp({
-  organizerPhone,
-  organizerDisplayName,
-  joinerName,
+export function ContactOrganizerButton({
+  phone,
+  organizerName,
+  userName,
   joinerPhone,
-  origin,
-  destination,
-  rideDate,
+  transportDetails,
 }: Props) {
-  const dateLabel = formatTransportDateLabel(rideDate);
   const message = buildTransportJoinPrefilledMessage({
-    creatorName: organizerDisplayName,
-    joinerName,
+    creatorName: organizerName,
+    joinerName: userName,
     joinerPhone,
-    origin,
-    destination,
-    dateLabel,
+    origin: transportDetails.origin,
+    destination: transportDetails.destination,
+    dateLabel: transportDetails.dateLabel,
   });
-  const href = buildWhatsAppUrl(organizerPhone ?? "", message);
+  const href = buildWhatsAppUrl(phone ?? "", message);
 
   if (!href) {
     return (
