@@ -2,6 +2,7 @@ import { CalendarDays, ChevronRight, Clock3, MapPin, Users } from "lucide-react"
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ContactOrganizerWhatsApp } from "./contact-organizer-whatsapp";
 import { JoinTransportButton } from "./join-transport-button";
 import { LeaveTransportButton } from "./leave-transport-button";
 import { RemoveParticipantButton } from "./remove-participant-button";
@@ -68,7 +69,7 @@ export default async function TransportDetailPage({ params, searchParams }: Page
   const ride = await prisma.transport.findUnique({
     where: { id },
     include: {
-      creator: { select: { id: true, name: true, email: true } },
+      creator: { select: { id: true, name: true, email: true, phone: true } },
       joins: {
         orderBy: { createdAt: "asc" },
         include: { user: { select: { id: true, name: true, email: true, image: true } } },
@@ -85,7 +86,10 @@ export default async function TransportDetailPage({ params, searchParams }: Page
   const authEmail = user?.email ?? null;
   const isLoggedIn = Boolean(authEmail);
   const dbCurrentUser = authEmail
-    ? await prisma.user.findUnique({ where: { email: authEmail }, select: { id: true, phone: true } })
+    ? await prisma.user.findUnique({
+        where: { email: authEmail },
+        select: { id: true, phone: true, name: true, email: true },
+      })
     : null;
   const currentUserId = dbCurrentUser?.id ?? null;
   const currentUserPhone = dbCurrentUser?.phone ?? null;
@@ -94,6 +98,8 @@ export default async function TransportDetailPage({ params, searchParams }: Page
   const ridePath = `/transports/${ride.id}`;
 
   const creatorName = ride.creator.name?.trim() || ride.creator.email.split("@")[0];
+  const joinerDisplayName =
+    dbCurrentUser?.name?.trim() || dbCurrentUser?.email.split("@")[0] || "משתמש";
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900" dir="rtl">
@@ -181,6 +187,26 @@ export default async function TransportDetailPage({ params, searchParams }: Page
                 </ul>
               )}
             </section>
+
+            {alreadyJoined && !isCreator ? (
+              <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-md shadow-slate-900/5 sm:p-7">
+                <h2 className="text-right text-sm font-bold uppercase tracking-wider text-slate-500">יצירת קשר</h2>
+                <p className="mt-2 text-right text-sm text-slate-600">
+                  לאחר ההצטרפות תוכלו לשלוח למארגן הודעת וואטסאפ עם פרטי הנסיעה.
+                </p>
+                <div className="mt-4">
+                  <ContactOrganizerWhatsApp
+                    organizerPhone={ride.creator.phone}
+                    organizerDisplayName={creatorName}
+                    joinerName={joinerDisplayName}
+                    joinerPhone={dbCurrentUser?.phone ?? null}
+                    origin={ride.origin}
+                    destination={ride.destination}
+                    rideDate={ride.date}
+                  />
+                </div>
+              </section>
+            ) : null}
           </section>
 
           <aside className="lg:sticky lg:top-24">
@@ -192,7 +218,7 @@ export default async function TransportDetailPage({ params, searchParams }: Page
               <div className="mt-6">
                 {showJoinedSuccess ? (
                   <div className="mb-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-center text-sm font-semibold text-emerald-800">
-                    נרשמת בהצלחה! הודעה נשלחה למארגן הנסיעה
+                    הצטרפת בהצלחה לנסיעה!
                   </div>
                 ) : null}
                 {showLeftSuccess ? (
@@ -212,7 +238,12 @@ export default async function TransportDetailPage({ params, searchParams }: Page
                     זו הנסיעה שפרסמת. כאן אפשר לנהל את המשתתפים.
                   </div>
                 ) : alreadyJoined ? (
-                  <LeaveTransportButton transportId={ride.id} />
+                  <div className="space-y-4">
+                    <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-center text-sm font-bold text-emerald-900">
+                      הצטרפת בהצלחה
+                    </div>
+                    <LeaveTransportButton transportId={ride.id} />
+                  </div>
                 ) : ride.availableSeats <= 0 ? (
                   <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-center text-sm font-semibold text-rose-700">
                     אין יותר מקומות פנויים בנסיעה הזו.

@@ -9,7 +9,7 @@ import { isAllowedDestination } from "@/lib/travel-destinations";
 import { normalizeListingWhatsappToE164 } from "@/lib/listing-whatsapp-e164";
 
 export type TransportActionResult =
-  | { ok: true; notifyWhatsAppUrl?: string; notificationId?: string }
+  | { ok: true; notificationId?: string }
   | { ok: false; error: string };
 
 async function sendTransportJoinEmail(input: {
@@ -85,13 +85,6 @@ async function requireDbUser(nextPath?: string) {
   });
   console.log("[transport-auth] user ready", { userId: dbUser.id, email: dbUser.email });
   return dbUser;
-}
-
-function buildJoinWhatsAppUrl(phoneRaw: string, transportTitle: string): string | null {
-  const digits = phoneRaw.replace(/\D/g, "");
-  if (!digits) return null;
-  const msg = transportTitle;
-  return `https://wa.me/${digits}?text=${encodeURIComponent(msg)}`;
 }
 
 export async function updateUserPhone(phoneRaw: string): Promise<TransportActionResult> {
@@ -238,9 +231,6 @@ export async function joinTransport(transportId: string): Promise<TransportActio
         month: "long",
         year: "numeric",
       }).format(transport.date);
-      const phoneSuffix = joinerPhone ? ` הטלפון שלי: ${joinerPhone}.` : "";
-      const message = `היי ${creatorName}, שמי ${joinerName}. הצטרפתי עכשיו לנסיעה שלך מ${transport.origin} ל${transport.destination} ב-${rideDate}.${phoneSuffix} נתראה!`;
-
       const notification = await tx.notification.create({
         data: {
           recipientId: transport.creatorId,
@@ -261,7 +251,7 @@ export async function joinTransport(transportId: string): Promise<TransportActio
       });
       console.log("[transport-join] notification created", { notificationId: notification.id });
 
-      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.mastertrip.online";
+      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://mastertrip.online";
       const rideUrl = `${baseUrl.replace(/\/$/, "")}/transports/${transport.id}`;
       console.log("[transport-join] sending email via resend", { to: transport.creator.email, rideUrl });
       await sendTransportJoinEmail({
@@ -275,16 +265,14 @@ export async function joinTransport(transportId: string): Promise<TransportActio
         rideUrl,
       });
 
-      console.log("[transport-join] building whatsapp redirect");
       return {
-        notifyWhatsAppUrl: buildJoinWhatsAppUrl(transport.creator.phone ?? "", message) ?? undefined,
         notificationId: notification.id,
       };
     });
 
     revalidatePath("/transports");
     revalidatePath(`/transports/${transportId}`);
-    return { ok: true, notifyWhatsAppUrl: result.notifyWhatsAppUrl, notificationId: result.notificationId };
+    return { ok: true, notificationId: result.notificationId };
   } catch (err) {
     const msg = err instanceof Error ? err.message : "לא הצלחנו להצטרף כרגע.";
     console.error("[transport-join] failed", { transportId, joinerUserId: dbUser.id, error: msg });

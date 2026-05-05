@@ -38,9 +38,6 @@ export function JoinTransportButton({ transportId, initialPhone = null, disabled
       return;
     }
 
-    if (res.notifyWhatsAppUrl) {
-      window.open(res.notifyWhatsAppUrl, "_blank", "noopener,noreferrer");
-    }
     const params = new URLSearchParams(searchParams.toString());
     params.set("joined", "1");
     const nextUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname;
