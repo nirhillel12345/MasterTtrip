@@ -75,6 +75,7 @@ export const DESTINATIONS_BY_COUNTRY: ReadonlyArray<{
       { city: "ג'ריקוואקוארה", airports: ["JJD", "FOR"] },
       { city: "אורובו פרטו", airports: ["CNF"], tags: ["popular_israeli_destination"] },
       { city: "פארטי", airports: ["GIG", "SDU"], tags: ["popular_israeli_destination"] },
+      { city: "איטקרה", airports: ["IOS"] },
       { city: "פוז דו איגואסו", airports: ["IGU"] },
     ],
   },
@@ -151,7 +152,26 @@ export const DESTINATIONS_BY_COUNTRY: ReadonlyArray<{
       { city: "אולון", airports: ["GYE"] },
       { city: "באהיה דה קארקז", airports: ["GYE"] },
       { city: "גלאפגוס", airports: ["GPS", "SCY"], tags: ["popular_israeli_destination"] },
+      { city: "גוויאקיל", airports: ["GYE"] },
     ],
+  },
+  {
+    country: "פנמה",
+    cities: [
+      { city: "פנמה סיטי", airports: ["PTY"] },
+      { city: "פלאיה ונאו", airports: ["DAV", "PTY"] },
+    ],
+  },
+  {
+    country: "ג'מייקה",
+    cities: [
+      { city: "קינגסטון", airports: ["KIN"] },
+      { city: "מונטגו ביי", airports: ["MBJ"] },
+    ],
+  },
+  {
+    country: "קוסטה ריקה",
+    cities: [{ city: "סנטה תרזה", airports: ["LIR", "TMU"] }],
   },
 ] as const;
 
@@ -226,6 +246,7 @@ export const DESTINATION_COORDS: Record<string, MapCoordinates> = {
   "ג'ריקוואקוארה, ברזיל": { lat: -2.7933, lng: -40.512 },
   "אורובו פרטו, ברזיל": { lat: -20.3856, lng: -43.5035 },
   "פארטי, ברזיל": { lat: -23.2178, lng: -44.7131 },
+  "איטקרה, ברזיל": { lat: -14.2778, lng: -38.9967 },
   "פוז דו איגואסו, ברזיל": { lat: -25.5469, lng: -54.5882 },
 
   // Chile
@@ -287,6 +308,18 @@ export const DESTINATION_COORDS: Record<string, MapCoordinates> = {
   "אולון, אקוודור": { lat: -1.7872, lng: -80.7575 },
   "באהיה דה קארקז, אקוודור": { lat: -0.5929, lng: -80.4238 },
   "גלאפגוס, אקוודור": { lat: -0.9538, lng: -90.9656 },
+  "גוויאקיל, אקוודור": { lat: -2.1833, lng: -79.8833 },
+
+  // Panama
+  "פנמה סיטי, פנמה": { lat: 8.9833, lng: -79.5167 },
+  "פלאיה ונאו, פנמה": { lat: 7.4333, lng: -80.1833 },
+
+  // Jamaica
+  "קינגסטון, ג'מייקה": { lat: 17.9714, lng: -76.7936 },
+  "מונטגו ביי, ג'מייקה": { lat: 18.4714, lng: -77.9125 },
+
+  // Costa Rica
+  "סנטה תרזה, קוסטה ריקה": { lat: 9.6425, lng: -85.1681 },
 };
 
 for (const d of DESTINATION_CITIES) {

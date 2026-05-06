@@ -31,6 +31,9 @@ export function coordinatesForListingLocation(location: string): { lat: number; 
     קולומביה: { lat: 4.711, lng: -74.0721 },
     בוליביה: { lat: -16.4897, lng: -68.1193 },
     אקוודור: { lat: -0.1807, lng: -78.4678 },
+    פנמה: { lat: 8.9833, lng: -79.5167 },
+    "ג'מייקה": { lat: 17.9714, lng: -76.7936 },
+    "קוסטה ריקה": { lat: 9.6425, lng: -85.1681 },
   };
 
   for (const d of DESTINATION_CITIES) {
