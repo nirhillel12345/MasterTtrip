@@ -161,18 +161,17 @@ export function HomeHero({ variant = "landing" }: { variant?: HomeHeroVariant })
   return (
     <section
       className={`mx-auto w-full max-w-6xl px-4 sm:px-6 ${
-        isApp ? "pb-4 pt-4 sm:pb-5 sm:pt-5" : "pb-8 pt-8 sm:pb-10 sm:pt-12"
+        "pb-8 pt-8 sm:pb-10 sm:pt-12"
       }`}
     >
       <div
         className={`rounded-2xl border border-slate-200 p-5 text-right shadow-2xl sm:rounded-3xl sm:p-8 md:p-10 ${
-          isApp
-            ? "bg-gradient-to-br from-slate-50 via-white to-cyan-50/50 shadow-md shadow-slate-900/5"
-            : "bg-gradient-to-br from-slate-950 via-slate-900 to-cyan-900 text-white shadow-slate-900/20"
+          
+           "bg-gradient-to-br from-slate-950 via-slate-900 to-cyan-900 text-white shadow-slate-900/20"
         }`}
       >
-        {!isApp ? (
-          <>
+       
+       
             <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-medium tracking-wide text-cyan-100 sm:mb-6">
               <Star className="h-3.5 w-3.5 fill-cyan-200 text-cyan-200" />
               אמון של מטיילים ישראלים ברחבי העולם
@@ -183,11 +182,10 @@ export function HomeHero({ variant = "landing" }: { variant?: HomeHeroVariant })
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-200 sm:mt-4 sm:text-base">
               כל מה שמטיילים צריכים כדי להתחבר , להתארגן ולהמשיך ליעד הבא - חפשו לפי יעד ותאריכים והתחברו לאנשים שמתאימים לכם
             </p>
-          </>
-        ) : null}
+       
 
         <div
-          className={`${isApp ? "mt-0" : "mt-6 sm:mt-8"} ${pending ? "opacity-90" : ""} transition-opacity duration-200`}
+          className={`${"mt-6 sm:mt-8"} ${pending ? "opacity-90" : ""} transition-opacity duration-200`}
           dir="rtl"
         >
           <div className="rounded-2xl border border-white/20 bg-white/[0.97] p-4 text-slate-900 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.35)] ring-1 ring-white/40 backdrop-blur-md sm:p-5 md:p-6">
