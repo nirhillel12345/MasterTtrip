@@ -24,6 +24,11 @@ export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTok
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model Location
+ * Canonical destination label from travel-destinations (e.g. "עיר, מדינה").
+ */
+export type Location = $Result.DefaultSelection<Prisma.$LocationPayload>
+/**
  * Model Listing
  * 
  */
@@ -38,6 +43,16 @@ export type Transport = $Result.DefaultSelection<Prisma.$TransportPayload>
  * 
  */
 export type TransportJoin = $Result.DefaultSelection<Prisma.$TransportJoinPayload>
+/**
+ * Model Attraction
+ * 
+ */
+export type Attraction = $Result.DefaultSelection<Prisma.$AttractionPayload>
+/**
+ * Model AttractionJoin
+ * 
+ */
+export type AttractionJoin = $Result.DefaultSelection<Prisma.$AttractionJoinPayload>
 /**
  * Model Notification
  * 
@@ -55,11 +70,23 @@ export namespace $Enums {
 
 export type ListingType = (typeof ListingType)[keyof typeof ListingType]
 
+
+export const AttractionType: {
+  BUSINESS: 'BUSINESS',
+  PRIVATE: 'PRIVATE'
+};
+
+export type AttractionType = (typeof AttractionType)[keyof typeof AttractionType]
+
 }
 
 export type ListingType = $Enums.ListingType
 
 export const ListingType: typeof $Enums.ListingType
+
+export type AttractionType = $Enums.AttractionType
+
+export const AttractionType: typeof $Enums.AttractionType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -203,6 +230,16 @@ export class PrismaClient<
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.location`: Exposes CRUD operations for the **Location** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Locations
+    * const locations = await prisma.location.findMany()
+    * ```
+    */
+  get location(): Prisma.LocationDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.listing`: Exposes CRUD operations for the **Listing** model.
     * Example usage:
     * ```ts
@@ -231,6 +268,26 @@ export class PrismaClient<
     * ```
     */
   get transportJoin(): Prisma.TransportJoinDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.attraction`: Exposes CRUD operations for the **Attraction** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Attractions
+    * const attractions = await prisma.attraction.findMany()
+    * ```
+    */
+  get attraction(): Prisma.AttractionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.attractionJoin`: Exposes CRUD operations for the **AttractionJoin** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AttractionJoins
+    * const attractionJoins = await prisma.attractionJoin.findMany()
+    * ```
+    */
+  get attractionJoin(): Prisma.AttractionJoinDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.notification`: Exposes CRUD operations for the **Notification** model.
@@ -677,9 +734,12 @@ export namespace Prisma {
   export const ModelName: {
     VerificationToken: 'VerificationToken',
     User: 'User',
+    Location: 'Location',
     Listing: 'Listing',
     Transport: 'Transport',
     TransportJoin: 'TransportJoin',
+    Attraction: 'Attraction',
+    AttractionJoin: 'AttractionJoin',
     Notification: 'Notification'
   };
 
@@ -696,7 +756,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "verificationToken" | "user" | "listing" | "transport" | "transportJoin" | "notification"
+      modelProps: "verificationToken" | "user" | "location" | "listing" | "transport" | "transportJoin" | "attraction" | "attractionJoin" | "notification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -845,6 +905,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      Location: {
+        payload: Prisma.$LocationPayload<ExtArgs>
+        fields: Prisma.LocationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LocationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LocationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LocationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LocationPayload>
+          }
+          findFirst: {
+            args: Prisma.LocationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LocationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LocationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LocationPayload>
+          }
+          findMany: {
+            args: Prisma.LocationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LocationPayload>[]
+          }
+          create: {
+            args: Prisma.LocationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LocationPayload>
+          }
+          createMany: {
+            args: Prisma.LocationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LocationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LocationPayload>[]
+          }
+          delete: {
+            args: Prisma.LocationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LocationPayload>
+          }
+          update: {
+            args: Prisma.LocationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LocationPayload>
+          }
+          deleteMany: {
+            args: Prisma.LocationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LocationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LocationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LocationPayload>[]
+          }
+          upsert: {
+            args: Prisma.LocationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LocationPayload>
+          }
+          aggregate: {
+            args: Prisma.LocationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLocation>
+          }
+          groupBy: {
+            args: Prisma.LocationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LocationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LocationCountArgs<ExtArgs>
+            result: $Utils.Optional<LocationCountAggregateOutputType> | number
           }
         }
       }
@@ -1070,6 +1204,154 @@ export namespace Prisma {
           }
         }
       }
+      Attraction: {
+        payload: Prisma.$AttractionPayload<ExtArgs>
+        fields: Prisma.AttractionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AttractionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttractionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AttractionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttractionPayload>
+          }
+          findFirst: {
+            args: Prisma.AttractionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttractionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AttractionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttractionPayload>
+          }
+          findMany: {
+            args: Prisma.AttractionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttractionPayload>[]
+          }
+          create: {
+            args: Prisma.AttractionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttractionPayload>
+          }
+          createMany: {
+            args: Prisma.AttractionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AttractionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttractionPayload>[]
+          }
+          delete: {
+            args: Prisma.AttractionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttractionPayload>
+          }
+          update: {
+            args: Prisma.AttractionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttractionPayload>
+          }
+          deleteMany: {
+            args: Prisma.AttractionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AttractionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AttractionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttractionPayload>[]
+          }
+          upsert: {
+            args: Prisma.AttractionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttractionPayload>
+          }
+          aggregate: {
+            args: Prisma.AttractionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAttraction>
+          }
+          groupBy: {
+            args: Prisma.AttractionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AttractionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AttractionCountArgs<ExtArgs>
+            result: $Utils.Optional<AttractionCountAggregateOutputType> | number
+          }
+        }
+      }
+      AttractionJoin: {
+        payload: Prisma.$AttractionJoinPayload<ExtArgs>
+        fields: Prisma.AttractionJoinFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AttractionJoinFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttractionJoinPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AttractionJoinFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttractionJoinPayload>
+          }
+          findFirst: {
+            args: Prisma.AttractionJoinFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttractionJoinPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AttractionJoinFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttractionJoinPayload>
+          }
+          findMany: {
+            args: Prisma.AttractionJoinFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttractionJoinPayload>[]
+          }
+          create: {
+            args: Prisma.AttractionJoinCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttractionJoinPayload>
+          }
+          createMany: {
+            args: Prisma.AttractionJoinCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AttractionJoinCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttractionJoinPayload>[]
+          }
+          delete: {
+            args: Prisma.AttractionJoinDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttractionJoinPayload>
+          }
+          update: {
+            args: Prisma.AttractionJoinUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttractionJoinPayload>
+          }
+          deleteMany: {
+            args: Prisma.AttractionJoinDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AttractionJoinUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AttractionJoinUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttractionJoinPayload>[]
+          }
+          upsert: {
+            args: Prisma.AttractionJoinUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttractionJoinPayload>
+          }
+          aggregate: {
+            args: Prisma.AttractionJoinAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAttractionJoin>
+          }
+          groupBy: {
+            args: Prisma.AttractionJoinGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AttractionJoinGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AttractionJoinCountArgs<ExtArgs>
+            result: $Utils.Optional<AttractionJoinCountAggregateOutputType> | number
+          }
+        }
+      }
       Notification: {
         payload: Prisma.$NotificationPayload<ExtArgs>
         fields: Prisma.NotificationFieldRefs
@@ -1254,9 +1536,12 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     verificationToken?: VerificationTokenOmit
     user?: UserOmit
+    location?: LocationOmit
     listing?: ListingOmit
     transport?: TransportOmit
     transportJoin?: TransportJoinOmit
+    attraction?: AttractionOmit
+    attractionJoin?: AttractionJoinOmit
     notification?: NotificationOmit
   }
 
@@ -1341,6 +1626,8 @@ export namespace Prisma {
     listings: number
     transports: number
     transportJoins: number
+    attractions: number
+    attractionJoins: number
     notificationsReceived: number
     notificationsCreated: number
   }
@@ -1349,6 +1636,8 @@ export namespace Prisma {
     listings?: boolean | UserCountOutputTypeCountListingsArgs
     transports?: boolean | UserCountOutputTypeCountTransportsArgs
     transportJoins?: boolean | UserCountOutputTypeCountTransportJoinsArgs
+    attractions?: boolean | UserCountOutputTypeCountAttractionsArgs
+    attractionJoins?: boolean | UserCountOutputTypeCountAttractionJoinsArgs
     notificationsReceived?: boolean | UserCountOutputTypeCountNotificationsReceivedArgs
     notificationsCreated?: boolean | UserCountOutputTypeCountNotificationsCreatedArgs
   }
@@ -1388,6 +1677,20 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
+  export type UserCountOutputTypeCountAttractionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttractionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAttractionJoinsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttractionJoinWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
   export type UserCountOutputTypeCountNotificationsReceivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NotificationWhereInput
   }
@@ -1397,6 +1700,37 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountNotificationsCreatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NotificationWhereInput
+  }
+
+
+  /**
+   * Count Type LocationCountOutputType
+   */
+
+  export type LocationCountOutputType = {
+    attractions: number
+  }
+
+  export type LocationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    attractions?: boolean | LocationCountOutputTypeCountAttractionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * LocationCountOutputType without action
+   */
+  export type LocationCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LocationCountOutputType
+     */
+    select?: LocationCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * LocationCountOutputType without action
+   */
+  export type LocationCountOutputTypeCountAttractionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttractionWhereInput
   }
 
 
@@ -1436,6 +1770,46 @@ export namespace Prisma {
    * TransportCountOutputType without action
    */
   export type TransportCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationWhereInput
+  }
+
+
+  /**
+   * Count Type AttractionCountOutputType
+   */
+
+  export type AttractionCountOutputType = {
+    joins: number
+    notifications: number
+  }
+
+  export type AttractionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    joins?: boolean | AttractionCountOutputTypeCountJoinsArgs
+    notifications?: boolean | AttractionCountOutputTypeCountNotificationsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AttractionCountOutputType without action
+   */
+  export type AttractionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttractionCountOutputType
+     */
+    select?: AttractionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AttractionCountOutputType without action
+   */
+  export type AttractionCountOutputTypeCountJoinsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttractionJoinWhereInput
+  }
+
+  /**
+   * AttractionCountOutputType without action
+   */
+  export type AttractionCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NotificationWhereInput
   }
 
@@ -2683,6 +3057,8 @@ export namespace Prisma {
     listings?: boolean | User$listingsArgs<ExtArgs>
     transports?: boolean | User$transportsArgs<ExtArgs>
     transportJoins?: boolean | User$transportJoinsArgs<ExtArgs>
+    attractions?: boolean | User$attractionsArgs<ExtArgs>
+    attractionJoins?: boolean | User$attractionJoinsArgs<ExtArgs>
     notificationsReceived?: boolean | User$notificationsReceivedArgs<ExtArgs>
     notificationsCreated?: boolean | User$notificationsCreatedArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -2738,6 +3114,8 @@ export namespace Prisma {
     listings?: boolean | User$listingsArgs<ExtArgs>
     transports?: boolean | User$transportsArgs<ExtArgs>
     transportJoins?: boolean | User$transportJoinsArgs<ExtArgs>
+    attractions?: boolean | User$attractionsArgs<ExtArgs>
+    attractionJoins?: boolean | User$attractionJoinsArgs<ExtArgs>
     notificationsReceived?: boolean | User$notificationsReceivedArgs<ExtArgs>
     notificationsCreated?: boolean | User$notificationsCreatedArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -2751,6 +3129,8 @@ export namespace Prisma {
       listings: Prisma.$ListingPayload<ExtArgs>[]
       transports: Prisma.$TransportPayload<ExtArgs>[]
       transportJoins: Prisma.$TransportJoinPayload<ExtArgs>[]
+      attractions: Prisma.$AttractionPayload<ExtArgs>[]
+      attractionJoins: Prisma.$AttractionJoinPayload<ExtArgs>[]
       notificationsReceived: Prisma.$NotificationPayload<ExtArgs>[]
       notificationsCreated: Prisma.$NotificationPayload<ExtArgs>[]
     }
@@ -3164,6 +3544,8 @@ export namespace Prisma {
     listings<T extends User$listingsArgs<ExtArgs> = {}>(args?: Subset<T, User$listingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     transports<T extends User$transportsArgs<ExtArgs> = {}>(args?: Subset<T, User$transportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     transportJoins<T extends User$transportJoinsArgs<ExtArgs> = {}>(args?: Subset<T, User$transportJoinsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransportJoinPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    attractions<T extends User$attractionsArgs<ExtArgs> = {}>(args?: Subset<T, User$attractionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttractionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    attractionJoins<T extends User$attractionJoinsArgs<ExtArgs> = {}>(args?: Subset<T, User$attractionJoinsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttractionJoinPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notificationsReceived<T extends User$notificationsReceivedArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notificationsCreated<T extends User$notificationsCreatedArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -3672,6 +4054,54 @@ export namespace Prisma {
   }
 
   /**
+   * User.attractions
+   */
+  export type User$attractionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attraction
+     */
+    select?: AttractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attraction
+     */
+    omit?: AttractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionInclude<ExtArgs> | null
+    where?: AttractionWhereInput
+    orderBy?: AttractionOrderByWithRelationInput | AttractionOrderByWithRelationInput[]
+    cursor?: AttractionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AttractionScalarFieldEnum | AttractionScalarFieldEnum[]
+  }
+
+  /**
+   * User.attractionJoins
+   */
+  export type User$attractionJoinsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttractionJoin
+     */
+    select?: AttractionJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttractionJoin
+     */
+    omit?: AttractionJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionJoinInclude<ExtArgs> | null
+    where?: AttractionJoinWhereInput
+    orderBy?: AttractionJoinOrderByWithRelationInput | AttractionJoinOrderByWithRelationInput[]
+    cursor?: AttractionJoinWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AttractionJoinScalarFieldEnum | AttractionJoinScalarFieldEnum[]
+  }
+
+  /**
    * User.notificationsReceived
    */
   export type User$notificationsReceivedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3735,6 +4165,1055 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Location
+   */
+
+  export type AggregateLocation = {
+    _count: LocationCountAggregateOutputType | null
+    _min: LocationMinAggregateOutputType | null
+    _max: LocationMaxAggregateOutputType | null
+  }
+
+  export type LocationMinAggregateOutputType = {
+    id: string | null
+    label: string | null
+    createdAt: Date | null
+  }
+
+  export type LocationMaxAggregateOutputType = {
+    id: string | null
+    label: string | null
+    createdAt: Date | null
+  }
+
+  export type LocationCountAggregateOutputType = {
+    id: number
+    label: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type LocationMinAggregateInputType = {
+    id?: true
+    label?: true
+    createdAt?: true
+  }
+
+  export type LocationMaxAggregateInputType = {
+    id?: true
+    label?: true
+    createdAt?: true
+  }
+
+  export type LocationCountAggregateInputType = {
+    id?: true
+    label?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type LocationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Location to aggregate.
+     */
+    where?: LocationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Locations to fetch.
+     */
+    orderBy?: LocationOrderByWithRelationInput | LocationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LocationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Locations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Locations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Locations
+    **/
+    _count?: true | LocationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LocationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LocationMaxAggregateInputType
+  }
+
+  export type GetLocationAggregateType<T extends LocationAggregateArgs> = {
+        [P in keyof T & keyof AggregateLocation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLocation[P]>
+      : GetScalarType<T[P], AggregateLocation[P]>
+  }
+
+
+
+
+  export type LocationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LocationWhereInput
+    orderBy?: LocationOrderByWithAggregationInput | LocationOrderByWithAggregationInput[]
+    by: LocationScalarFieldEnum[] | LocationScalarFieldEnum
+    having?: LocationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LocationCountAggregateInputType | true
+    _min?: LocationMinAggregateInputType
+    _max?: LocationMaxAggregateInputType
+  }
+
+  export type LocationGroupByOutputType = {
+    id: string
+    label: string
+    createdAt: Date
+    _count: LocationCountAggregateOutputType | null
+    _min: LocationMinAggregateOutputType | null
+    _max: LocationMaxAggregateOutputType | null
+  }
+
+  type GetLocationGroupByPayload<T extends LocationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LocationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LocationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LocationGroupByOutputType[P]>
+            : GetScalarType<T[P], LocationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LocationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    label?: boolean
+    createdAt?: boolean
+    attractions?: boolean | Location$attractionsArgs<ExtArgs>
+    _count?: boolean | LocationCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["location"]>
+
+  export type LocationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    label?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["location"]>
+
+  export type LocationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    label?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["location"]>
+
+  export type LocationSelectScalar = {
+    id?: boolean
+    label?: boolean
+    createdAt?: boolean
+  }
+
+  export type LocationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "label" | "createdAt", ExtArgs["result"]["location"]>
+  export type LocationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    attractions?: boolean | Location$attractionsArgs<ExtArgs>
+    _count?: boolean | LocationCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type LocationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type LocationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $LocationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Location"
+    objects: {
+      attractions: Prisma.$AttractionPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      label: string
+      createdAt: Date
+    }, ExtArgs["result"]["location"]>
+    composites: {}
+  }
+
+  type LocationGetPayload<S extends boolean | null | undefined | LocationDefaultArgs> = $Result.GetResult<Prisma.$LocationPayload, S>
+
+  type LocationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LocationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LocationCountAggregateInputType | true
+    }
+
+  export interface LocationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Location'], meta: { name: 'Location' } }
+    /**
+     * Find zero or one Location that matches the filter.
+     * @param {LocationFindUniqueArgs} args - Arguments to find a Location
+     * @example
+     * // Get one Location
+     * const location = await prisma.location.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LocationFindUniqueArgs>(args: SelectSubset<T, LocationFindUniqueArgs<ExtArgs>>): Prisma__LocationClient<$Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Location that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LocationFindUniqueOrThrowArgs} args - Arguments to find a Location
+     * @example
+     * // Get one Location
+     * const location = await prisma.location.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LocationFindUniqueOrThrowArgs>(args: SelectSubset<T, LocationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LocationClient<$Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Location that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LocationFindFirstArgs} args - Arguments to find a Location
+     * @example
+     * // Get one Location
+     * const location = await prisma.location.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LocationFindFirstArgs>(args?: SelectSubset<T, LocationFindFirstArgs<ExtArgs>>): Prisma__LocationClient<$Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Location that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LocationFindFirstOrThrowArgs} args - Arguments to find a Location
+     * @example
+     * // Get one Location
+     * const location = await prisma.location.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LocationFindFirstOrThrowArgs>(args?: SelectSubset<T, LocationFindFirstOrThrowArgs<ExtArgs>>): Prisma__LocationClient<$Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Locations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LocationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Locations
+     * const locations = await prisma.location.findMany()
+     * 
+     * // Get first 10 Locations
+     * const locations = await prisma.location.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const locationWithIdOnly = await prisma.location.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LocationFindManyArgs>(args?: SelectSubset<T, LocationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Location.
+     * @param {LocationCreateArgs} args - Arguments to create a Location.
+     * @example
+     * // Create one Location
+     * const Location = await prisma.location.create({
+     *   data: {
+     *     // ... data to create a Location
+     *   }
+     * })
+     * 
+     */
+    create<T extends LocationCreateArgs>(args: SelectSubset<T, LocationCreateArgs<ExtArgs>>): Prisma__LocationClient<$Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Locations.
+     * @param {LocationCreateManyArgs} args - Arguments to create many Locations.
+     * @example
+     * // Create many Locations
+     * const location = await prisma.location.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LocationCreateManyArgs>(args?: SelectSubset<T, LocationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Locations and returns the data saved in the database.
+     * @param {LocationCreateManyAndReturnArgs} args - Arguments to create many Locations.
+     * @example
+     * // Create many Locations
+     * const location = await prisma.location.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Locations and only return the `id`
+     * const locationWithIdOnly = await prisma.location.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LocationCreateManyAndReturnArgs>(args?: SelectSubset<T, LocationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Location.
+     * @param {LocationDeleteArgs} args - Arguments to delete one Location.
+     * @example
+     * // Delete one Location
+     * const Location = await prisma.location.delete({
+     *   where: {
+     *     // ... filter to delete one Location
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LocationDeleteArgs>(args: SelectSubset<T, LocationDeleteArgs<ExtArgs>>): Prisma__LocationClient<$Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Location.
+     * @param {LocationUpdateArgs} args - Arguments to update one Location.
+     * @example
+     * // Update one Location
+     * const location = await prisma.location.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LocationUpdateArgs>(args: SelectSubset<T, LocationUpdateArgs<ExtArgs>>): Prisma__LocationClient<$Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Locations.
+     * @param {LocationDeleteManyArgs} args - Arguments to filter Locations to delete.
+     * @example
+     * // Delete a few Locations
+     * const { count } = await prisma.location.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LocationDeleteManyArgs>(args?: SelectSubset<T, LocationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Locations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LocationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Locations
+     * const location = await prisma.location.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LocationUpdateManyArgs>(args: SelectSubset<T, LocationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Locations and returns the data updated in the database.
+     * @param {LocationUpdateManyAndReturnArgs} args - Arguments to update many Locations.
+     * @example
+     * // Update many Locations
+     * const location = await prisma.location.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Locations and only return the `id`
+     * const locationWithIdOnly = await prisma.location.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LocationUpdateManyAndReturnArgs>(args: SelectSubset<T, LocationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Location.
+     * @param {LocationUpsertArgs} args - Arguments to update or create a Location.
+     * @example
+     * // Update or create a Location
+     * const location = await prisma.location.upsert({
+     *   create: {
+     *     // ... data to create a Location
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Location we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LocationUpsertArgs>(args: SelectSubset<T, LocationUpsertArgs<ExtArgs>>): Prisma__LocationClient<$Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Locations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LocationCountArgs} args - Arguments to filter Locations to count.
+     * @example
+     * // Count the number of Locations
+     * const count = await prisma.location.count({
+     *   where: {
+     *     // ... the filter for the Locations we want to count
+     *   }
+     * })
+    **/
+    count<T extends LocationCountArgs>(
+      args?: Subset<T, LocationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LocationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Location.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LocationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LocationAggregateArgs>(args: Subset<T, LocationAggregateArgs>): Prisma.PrismaPromise<GetLocationAggregateType<T>>
+
+    /**
+     * Group by Location.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LocationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LocationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LocationGroupByArgs['orderBy'] }
+        : { orderBy?: LocationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LocationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLocationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Location model
+   */
+  readonly fields: LocationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Location.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LocationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    attractions<T extends Location$attractionsArgs<ExtArgs> = {}>(args?: Subset<T, Location$attractionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttractionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Location model
+   */
+  interface LocationFieldRefs {
+    readonly id: FieldRef<"Location", 'String'>
+    readonly label: FieldRef<"Location", 'String'>
+    readonly createdAt: FieldRef<"Location", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Location findUnique
+   */
+  export type LocationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Location
+     */
+    select?: LocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Location
+     */
+    omit?: LocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LocationInclude<ExtArgs> | null
+    /**
+     * Filter, which Location to fetch.
+     */
+    where: LocationWhereUniqueInput
+  }
+
+  /**
+   * Location findUniqueOrThrow
+   */
+  export type LocationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Location
+     */
+    select?: LocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Location
+     */
+    omit?: LocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LocationInclude<ExtArgs> | null
+    /**
+     * Filter, which Location to fetch.
+     */
+    where: LocationWhereUniqueInput
+  }
+
+  /**
+   * Location findFirst
+   */
+  export type LocationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Location
+     */
+    select?: LocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Location
+     */
+    omit?: LocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LocationInclude<ExtArgs> | null
+    /**
+     * Filter, which Location to fetch.
+     */
+    where?: LocationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Locations to fetch.
+     */
+    orderBy?: LocationOrderByWithRelationInput | LocationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Locations.
+     */
+    cursor?: LocationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Locations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Locations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Locations.
+     */
+    distinct?: LocationScalarFieldEnum | LocationScalarFieldEnum[]
+  }
+
+  /**
+   * Location findFirstOrThrow
+   */
+  export type LocationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Location
+     */
+    select?: LocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Location
+     */
+    omit?: LocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LocationInclude<ExtArgs> | null
+    /**
+     * Filter, which Location to fetch.
+     */
+    where?: LocationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Locations to fetch.
+     */
+    orderBy?: LocationOrderByWithRelationInput | LocationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Locations.
+     */
+    cursor?: LocationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Locations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Locations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Locations.
+     */
+    distinct?: LocationScalarFieldEnum | LocationScalarFieldEnum[]
+  }
+
+  /**
+   * Location findMany
+   */
+  export type LocationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Location
+     */
+    select?: LocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Location
+     */
+    omit?: LocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LocationInclude<ExtArgs> | null
+    /**
+     * Filter, which Locations to fetch.
+     */
+    where?: LocationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Locations to fetch.
+     */
+    orderBy?: LocationOrderByWithRelationInput | LocationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Locations.
+     */
+    cursor?: LocationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Locations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Locations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Locations.
+     */
+    distinct?: LocationScalarFieldEnum | LocationScalarFieldEnum[]
+  }
+
+  /**
+   * Location create
+   */
+  export type LocationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Location
+     */
+    select?: LocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Location
+     */
+    omit?: LocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LocationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Location.
+     */
+    data: XOR<LocationCreateInput, LocationUncheckedCreateInput>
+  }
+
+  /**
+   * Location createMany
+   */
+  export type LocationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Locations.
+     */
+    data: LocationCreateManyInput | LocationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Location createManyAndReturn
+   */
+  export type LocationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Location
+     */
+    select?: LocationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Location
+     */
+    omit?: LocationOmit<ExtArgs> | null
+    /**
+     * The data used to create many Locations.
+     */
+    data: LocationCreateManyInput | LocationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Location update
+   */
+  export type LocationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Location
+     */
+    select?: LocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Location
+     */
+    omit?: LocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LocationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Location.
+     */
+    data: XOR<LocationUpdateInput, LocationUncheckedUpdateInput>
+    /**
+     * Choose, which Location to update.
+     */
+    where: LocationWhereUniqueInput
+  }
+
+  /**
+   * Location updateMany
+   */
+  export type LocationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Locations.
+     */
+    data: XOR<LocationUpdateManyMutationInput, LocationUncheckedUpdateManyInput>
+    /**
+     * Filter which Locations to update
+     */
+    where?: LocationWhereInput
+    /**
+     * Limit how many Locations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Location updateManyAndReturn
+   */
+  export type LocationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Location
+     */
+    select?: LocationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Location
+     */
+    omit?: LocationOmit<ExtArgs> | null
+    /**
+     * The data used to update Locations.
+     */
+    data: XOR<LocationUpdateManyMutationInput, LocationUncheckedUpdateManyInput>
+    /**
+     * Filter which Locations to update
+     */
+    where?: LocationWhereInput
+    /**
+     * Limit how many Locations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Location upsert
+   */
+  export type LocationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Location
+     */
+    select?: LocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Location
+     */
+    omit?: LocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LocationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Location to update in case it exists.
+     */
+    where: LocationWhereUniqueInput
+    /**
+     * In case the Location found by the `where` argument doesn't exist, create a new Location with this data.
+     */
+    create: XOR<LocationCreateInput, LocationUncheckedCreateInput>
+    /**
+     * In case the Location was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LocationUpdateInput, LocationUncheckedUpdateInput>
+  }
+
+  /**
+   * Location delete
+   */
+  export type LocationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Location
+     */
+    select?: LocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Location
+     */
+    omit?: LocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LocationInclude<ExtArgs> | null
+    /**
+     * Filter which Location to delete.
+     */
+    where: LocationWhereUniqueInput
+  }
+
+  /**
+   * Location deleteMany
+   */
+  export type LocationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Locations to delete
+     */
+    where?: LocationWhereInput
+    /**
+     * Limit how many Locations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Location.attractions
+   */
+  export type Location$attractionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attraction
+     */
+    select?: AttractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attraction
+     */
+    omit?: AttractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionInclude<ExtArgs> | null
+    where?: AttractionWhereInput
+    orderBy?: AttractionOrderByWithRelationInput | AttractionOrderByWithRelationInput[]
+    cursor?: AttractionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AttractionScalarFieldEnum | AttractionScalarFieldEnum[]
+  }
+
+  /**
+   * Location without action
+   */
+  export type LocationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Location
+     */
+    select?: LocationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Location
+     */
+    omit?: LocationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LocationInclude<ExtArgs> | null
   }
 
 
@@ -7226,6 +8705,2351 @@ export namespace Prisma {
 
 
   /**
+   * Model Attraction
+   */
+
+  export type AggregateAttraction = {
+    _count: AttractionCountAggregateOutputType | null
+    _avg: AttractionAvgAggregateOutputType | null
+    _sum: AttractionSumAggregateOutputType | null
+    _min: AttractionMinAggregateOutputType | null
+    _max: AttractionMaxAggregateOutputType | null
+  }
+
+  export type AttractionAvgAggregateOutputType = {
+    price: number | null
+    maxParticipants: number | null
+    availableSlots: number | null
+  }
+
+  export type AttractionSumAggregateOutputType = {
+    price: number | null
+    maxParticipants: number | null
+    availableSlots: number | null
+  }
+
+  export type AttractionMinAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    title: string | null
+    description: string | null
+    price: number | null
+    locationId: string | null
+    creatorId: string | null
+    type: $Enums.AttractionType | null
+    contactPhone: string | null
+    externalLink: string | null
+    date: Date | null
+    maxParticipants: number | null
+    availableSlots: number | null
+  }
+
+  export type AttractionMaxAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    title: string | null
+    description: string | null
+    price: number | null
+    locationId: string | null
+    creatorId: string | null
+    type: $Enums.AttractionType | null
+    contactPhone: string | null
+    externalLink: string | null
+    date: Date | null
+    maxParticipants: number | null
+    availableSlots: number | null
+  }
+
+  export type AttractionCountAggregateOutputType = {
+    id: number
+    createdAt: number
+    title: number
+    description: number
+    price: number
+    locationId: number
+    creatorId: number
+    type: number
+    images: number
+    contactPhone: number
+    externalLink: number
+    date: number
+    maxParticipants: number
+    availableSlots: number
+    _all: number
+  }
+
+
+  export type AttractionAvgAggregateInputType = {
+    price?: true
+    maxParticipants?: true
+    availableSlots?: true
+  }
+
+  export type AttractionSumAggregateInputType = {
+    price?: true
+    maxParticipants?: true
+    availableSlots?: true
+  }
+
+  export type AttractionMinAggregateInputType = {
+    id?: true
+    createdAt?: true
+    title?: true
+    description?: true
+    price?: true
+    locationId?: true
+    creatorId?: true
+    type?: true
+    contactPhone?: true
+    externalLink?: true
+    date?: true
+    maxParticipants?: true
+    availableSlots?: true
+  }
+
+  export type AttractionMaxAggregateInputType = {
+    id?: true
+    createdAt?: true
+    title?: true
+    description?: true
+    price?: true
+    locationId?: true
+    creatorId?: true
+    type?: true
+    contactPhone?: true
+    externalLink?: true
+    date?: true
+    maxParticipants?: true
+    availableSlots?: true
+  }
+
+  export type AttractionCountAggregateInputType = {
+    id?: true
+    createdAt?: true
+    title?: true
+    description?: true
+    price?: true
+    locationId?: true
+    creatorId?: true
+    type?: true
+    images?: true
+    contactPhone?: true
+    externalLink?: true
+    date?: true
+    maxParticipants?: true
+    availableSlots?: true
+    _all?: true
+  }
+
+  export type AttractionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Attraction to aggregate.
+     */
+    where?: AttractionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Attractions to fetch.
+     */
+    orderBy?: AttractionOrderByWithRelationInput | AttractionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AttractionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Attractions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Attractions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Attractions
+    **/
+    _count?: true | AttractionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AttractionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AttractionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AttractionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AttractionMaxAggregateInputType
+  }
+
+  export type GetAttractionAggregateType<T extends AttractionAggregateArgs> = {
+        [P in keyof T & keyof AggregateAttraction]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAttraction[P]>
+      : GetScalarType<T[P], AggregateAttraction[P]>
+  }
+
+
+
+
+  export type AttractionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttractionWhereInput
+    orderBy?: AttractionOrderByWithAggregationInput | AttractionOrderByWithAggregationInput[]
+    by: AttractionScalarFieldEnum[] | AttractionScalarFieldEnum
+    having?: AttractionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AttractionCountAggregateInputType | true
+    _avg?: AttractionAvgAggregateInputType
+    _sum?: AttractionSumAggregateInputType
+    _min?: AttractionMinAggregateInputType
+    _max?: AttractionMaxAggregateInputType
+  }
+
+  export type AttractionGroupByOutputType = {
+    id: string
+    createdAt: Date
+    title: string
+    description: string | null
+    price: number | null
+    locationId: string
+    creatorId: string
+    type: $Enums.AttractionType
+    images: string[]
+    contactPhone: string
+    externalLink: string | null
+    date: Date | null
+    maxParticipants: number | null
+    availableSlots: number | null
+    _count: AttractionCountAggregateOutputType | null
+    _avg: AttractionAvgAggregateOutputType | null
+    _sum: AttractionSumAggregateOutputType | null
+    _min: AttractionMinAggregateOutputType | null
+    _max: AttractionMaxAggregateOutputType | null
+  }
+
+  type GetAttractionGroupByPayload<T extends AttractionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AttractionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AttractionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AttractionGroupByOutputType[P]>
+            : GetScalarType<T[P], AttractionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AttractionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    title?: boolean
+    description?: boolean
+    price?: boolean
+    locationId?: boolean
+    creatorId?: boolean
+    type?: boolean
+    images?: boolean
+    contactPhone?: boolean
+    externalLink?: boolean
+    date?: boolean
+    maxParticipants?: boolean
+    availableSlots?: boolean
+    location?: boolean | LocationDefaultArgs<ExtArgs>
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+    joins?: boolean | Attraction$joinsArgs<ExtArgs>
+    notifications?: boolean | Attraction$notificationsArgs<ExtArgs>
+    _count?: boolean | AttractionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attraction"]>
+
+  export type AttractionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    title?: boolean
+    description?: boolean
+    price?: boolean
+    locationId?: boolean
+    creatorId?: boolean
+    type?: boolean
+    images?: boolean
+    contactPhone?: boolean
+    externalLink?: boolean
+    date?: boolean
+    maxParticipants?: boolean
+    availableSlots?: boolean
+    location?: boolean | LocationDefaultArgs<ExtArgs>
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attraction"]>
+
+  export type AttractionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    title?: boolean
+    description?: boolean
+    price?: boolean
+    locationId?: boolean
+    creatorId?: boolean
+    type?: boolean
+    images?: boolean
+    contactPhone?: boolean
+    externalLink?: boolean
+    date?: boolean
+    maxParticipants?: boolean
+    availableSlots?: boolean
+    location?: boolean | LocationDefaultArgs<ExtArgs>
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attraction"]>
+
+  export type AttractionSelectScalar = {
+    id?: boolean
+    createdAt?: boolean
+    title?: boolean
+    description?: boolean
+    price?: boolean
+    locationId?: boolean
+    creatorId?: boolean
+    type?: boolean
+    images?: boolean
+    contactPhone?: boolean
+    externalLink?: boolean
+    date?: boolean
+    maxParticipants?: boolean
+    availableSlots?: boolean
+  }
+
+  export type AttractionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "title" | "description" | "price" | "locationId" | "creatorId" | "type" | "images" | "contactPhone" | "externalLink" | "date" | "maxParticipants" | "availableSlots", ExtArgs["result"]["attraction"]>
+  export type AttractionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    location?: boolean | LocationDefaultArgs<ExtArgs>
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+    joins?: boolean | Attraction$joinsArgs<ExtArgs>
+    notifications?: boolean | Attraction$notificationsArgs<ExtArgs>
+    _count?: boolean | AttractionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type AttractionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    location?: boolean | LocationDefaultArgs<ExtArgs>
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AttractionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    location?: boolean | LocationDefaultArgs<ExtArgs>
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $AttractionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Attraction"
+    objects: {
+      location: Prisma.$LocationPayload<ExtArgs>
+      creator: Prisma.$UserPayload<ExtArgs>
+      joins: Prisma.$AttractionJoinPayload<ExtArgs>[]
+      notifications: Prisma.$NotificationPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      createdAt: Date
+      title: string
+      description: string | null
+      price: number | null
+      locationId: string
+      creatorId: string
+      type: $Enums.AttractionType
+      images: string[]
+      contactPhone: string
+      externalLink: string | null
+      date: Date | null
+      maxParticipants: number | null
+      /**
+       * Remaining slots for PRIVATE attractions with a capacity; mirrors Transport.availableSeats.
+       */
+      availableSlots: number | null
+    }, ExtArgs["result"]["attraction"]>
+    composites: {}
+  }
+
+  type AttractionGetPayload<S extends boolean | null | undefined | AttractionDefaultArgs> = $Result.GetResult<Prisma.$AttractionPayload, S>
+
+  type AttractionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AttractionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AttractionCountAggregateInputType | true
+    }
+
+  export interface AttractionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Attraction'], meta: { name: 'Attraction' } }
+    /**
+     * Find zero or one Attraction that matches the filter.
+     * @param {AttractionFindUniqueArgs} args - Arguments to find a Attraction
+     * @example
+     * // Get one Attraction
+     * const attraction = await prisma.attraction.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AttractionFindUniqueArgs>(args: SelectSubset<T, AttractionFindUniqueArgs<ExtArgs>>): Prisma__AttractionClient<$Result.GetResult<Prisma.$AttractionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Attraction that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AttractionFindUniqueOrThrowArgs} args - Arguments to find a Attraction
+     * @example
+     * // Get one Attraction
+     * const attraction = await prisma.attraction.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AttractionFindUniqueOrThrowArgs>(args: SelectSubset<T, AttractionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AttractionClient<$Result.GetResult<Prisma.$AttractionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Attraction that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttractionFindFirstArgs} args - Arguments to find a Attraction
+     * @example
+     * // Get one Attraction
+     * const attraction = await prisma.attraction.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AttractionFindFirstArgs>(args?: SelectSubset<T, AttractionFindFirstArgs<ExtArgs>>): Prisma__AttractionClient<$Result.GetResult<Prisma.$AttractionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Attraction that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttractionFindFirstOrThrowArgs} args - Arguments to find a Attraction
+     * @example
+     * // Get one Attraction
+     * const attraction = await prisma.attraction.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AttractionFindFirstOrThrowArgs>(args?: SelectSubset<T, AttractionFindFirstOrThrowArgs<ExtArgs>>): Prisma__AttractionClient<$Result.GetResult<Prisma.$AttractionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Attractions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttractionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Attractions
+     * const attractions = await prisma.attraction.findMany()
+     * 
+     * // Get first 10 Attractions
+     * const attractions = await prisma.attraction.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const attractionWithIdOnly = await prisma.attraction.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AttractionFindManyArgs>(args?: SelectSubset<T, AttractionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttractionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Attraction.
+     * @param {AttractionCreateArgs} args - Arguments to create a Attraction.
+     * @example
+     * // Create one Attraction
+     * const Attraction = await prisma.attraction.create({
+     *   data: {
+     *     // ... data to create a Attraction
+     *   }
+     * })
+     * 
+     */
+    create<T extends AttractionCreateArgs>(args: SelectSubset<T, AttractionCreateArgs<ExtArgs>>): Prisma__AttractionClient<$Result.GetResult<Prisma.$AttractionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Attractions.
+     * @param {AttractionCreateManyArgs} args - Arguments to create many Attractions.
+     * @example
+     * // Create many Attractions
+     * const attraction = await prisma.attraction.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AttractionCreateManyArgs>(args?: SelectSubset<T, AttractionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Attractions and returns the data saved in the database.
+     * @param {AttractionCreateManyAndReturnArgs} args - Arguments to create many Attractions.
+     * @example
+     * // Create many Attractions
+     * const attraction = await prisma.attraction.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Attractions and only return the `id`
+     * const attractionWithIdOnly = await prisma.attraction.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AttractionCreateManyAndReturnArgs>(args?: SelectSubset<T, AttractionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttractionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Attraction.
+     * @param {AttractionDeleteArgs} args - Arguments to delete one Attraction.
+     * @example
+     * // Delete one Attraction
+     * const Attraction = await prisma.attraction.delete({
+     *   where: {
+     *     // ... filter to delete one Attraction
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AttractionDeleteArgs>(args: SelectSubset<T, AttractionDeleteArgs<ExtArgs>>): Prisma__AttractionClient<$Result.GetResult<Prisma.$AttractionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Attraction.
+     * @param {AttractionUpdateArgs} args - Arguments to update one Attraction.
+     * @example
+     * // Update one Attraction
+     * const attraction = await prisma.attraction.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AttractionUpdateArgs>(args: SelectSubset<T, AttractionUpdateArgs<ExtArgs>>): Prisma__AttractionClient<$Result.GetResult<Prisma.$AttractionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Attractions.
+     * @param {AttractionDeleteManyArgs} args - Arguments to filter Attractions to delete.
+     * @example
+     * // Delete a few Attractions
+     * const { count } = await prisma.attraction.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AttractionDeleteManyArgs>(args?: SelectSubset<T, AttractionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Attractions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttractionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Attractions
+     * const attraction = await prisma.attraction.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AttractionUpdateManyArgs>(args: SelectSubset<T, AttractionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Attractions and returns the data updated in the database.
+     * @param {AttractionUpdateManyAndReturnArgs} args - Arguments to update many Attractions.
+     * @example
+     * // Update many Attractions
+     * const attraction = await prisma.attraction.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Attractions and only return the `id`
+     * const attractionWithIdOnly = await prisma.attraction.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AttractionUpdateManyAndReturnArgs>(args: SelectSubset<T, AttractionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttractionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Attraction.
+     * @param {AttractionUpsertArgs} args - Arguments to update or create a Attraction.
+     * @example
+     * // Update or create a Attraction
+     * const attraction = await prisma.attraction.upsert({
+     *   create: {
+     *     // ... data to create a Attraction
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Attraction we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AttractionUpsertArgs>(args: SelectSubset<T, AttractionUpsertArgs<ExtArgs>>): Prisma__AttractionClient<$Result.GetResult<Prisma.$AttractionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Attractions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttractionCountArgs} args - Arguments to filter Attractions to count.
+     * @example
+     * // Count the number of Attractions
+     * const count = await prisma.attraction.count({
+     *   where: {
+     *     // ... the filter for the Attractions we want to count
+     *   }
+     * })
+    **/
+    count<T extends AttractionCountArgs>(
+      args?: Subset<T, AttractionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AttractionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Attraction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttractionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AttractionAggregateArgs>(args: Subset<T, AttractionAggregateArgs>): Prisma.PrismaPromise<GetAttractionAggregateType<T>>
+
+    /**
+     * Group by Attraction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttractionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AttractionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AttractionGroupByArgs['orderBy'] }
+        : { orderBy?: AttractionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AttractionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAttractionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Attraction model
+   */
+  readonly fields: AttractionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Attraction.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AttractionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    location<T extends LocationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LocationDefaultArgs<ExtArgs>>): Prisma__LocationClient<$Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    creator<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    joins<T extends Attraction$joinsArgs<ExtArgs> = {}>(args?: Subset<T, Attraction$joinsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttractionJoinPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notifications<T extends Attraction$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Attraction$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Attraction model
+   */
+  interface AttractionFieldRefs {
+    readonly id: FieldRef<"Attraction", 'String'>
+    readonly createdAt: FieldRef<"Attraction", 'DateTime'>
+    readonly title: FieldRef<"Attraction", 'String'>
+    readonly description: FieldRef<"Attraction", 'String'>
+    readonly price: FieldRef<"Attraction", 'Float'>
+    readonly locationId: FieldRef<"Attraction", 'String'>
+    readonly creatorId: FieldRef<"Attraction", 'String'>
+    readonly type: FieldRef<"Attraction", 'AttractionType'>
+    readonly images: FieldRef<"Attraction", 'String[]'>
+    readonly contactPhone: FieldRef<"Attraction", 'String'>
+    readonly externalLink: FieldRef<"Attraction", 'String'>
+    readonly date: FieldRef<"Attraction", 'DateTime'>
+    readonly maxParticipants: FieldRef<"Attraction", 'Int'>
+    readonly availableSlots: FieldRef<"Attraction", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Attraction findUnique
+   */
+  export type AttractionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attraction
+     */
+    select?: AttractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attraction
+     */
+    omit?: AttractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionInclude<ExtArgs> | null
+    /**
+     * Filter, which Attraction to fetch.
+     */
+    where: AttractionWhereUniqueInput
+  }
+
+  /**
+   * Attraction findUniqueOrThrow
+   */
+  export type AttractionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attraction
+     */
+    select?: AttractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attraction
+     */
+    omit?: AttractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionInclude<ExtArgs> | null
+    /**
+     * Filter, which Attraction to fetch.
+     */
+    where: AttractionWhereUniqueInput
+  }
+
+  /**
+   * Attraction findFirst
+   */
+  export type AttractionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attraction
+     */
+    select?: AttractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attraction
+     */
+    omit?: AttractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionInclude<ExtArgs> | null
+    /**
+     * Filter, which Attraction to fetch.
+     */
+    where?: AttractionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Attractions to fetch.
+     */
+    orderBy?: AttractionOrderByWithRelationInput | AttractionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Attractions.
+     */
+    cursor?: AttractionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Attractions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Attractions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Attractions.
+     */
+    distinct?: AttractionScalarFieldEnum | AttractionScalarFieldEnum[]
+  }
+
+  /**
+   * Attraction findFirstOrThrow
+   */
+  export type AttractionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attraction
+     */
+    select?: AttractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attraction
+     */
+    omit?: AttractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionInclude<ExtArgs> | null
+    /**
+     * Filter, which Attraction to fetch.
+     */
+    where?: AttractionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Attractions to fetch.
+     */
+    orderBy?: AttractionOrderByWithRelationInput | AttractionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Attractions.
+     */
+    cursor?: AttractionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Attractions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Attractions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Attractions.
+     */
+    distinct?: AttractionScalarFieldEnum | AttractionScalarFieldEnum[]
+  }
+
+  /**
+   * Attraction findMany
+   */
+  export type AttractionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attraction
+     */
+    select?: AttractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attraction
+     */
+    omit?: AttractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionInclude<ExtArgs> | null
+    /**
+     * Filter, which Attractions to fetch.
+     */
+    where?: AttractionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Attractions to fetch.
+     */
+    orderBy?: AttractionOrderByWithRelationInput | AttractionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Attractions.
+     */
+    cursor?: AttractionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Attractions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Attractions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Attractions.
+     */
+    distinct?: AttractionScalarFieldEnum | AttractionScalarFieldEnum[]
+  }
+
+  /**
+   * Attraction create
+   */
+  export type AttractionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attraction
+     */
+    select?: AttractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attraction
+     */
+    omit?: AttractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Attraction.
+     */
+    data: XOR<AttractionCreateInput, AttractionUncheckedCreateInput>
+  }
+
+  /**
+   * Attraction createMany
+   */
+  export type AttractionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Attractions.
+     */
+    data: AttractionCreateManyInput | AttractionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Attraction createManyAndReturn
+   */
+  export type AttractionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attraction
+     */
+    select?: AttractionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attraction
+     */
+    omit?: AttractionOmit<ExtArgs> | null
+    /**
+     * The data used to create many Attractions.
+     */
+    data: AttractionCreateManyInput | AttractionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Attraction update
+   */
+  export type AttractionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attraction
+     */
+    select?: AttractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attraction
+     */
+    omit?: AttractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Attraction.
+     */
+    data: XOR<AttractionUpdateInput, AttractionUncheckedUpdateInput>
+    /**
+     * Choose, which Attraction to update.
+     */
+    where: AttractionWhereUniqueInput
+  }
+
+  /**
+   * Attraction updateMany
+   */
+  export type AttractionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Attractions.
+     */
+    data: XOR<AttractionUpdateManyMutationInput, AttractionUncheckedUpdateManyInput>
+    /**
+     * Filter which Attractions to update
+     */
+    where?: AttractionWhereInput
+    /**
+     * Limit how many Attractions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Attraction updateManyAndReturn
+   */
+  export type AttractionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attraction
+     */
+    select?: AttractionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attraction
+     */
+    omit?: AttractionOmit<ExtArgs> | null
+    /**
+     * The data used to update Attractions.
+     */
+    data: XOR<AttractionUpdateManyMutationInput, AttractionUncheckedUpdateManyInput>
+    /**
+     * Filter which Attractions to update
+     */
+    where?: AttractionWhereInput
+    /**
+     * Limit how many Attractions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Attraction upsert
+   */
+  export type AttractionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attraction
+     */
+    select?: AttractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attraction
+     */
+    omit?: AttractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Attraction to update in case it exists.
+     */
+    where: AttractionWhereUniqueInput
+    /**
+     * In case the Attraction found by the `where` argument doesn't exist, create a new Attraction with this data.
+     */
+    create: XOR<AttractionCreateInput, AttractionUncheckedCreateInput>
+    /**
+     * In case the Attraction was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AttractionUpdateInput, AttractionUncheckedUpdateInput>
+  }
+
+  /**
+   * Attraction delete
+   */
+  export type AttractionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attraction
+     */
+    select?: AttractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attraction
+     */
+    omit?: AttractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionInclude<ExtArgs> | null
+    /**
+     * Filter which Attraction to delete.
+     */
+    where: AttractionWhereUniqueInput
+  }
+
+  /**
+   * Attraction deleteMany
+   */
+  export type AttractionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Attractions to delete
+     */
+    where?: AttractionWhereInput
+    /**
+     * Limit how many Attractions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Attraction.joins
+   */
+  export type Attraction$joinsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttractionJoin
+     */
+    select?: AttractionJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttractionJoin
+     */
+    omit?: AttractionJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionJoinInclude<ExtArgs> | null
+    where?: AttractionJoinWhereInput
+    orderBy?: AttractionJoinOrderByWithRelationInput | AttractionJoinOrderByWithRelationInput[]
+    cursor?: AttractionJoinWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AttractionJoinScalarFieldEnum | AttractionJoinScalarFieldEnum[]
+  }
+
+  /**
+   * Attraction.notifications
+   */
+  export type Attraction$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    where?: NotificationWhereInput
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    cursor?: NotificationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Attraction without action
+   */
+  export type AttractionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attraction
+     */
+    select?: AttractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attraction
+     */
+    omit?: AttractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AttractionJoin
+   */
+
+  export type AggregateAttractionJoin = {
+    _count: AttractionJoinCountAggregateOutputType | null
+    _min: AttractionJoinMinAggregateOutputType | null
+    _max: AttractionJoinMaxAggregateOutputType | null
+  }
+
+  export type AttractionJoinMinAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    attractionId: string | null
+    userId: string | null
+  }
+
+  export type AttractionJoinMaxAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    attractionId: string | null
+    userId: string | null
+  }
+
+  export type AttractionJoinCountAggregateOutputType = {
+    id: number
+    createdAt: number
+    attractionId: number
+    userId: number
+    _all: number
+  }
+
+
+  export type AttractionJoinMinAggregateInputType = {
+    id?: true
+    createdAt?: true
+    attractionId?: true
+    userId?: true
+  }
+
+  export type AttractionJoinMaxAggregateInputType = {
+    id?: true
+    createdAt?: true
+    attractionId?: true
+    userId?: true
+  }
+
+  export type AttractionJoinCountAggregateInputType = {
+    id?: true
+    createdAt?: true
+    attractionId?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type AttractionJoinAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AttractionJoin to aggregate.
+     */
+    where?: AttractionJoinWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttractionJoins to fetch.
+     */
+    orderBy?: AttractionJoinOrderByWithRelationInput | AttractionJoinOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AttractionJoinWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttractionJoins from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttractionJoins.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AttractionJoins
+    **/
+    _count?: true | AttractionJoinCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AttractionJoinMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AttractionJoinMaxAggregateInputType
+  }
+
+  export type GetAttractionJoinAggregateType<T extends AttractionJoinAggregateArgs> = {
+        [P in keyof T & keyof AggregateAttractionJoin]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAttractionJoin[P]>
+      : GetScalarType<T[P], AggregateAttractionJoin[P]>
+  }
+
+
+
+
+  export type AttractionJoinGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttractionJoinWhereInput
+    orderBy?: AttractionJoinOrderByWithAggregationInput | AttractionJoinOrderByWithAggregationInput[]
+    by: AttractionJoinScalarFieldEnum[] | AttractionJoinScalarFieldEnum
+    having?: AttractionJoinScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AttractionJoinCountAggregateInputType | true
+    _min?: AttractionJoinMinAggregateInputType
+    _max?: AttractionJoinMaxAggregateInputType
+  }
+
+  export type AttractionJoinGroupByOutputType = {
+    id: string
+    createdAt: Date
+    attractionId: string
+    userId: string
+    _count: AttractionJoinCountAggregateOutputType | null
+    _min: AttractionJoinMinAggregateOutputType | null
+    _max: AttractionJoinMaxAggregateOutputType | null
+  }
+
+  type GetAttractionJoinGroupByPayload<T extends AttractionJoinGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AttractionJoinGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AttractionJoinGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AttractionJoinGroupByOutputType[P]>
+            : GetScalarType<T[P], AttractionJoinGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AttractionJoinSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    attractionId?: boolean
+    userId?: boolean
+    attraction?: boolean | AttractionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attractionJoin"]>
+
+  export type AttractionJoinSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    attractionId?: boolean
+    userId?: boolean
+    attraction?: boolean | AttractionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attractionJoin"]>
+
+  export type AttractionJoinSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    attractionId?: boolean
+    userId?: boolean
+    attraction?: boolean | AttractionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attractionJoin"]>
+
+  export type AttractionJoinSelectScalar = {
+    id?: boolean
+    createdAt?: boolean
+    attractionId?: boolean
+    userId?: boolean
+  }
+
+  export type AttractionJoinOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "attractionId" | "userId", ExtArgs["result"]["attractionJoin"]>
+  export type AttractionJoinInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    attraction?: boolean | AttractionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AttractionJoinIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    attraction?: boolean | AttractionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AttractionJoinIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    attraction?: boolean | AttractionDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $AttractionJoinPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AttractionJoin"
+    objects: {
+      attraction: Prisma.$AttractionPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      createdAt: Date
+      attractionId: string
+      userId: string
+    }, ExtArgs["result"]["attractionJoin"]>
+    composites: {}
+  }
+
+  type AttractionJoinGetPayload<S extends boolean | null | undefined | AttractionJoinDefaultArgs> = $Result.GetResult<Prisma.$AttractionJoinPayload, S>
+
+  type AttractionJoinCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AttractionJoinFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AttractionJoinCountAggregateInputType | true
+    }
+
+  export interface AttractionJoinDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AttractionJoin'], meta: { name: 'AttractionJoin' } }
+    /**
+     * Find zero or one AttractionJoin that matches the filter.
+     * @param {AttractionJoinFindUniqueArgs} args - Arguments to find a AttractionJoin
+     * @example
+     * // Get one AttractionJoin
+     * const attractionJoin = await prisma.attractionJoin.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AttractionJoinFindUniqueArgs>(args: SelectSubset<T, AttractionJoinFindUniqueArgs<ExtArgs>>): Prisma__AttractionJoinClient<$Result.GetResult<Prisma.$AttractionJoinPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AttractionJoin that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AttractionJoinFindUniqueOrThrowArgs} args - Arguments to find a AttractionJoin
+     * @example
+     * // Get one AttractionJoin
+     * const attractionJoin = await prisma.attractionJoin.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AttractionJoinFindUniqueOrThrowArgs>(args: SelectSubset<T, AttractionJoinFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AttractionJoinClient<$Result.GetResult<Prisma.$AttractionJoinPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AttractionJoin that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttractionJoinFindFirstArgs} args - Arguments to find a AttractionJoin
+     * @example
+     * // Get one AttractionJoin
+     * const attractionJoin = await prisma.attractionJoin.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AttractionJoinFindFirstArgs>(args?: SelectSubset<T, AttractionJoinFindFirstArgs<ExtArgs>>): Prisma__AttractionJoinClient<$Result.GetResult<Prisma.$AttractionJoinPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AttractionJoin that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttractionJoinFindFirstOrThrowArgs} args - Arguments to find a AttractionJoin
+     * @example
+     * // Get one AttractionJoin
+     * const attractionJoin = await prisma.attractionJoin.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AttractionJoinFindFirstOrThrowArgs>(args?: SelectSubset<T, AttractionJoinFindFirstOrThrowArgs<ExtArgs>>): Prisma__AttractionJoinClient<$Result.GetResult<Prisma.$AttractionJoinPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AttractionJoins that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttractionJoinFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AttractionJoins
+     * const attractionJoins = await prisma.attractionJoin.findMany()
+     * 
+     * // Get first 10 AttractionJoins
+     * const attractionJoins = await prisma.attractionJoin.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const attractionJoinWithIdOnly = await prisma.attractionJoin.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AttractionJoinFindManyArgs>(args?: SelectSubset<T, AttractionJoinFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttractionJoinPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AttractionJoin.
+     * @param {AttractionJoinCreateArgs} args - Arguments to create a AttractionJoin.
+     * @example
+     * // Create one AttractionJoin
+     * const AttractionJoin = await prisma.attractionJoin.create({
+     *   data: {
+     *     // ... data to create a AttractionJoin
+     *   }
+     * })
+     * 
+     */
+    create<T extends AttractionJoinCreateArgs>(args: SelectSubset<T, AttractionJoinCreateArgs<ExtArgs>>): Prisma__AttractionJoinClient<$Result.GetResult<Prisma.$AttractionJoinPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AttractionJoins.
+     * @param {AttractionJoinCreateManyArgs} args - Arguments to create many AttractionJoins.
+     * @example
+     * // Create many AttractionJoins
+     * const attractionJoin = await prisma.attractionJoin.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AttractionJoinCreateManyArgs>(args?: SelectSubset<T, AttractionJoinCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AttractionJoins and returns the data saved in the database.
+     * @param {AttractionJoinCreateManyAndReturnArgs} args - Arguments to create many AttractionJoins.
+     * @example
+     * // Create many AttractionJoins
+     * const attractionJoin = await prisma.attractionJoin.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AttractionJoins and only return the `id`
+     * const attractionJoinWithIdOnly = await prisma.attractionJoin.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AttractionJoinCreateManyAndReturnArgs>(args?: SelectSubset<T, AttractionJoinCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttractionJoinPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AttractionJoin.
+     * @param {AttractionJoinDeleteArgs} args - Arguments to delete one AttractionJoin.
+     * @example
+     * // Delete one AttractionJoin
+     * const AttractionJoin = await prisma.attractionJoin.delete({
+     *   where: {
+     *     // ... filter to delete one AttractionJoin
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AttractionJoinDeleteArgs>(args: SelectSubset<T, AttractionJoinDeleteArgs<ExtArgs>>): Prisma__AttractionJoinClient<$Result.GetResult<Prisma.$AttractionJoinPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AttractionJoin.
+     * @param {AttractionJoinUpdateArgs} args - Arguments to update one AttractionJoin.
+     * @example
+     * // Update one AttractionJoin
+     * const attractionJoin = await prisma.attractionJoin.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AttractionJoinUpdateArgs>(args: SelectSubset<T, AttractionJoinUpdateArgs<ExtArgs>>): Prisma__AttractionJoinClient<$Result.GetResult<Prisma.$AttractionJoinPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AttractionJoins.
+     * @param {AttractionJoinDeleteManyArgs} args - Arguments to filter AttractionJoins to delete.
+     * @example
+     * // Delete a few AttractionJoins
+     * const { count } = await prisma.attractionJoin.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AttractionJoinDeleteManyArgs>(args?: SelectSubset<T, AttractionJoinDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AttractionJoins.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttractionJoinUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AttractionJoins
+     * const attractionJoin = await prisma.attractionJoin.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AttractionJoinUpdateManyArgs>(args: SelectSubset<T, AttractionJoinUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AttractionJoins and returns the data updated in the database.
+     * @param {AttractionJoinUpdateManyAndReturnArgs} args - Arguments to update many AttractionJoins.
+     * @example
+     * // Update many AttractionJoins
+     * const attractionJoin = await prisma.attractionJoin.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AttractionJoins and only return the `id`
+     * const attractionJoinWithIdOnly = await prisma.attractionJoin.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AttractionJoinUpdateManyAndReturnArgs>(args: SelectSubset<T, AttractionJoinUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttractionJoinPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AttractionJoin.
+     * @param {AttractionJoinUpsertArgs} args - Arguments to update or create a AttractionJoin.
+     * @example
+     * // Update or create a AttractionJoin
+     * const attractionJoin = await prisma.attractionJoin.upsert({
+     *   create: {
+     *     // ... data to create a AttractionJoin
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AttractionJoin we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AttractionJoinUpsertArgs>(args: SelectSubset<T, AttractionJoinUpsertArgs<ExtArgs>>): Prisma__AttractionJoinClient<$Result.GetResult<Prisma.$AttractionJoinPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AttractionJoins.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttractionJoinCountArgs} args - Arguments to filter AttractionJoins to count.
+     * @example
+     * // Count the number of AttractionJoins
+     * const count = await prisma.attractionJoin.count({
+     *   where: {
+     *     // ... the filter for the AttractionJoins we want to count
+     *   }
+     * })
+    **/
+    count<T extends AttractionJoinCountArgs>(
+      args?: Subset<T, AttractionJoinCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AttractionJoinCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AttractionJoin.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttractionJoinAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AttractionJoinAggregateArgs>(args: Subset<T, AttractionJoinAggregateArgs>): Prisma.PrismaPromise<GetAttractionJoinAggregateType<T>>
+
+    /**
+     * Group by AttractionJoin.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttractionJoinGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AttractionJoinGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AttractionJoinGroupByArgs['orderBy'] }
+        : { orderBy?: AttractionJoinGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AttractionJoinGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAttractionJoinGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AttractionJoin model
+   */
+  readonly fields: AttractionJoinFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AttractionJoin.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AttractionJoinClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    attraction<T extends AttractionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AttractionDefaultArgs<ExtArgs>>): Prisma__AttractionClient<$Result.GetResult<Prisma.$AttractionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AttractionJoin model
+   */
+  interface AttractionJoinFieldRefs {
+    readonly id: FieldRef<"AttractionJoin", 'String'>
+    readonly createdAt: FieldRef<"AttractionJoin", 'DateTime'>
+    readonly attractionId: FieldRef<"AttractionJoin", 'String'>
+    readonly userId: FieldRef<"AttractionJoin", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AttractionJoin findUnique
+   */
+  export type AttractionJoinFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttractionJoin
+     */
+    select?: AttractionJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttractionJoin
+     */
+    omit?: AttractionJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionJoinInclude<ExtArgs> | null
+    /**
+     * Filter, which AttractionJoin to fetch.
+     */
+    where: AttractionJoinWhereUniqueInput
+  }
+
+  /**
+   * AttractionJoin findUniqueOrThrow
+   */
+  export type AttractionJoinFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttractionJoin
+     */
+    select?: AttractionJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttractionJoin
+     */
+    omit?: AttractionJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionJoinInclude<ExtArgs> | null
+    /**
+     * Filter, which AttractionJoin to fetch.
+     */
+    where: AttractionJoinWhereUniqueInput
+  }
+
+  /**
+   * AttractionJoin findFirst
+   */
+  export type AttractionJoinFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttractionJoin
+     */
+    select?: AttractionJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttractionJoin
+     */
+    omit?: AttractionJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionJoinInclude<ExtArgs> | null
+    /**
+     * Filter, which AttractionJoin to fetch.
+     */
+    where?: AttractionJoinWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttractionJoins to fetch.
+     */
+    orderBy?: AttractionJoinOrderByWithRelationInput | AttractionJoinOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AttractionJoins.
+     */
+    cursor?: AttractionJoinWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttractionJoins from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttractionJoins.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AttractionJoins.
+     */
+    distinct?: AttractionJoinScalarFieldEnum | AttractionJoinScalarFieldEnum[]
+  }
+
+  /**
+   * AttractionJoin findFirstOrThrow
+   */
+  export type AttractionJoinFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttractionJoin
+     */
+    select?: AttractionJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttractionJoin
+     */
+    omit?: AttractionJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionJoinInclude<ExtArgs> | null
+    /**
+     * Filter, which AttractionJoin to fetch.
+     */
+    where?: AttractionJoinWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttractionJoins to fetch.
+     */
+    orderBy?: AttractionJoinOrderByWithRelationInput | AttractionJoinOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AttractionJoins.
+     */
+    cursor?: AttractionJoinWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttractionJoins from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttractionJoins.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AttractionJoins.
+     */
+    distinct?: AttractionJoinScalarFieldEnum | AttractionJoinScalarFieldEnum[]
+  }
+
+  /**
+   * AttractionJoin findMany
+   */
+  export type AttractionJoinFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttractionJoin
+     */
+    select?: AttractionJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttractionJoin
+     */
+    omit?: AttractionJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionJoinInclude<ExtArgs> | null
+    /**
+     * Filter, which AttractionJoins to fetch.
+     */
+    where?: AttractionJoinWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AttractionJoins to fetch.
+     */
+    orderBy?: AttractionJoinOrderByWithRelationInput | AttractionJoinOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AttractionJoins.
+     */
+    cursor?: AttractionJoinWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AttractionJoins from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AttractionJoins.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AttractionJoins.
+     */
+    distinct?: AttractionJoinScalarFieldEnum | AttractionJoinScalarFieldEnum[]
+  }
+
+  /**
+   * AttractionJoin create
+   */
+  export type AttractionJoinCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttractionJoin
+     */
+    select?: AttractionJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttractionJoin
+     */
+    omit?: AttractionJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionJoinInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AttractionJoin.
+     */
+    data: XOR<AttractionJoinCreateInput, AttractionJoinUncheckedCreateInput>
+  }
+
+  /**
+   * AttractionJoin createMany
+   */
+  export type AttractionJoinCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AttractionJoins.
+     */
+    data: AttractionJoinCreateManyInput | AttractionJoinCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AttractionJoin createManyAndReturn
+   */
+  export type AttractionJoinCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttractionJoin
+     */
+    select?: AttractionJoinSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttractionJoin
+     */
+    omit?: AttractionJoinOmit<ExtArgs> | null
+    /**
+     * The data used to create many AttractionJoins.
+     */
+    data: AttractionJoinCreateManyInput | AttractionJoinCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionJoinIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AttractionJoin update
+   */
+  export type AttractionJoinUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttractionJoin
+     */
+    select?: AttractionJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttractionJoin
+     */
+    omit?: AttractionJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionJoinInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AttractionJoin.
+     */
+    data: XOR<AttractionJoinUpdateInput, AttractionJoinUncheckedUpdateInput>
+    /**
+     * Choose, which AttractionJoin to update.
+     */
+    where: AttractionJoinWhereUniqueInput
+  }
+
+  /**
+   * AttractionJoin updateMany
+   */
+  export type AttractionJoinUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AttractionJoins.
+     */
+    data: XOR<AttractionJoinUpdateManyMutationInput, AttractionJoinUncheckedUpdateManyInput>
+    /**
+     * Filter which AttractionJoins to update
+     */
+    where?: AttractionJoinWhereInput
+    /**
+     * Limit how many AttractionJoins to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AttractionJoin updateManyAndReturn
+   */
+  export type AttractionJoinUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttractionJoin
+     */
+    select?: AttractionJoinSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttractionJoin
+     */
+    omit?: AttractionJoinOmit<ExtArgs> | null
+    /**
+     * The data used to update AttractionJoins.
+     */
+    data: XOR<AttractionJoinUpdateManyMutationInput, AttractionJoinUncheckedUpdateManyInput>
+    /**
+     * Filter which AttractionJoins to update
+     */
+    where?: AttractionJoinWhereInput
+    /**
+     * Limit how many AttractionJoins to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionJoinIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AttractionJoin upsert
+   */
+  export type AttractionJoinUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttractionJoin
+     */
+    select?: AttractionJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttractionJoin
+     */
+    omit?: AttractionJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionJoinInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AttractionJoin to update in case it exists.
+     */
+    where: AttractionJoinWhereUniqueInput
+    /**
+     * In case the AttractionJoin found by the `where` argument doesn't exist, create a new AttractionJoin with this data.
+     */
+    create: XOR<AttractionJoinCreateInput, AttractionJoinUncheckedCreateInput>
+    /**
+     * In case the AttractionJoin was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AttractionJoinUpdateInput, AttractionJoinUncheckedUpdateInput>
+  }
+
+  /**
+   * AttractionJoin delete
+   */
+  export type AttractionJoinDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttractionJoin
+     */
+    select?: AttractionJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttractionJoin
+     */
+    omit?: AttractionJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionJoinInclude<ExtArgs> | null
+    /**
+     * Filter which AttractionJoin to delete.
+     */
+    where: AttractionJoinWhereUniqueInput
+  }
+
+  /**
+   * AttractionJoin deleteMany
+   */
+  export type AttractionJoinDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AttractionJoins to delete
+     */
+    where?: AttractionJoinWhereInput
+    /**
+     * Limit how many AttractionJoins to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AttractionJoin without action
+   */
+  export type AttractionJoinDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AttractionJoin
+     */
+    select?: AttractionJoinSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AttractionJoin
+     */
+    omit?: AttractionJoinOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionJoinInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Notification
    */
 
@@ -7241,6 +11065,7 @@ export namespace Prisma {
     recipientId: string | null
     actorId: string | null
     transportId: string | null
+    attractionId: string | null
     type: string | null
     title: string | null
     message: string | null
@@ -7253,6 +11078,7 @@ export namespace Prisma {
     recipientId: string | null
     actorId: string | null
     transportId: string | null
+    attractionId: string | null
     type: string | null
     title: string | null
     message: string | null
@@ -7265,6 +11091,7 @@ export namespace Prisma {
     recipientId: number
     actorId: number
     transportId: number
+    attractionId: number
     type: number
     title: number
     message: number
@@ -7280,6 +11107,7 @@ export namespace Prisma {
     recipientId?: true
     actorId?: true
     transportId?: true
+    attractionId?: true
     type?: true
     title?: true
     message?: true
@@ -7292,6 +11120,7 @@ export namespace Prisma {
     recipientId?: true
     actorId?: true
     transportId?: true
+    attractionId?: true
     type?: true
     title?: true
     message?: true
@@ -7304,6 +11133,7 @@ export namespace Prisma {
     recipientId?: true
     actorId?: true
     transportId?: true
+    attractionId?: true
     type?: true
     title?: true
     message?: true
@@ -7390,6 +11220,7 @@ export namespace Prisma {
     recipientId: string
     actorId: string | null
     transportId: string | null
+    attractionId: string | null
     type: string
     title: string
     message: string
@@ -7420,6 +11251,7 @@ export namespace Prisma {
     recipientId?: boolean
     actorId?: boolean
     transportId?: boolean
+    attractionId?: boolean
     type?: boolean
     title?: boolean
     message?: boolean
@@ -7428,6 +11260,7 @@ export namespace Prisma {
     recipient?: boolean | UserDefaultArgs<ExtArgs>
     actor?: boolean | Notification$actorArgs<ExtArgs>
     transport?: boolean | Notification$transportArgs<ExtArgs>
+    attraction?: boolean | Notification$attractionArgs<ExtArgs>
   }, ExtArgs["result"]["notification"]>
 
   export type NotificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7436,6 +11269,7 @@ export namespace Prisma {
     recipientId?: boolean
     actorId?: boolean
     transportId?: boolean
+    attractionId?: boolean
     type?: boolean
     title?: boolean
     message?: boolean
@@ -7444,6 +11278,7 @@ export namespace Prisma {
     recipient?: boolean | UserDefaultArgs<ExtArgs>
     actor?: boolean | Notification$actorArgs<ExtArgs>
     transport?: boolean | Notification$transportArgs<ExtArgs>
+    attraction?: boolean | Notification$attractionArgs<ExtArgs>
   }, ExtArgs["result"]["notification"]>
 
   export type NotificationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7452,6 +11287,7 @@ export namespace Prisma {
     recipientId?: boolean
     actorId?: boolean
     transportId?: boolean
+    attractionId?: boolean
     type?: boolean
     title?: boolean
     message?: boolean
@@ -7460,6 +11296,7 @@ export namespace Prisma {
     recipient?: boolean | UserDefaultArgs<ExtArgs>
     actor?: boolean | Notification$actorArgs<ExtArgs>
     transport?: boolean | Notification$transportArgs<ExtArgs>
+    attraction?: boolean | Notification$attractionArgs<ExtArgs>
   }, ExtArgs["result"]["notification"]>
 
   export type NotificationSelectScalar = {
@@ -7468,6 +11305,7 @@ export namespace Prisma {
     recipientId?: boolean
     actorId?: boolean
     transportId?: boolean
+    attractionId?: boolean
     type?: boolean
     title?: boolean
     message?: boolean
@@ -7475,21 +11313,24 @@ export namespace Prisma {
     metadata?: boolean
   }
 
-  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "recipientId" | "actorId" | "transportId" | "type" | "title" | "message" | "readAt" | "metadata", ExtArgs["result"]["notification"]>
+  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "recipientId" | "actorId" | "transportId" | "attractionId" | "type" | "title" | "message" | "readAt" | "metadata", ExtArgs["result"]["notification"]>
   export type NotificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     recipient?: boolean | UserDefaultArgs<ExtArgs>
     actor?: boolean | Notification$actorArgs<ExtArgs>
     transport?: boolean | Notification$transportArgs<ExtArgs>
+    attraction?: boolean | Notification$attractionArgs<ExtArgs>
   }
   export type NotificationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     recipient?: boolean | UserDefaultArgs<ExtArgs>
     actor?: boolean | Notification$actorArgs<ExtArgs>
     transport?: boolean | Notification$transportArgs<ExtArgs>
+    attraction?: boolean | Notification$attractionArgs<ExtArgs>
   }
   export type NotificationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     recipient?: boolean | UserDefaultArgs<ExtArgs>
     actor?: boolean | Notification$actorArgs<ExtArgs>
     transport?: boolean | Notification$transportArgs<ExtArgs>
+    attraction?: boolean | Notification$attractionArgs<ExtArgs>
   }
 
   export type $NotificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7498,6 +11339,7 @@ export namespace Prisma {
       recipient: Prisma.$UserPayload<ExtArgs>
       actor: Prisma.$UserPayload<ExtArgs> | null
       transport: Prisma.$TransportPayload<ExtArgs> | null
+      attraction: Prisma.$AttractionPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7505,6 +11347,7 @@ export namespace Prisma {
       recipientId: string
       actorId: string | null
       transportId: string | null
+      attractionId: string | null
       type: string
       title: string
       message: string
@@ -7907,6 +11750,7 @@ export namespace Prisma {
     recipient<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     actor<T extends Notification$actorArgs<ExtArgs> = {}>(args?: Subset<T, Notification$actorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     transport<T extends Notification$transportArgs<ExtArgs> = {}>(args?: Subset<T, Notification$transportArgs<ExtArgs>>): Prisma__TransportClient<$Result.GetResult<Prisma.$TransportPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    attraction<T extends Notification$attractionArgs<ExtArgs> = {}>(args?: Subset<T, Notification$attractionArgs<ExtArgs>>): Prisma__AttractionClient<$Result.GetResult<Prisma.$AttractionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7941,6 +11785,7 @@ export namespace Prisma {
     readonly recipientId: FieldRef<"Notification", 'String'>
     readonly actorId: FieldRef<"Notification", 'String'>
     readonly transportId: FieldRef<"Notification", 'String'>
+    readonly attractionId: FieldRef<"Notification", 'String'>
     readonly type: FieldRef<"Notification", 'String'>
     readonly title: FieldRef<"Notification", 'String'>
     readonly message: FieldRef<"Notification", 'String'>
@@ -8385,6 +12230,25 @@ export namespace Prisma {
   }
 
   /**
+   * Notification.attraction
+   */
+  export type Notification$attractionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attraction
+     */
+    select?: AttractionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attraction
+     */
+    omit?: AttractionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttractionInclude<ExtArgs> | null
+    where?: AttractionWhereInput
+  }
+
+  /**
    * Notification without action
    */
   export type NotificationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8447,6 +12311,15 @@ export namespace Prisma {
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+  export const LocationScalarFieldEnum: {
+    id: 'id',
+    label: 'label',
+    createdAt: 'createdAt'
+  };
+
+  export type LocationScalarFieldEnum = (typeof LocationScalarFieldEnum)[keyof typeof LocationScalarFieldEnum]
+
+
   export const ListingScalarFieldEnum: {
     id: 'id',
     createdAt: 'createdAt',
@@ -8492,12 +12365,43 @@ export namespace Prisma {
   export type TransportJoinScalarFieldEnum = (typeof TransportJoinScalarFieldEnum)[keyof typeof TransportJoinScalarFieldEnum]
 
 
+  export const AttractionScalarFieldEnum: {
+    id: 'id',
+    createdAt: 'createdAt',
+    title: 'title',
+    description: 'description',
+    price: 'price',
+    locationId: 'locationId',
+    creatorId: 'creatorId',
+    type: 'type',
+    images: 'images',
+    contactPhone: 'contactPhone',
+    externalLink: 'externalLink',
+    date: 'date',
+    maxParticipants: 'maxParticipants',
+    availableSlots: 'availableSlots'
+  };
+
+  export type AttractionScalarFieldEnum = (typeof AttractionScalarFieldEnum)[keyof typeof AttractionScalarFieldEnum]
+
+
+  export const AttractionJoinScalarFieldEnum: {
+    id: 'id',
+    createdAt: 'createdAt',
+    attractionId: 'attractionId',
+    userId: 'userId'
+  };
+
+  export type AttractionJoinScalarFieldEnum = (typeof AttractionJoinScalarFieldEnum)[keyof typeof AttractionJoinScalarFieldEnum]
+
+
   export const NotificationScalarFieldEnum: {
     id: 'id',
     createdAt: 'createdAt',
     recipientId: 'recipientId',
     actorId: 'actorId',
     transportId: 'transportId',
+    attractionId: 'attractionId',
     type: 'type',
     title: 'title',
     message: 'message',
@@ -8632,6 +12536,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'AttractionType'
+   */
+  export type EnumAttractionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttractionType'>
+    
+
+
+  /**
+   * Reference to a field of type 'AttractionType[]'
+   */
+  export type ListEnumAttractionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttractionType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -8724,6 +12642,8 @@ export namespace Prisma {
     listings?: ListingListRelationFilter
     transports?: TransportListRelationFilter
     transportJoins?: TransportJoinListRelationFilter
+    attractions?: AttractionListRelationFilter
+    attractionJoins?: AttractionJoinListRelationFilter
     notificationsReceived?: NotificationListRelationFilter
     notificationsCreated?: NotificationListRelationFilter
   }
@@ -8744,6 +12664,8 @@ export namespace Prisma {
     listings?: ListingOrderByRelationAggregateInput
     transports?: TransportOrderByRelationAggregateInput
     transportJoins?: TransportJoinOrderByRelationAggregateInput
+    attractions?: AttractionOrderByRelationAggregateInput
+    attractionJoins?: AttractionJoinOrderByRelationAggregateInput
     notificationsReceived?: NotificationOrderByRelationAggregateInput
     notificationsCreated?: NotificationOrderByRelationAggregateInput
   }
@@ -8767,6 +12689,8 @@ export namespace Prisma {
     listings?: ListingListRelationFilter
     transports?: TransportListRelationFilter
     transportJoins?: TransportJoinListRelationFilter
+    attractions?: AttractionListRelationFilter
+    attractionJoins?: AttractionJoinListRelationFilter
     notificationsReceived?: NotificationListRelationFilter
     notificationsCreated?: NotificationListRelationFilter
   }, "id" | "email">
@@ -8805,6 +12729,51 @@ export namespace Prisma {
     instagram?: StringNullableWithAggregatesFilter<"User"> | string | null
     phone?: StringNullableWithAggregatesFilter<"User"> | string | null
     isPremium?: BoolWithAggregatesFilter<"User"> | boolean
+  }
+
+  export type LocationWhereInput = {
+    AND?: LocationWhereInput | LocationWhereInput[]
+    OR?: LocationWhereInput[]
+    NOT?: LocationWhereInput | LocationWhereInput[]
+    id?: StringFilter<"Location"> | string
+    label?: StringFilter<"Location"> | string
+    createdAt?: DateTimeFilter<"Location"> | Date | string
+    attractions?: AttractionListRelationFilter
+  }
+
+  export type LocationOrderByWithRelationInput = {
+    id?: SortOrder
+    label?: SortOrder
+    createdAt?: SortOrder
+    attractions?: AttractionOrderByRelationAggregateInput
+  }
+
+  export type LocationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    label?: string
+    AND?: LocationWhereInput | LocationWhereInput[]
+    OR?: LocationWhereInput[]
+    NOT?: LocationWhereInput | LocationWhereInput[]
+    createdAt?: DateTimeFilter<"Location"> | Date | string
+    attractions?: AttractionListRelationFilter
+  }, "id" | "label">
+
+  export type LocationOrderByWithAggregationInput = {
+    id?: SortOrder
+    label?: SortOrder
+    createdAt?: SortOrder
+    _count?: LocationCountOrderByAggregateInput
+    _max?: LocationMaxOrderByAggregateInput
+    _min?: LocationMinOrderByAggregateInput
+  }
+
+  export type LocationScalarWhereWithAggregatesInput = {
+    AND?: LocationScalarWhereWithAggregatesInput | LocationScalarWhereWithAggregatesInput[]
+    OR?: LocationScalarWhereWithAggregatesInput[]
+    NOT?: LocationScalarWhereWithAggregatesInput | LocationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Location"> | string
+    label?: StringWithAggregatesFilter<"Location"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Location"> | Date | string
   }
 
   export type ListingWhereInput = {
@@ -9046,6 +13015,171 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"TransportJoin"> | string
   }
 
+  export type AttractionWhereInput = {
+    AND?: AttractionWhereInput | AttractionWhereInput[]
+    OR?: AttractionWhereInput[]
+    NOT?: AttractionWhereInput | AttractionWhereInput[]
+    id?: StringFilter<"Attraction"> | string
+    createdAt?: DateTimeFilter<"Attraction"> | Date | string
+    title?: StringFilter<"Attraction"> | string
+    description?: StringNullableFilter<"Attraction"> | string | null
+    price?: FloatNullableFilter<"Attraction"> | number | null
+    locationId?: StringFilter<"Attraction"> | string
+    creatorId?: StringFilter<"Attraction"> | string
+    type?: EnumAttractionTypeFilter<"Attraction"> | $Enums.AttractionType
+    images?: StringNullableListFilter<"Attraction">
+    contactPhone?: StringFilter<"Attraction"> | string
+    externalLink?: StringNullableFilter<"Attraction"> | string | null
+    date?: DateTimeNullableFilter<"Attraction"> | Date | string | null
+    maxParticipants?: IntNullableFilter<"Attraction"> | number | null
+    availableSlots?: IntNullableFilter<"Attraction"> | number | null
+    location?: XOR<LocationScalarRelationFilter, LocationWhereInput>
+    creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+    joins?: AttractionJoinListRelationFilter
+    notifications?: NotificationListRelationFilter
+  }
+
+  export type AttractionOrderByWithRelationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    price?: SortOrderInput | SortOrder
+    locationId?: SortOrder
+    creatorId?: SortOrder
+    type?: SortOrder
+    images?: SortOrder
+    contactPhone?: SortOrder
+    externalLink?: SortOrderInput | SortOrder
+    date?: SortOrderInput | SortOrder
+    maxParticipants?: SortOrderInput | SortOrder
+    availableSlots?: SortOrderInput | SortOrder
+    location?: LocationOrderByWithRelationInput
+    creator?: UserOrderByWithRelationInput
+    joins?: AttractionJoinOrderByRelationAggregateInput
+    notifications?: NotificationOrderByRelationAggregateInput
+  }
+
+  export type AttractionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AttractionWhereInput | AttractionWhereInput[]
+    OR?: AttractionWhereInput[]
+    NOT?: AttractionWhereInput | AttractionWhereInput[]
+    createdAt?: DateTimeFilter<"Attraction"> | Date | string
+    title?: StringFilter<"Attraction"> | string
+    description?: StringNullableFilter<"Attraction"> | string | null
+    price?: FloatNullableFilter<"Attraction"> | number | null
+    locationId?: StringFilter<"Attraction"> | string
+    creatorId?: StringFilter<"Attraction"> | string
+    type?: EnumAttractionTypeFilter<"Attraction"> | $Enums.AttractionType
+    images?: StringNullableListFilter<"Attraction">
+    contactPhone?: StringFilter<"Attraction"> | string
+    externalLink?: StringNullableFilter<"Attraction"> | string | null
+    date?: DateTimeNullableFilter<"Attraction"> | Date | string | null
+    maxParticipants?: IntNullableFilter<"Attraction"> | number | null
+    availableSlots?: IntNullableFilter<"Attraction"> | number | null
+    location?: XOR<LocationScalarRelationFilter, LocationWhereInput>
+    creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+    joins?: AttractionJoinListRelationFilter
+    notifications?: NotificationListRelationFilter
+  }, "id">
+
+  export type AttractionOrderByWithAggregationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    price?: SortOrderInput | SortOrder
+    locationId?: SortOrder
+    creatorId?: SortOrder
+    type?: SortOrder
+    images?: SortOrder
+    contactPhone?: SortOrder
+    externalLink?: SortOrderInput | SortOrder
+    date?: SortOrderInput | SortOrder
+    maxParticipants?: SortOrderInput | SortOrder
+    availableSlots?: SortOrderInput | SortOrder
+    _count?: AttractionCountOrderByAggregateInput
+    _avg?: AttractionAvgOrderByAggregateInput
+    _max?: AttractionMaxOrderByAggregateInput
+    _min?: AttractionMinOrderByAggregateInput
+    _sum?: AttractionSumOrderByAggregateInput
+  }
+
+  export type AttractionScalarWhereWithAggregatesInput = {
+    AND?: AttractionScalarWhereWithAggregatesInput | AttractionScalarWhereWithAggregatesInput[]
+    OR?: AttractionScalarWhereWithAggregatesInput[]
+    NOT?: AttractionScalarWhereWithAggregatesInput | AttractionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Attraction"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Attraction"> | Date | string
+    title?: StringWithAggregatesFilter<"Attraction"> | string
+    description?: StringNullableWithAggregatesFilter<"Attraction"> | string | null
+    price?: FloatNullableWithAggregatesFilter<"Attraction"> | number | null
+    locationId?: StringWithAggregatesFilter<"Attraction"> | string
+    creatorId?: StringWithAggregatesFilter<"Attraction"> | string
+    type?: EnumAttractionTypeWithAggregatesFilter<"Attraction"> | $Enums.AttractionType
+    images?: StringNullableListFilter<"Attraction">
+    contactPhone?: StringWithAggregatesFilter<"Attraction"> | string
+    externalLink?: StringNullableWithAggregatesFilter<"Attraction"> | string | null
+    date?: DateTimeNullableWithAggregatesFilter<"Attraction"> | Date | string | null
+    maxParticipants?: IntNullableWithAggregatesFilter<"Attraction"> | number | null
+    availableSlots?: IntNullableWithAggregatesFilter<"Attraction"> | number | null
+  }
+
+  export type AttractionJoinWhereInput = {
+    AND?: AttractionJoinWhereInput | AttractionJoinWhereInput[]
+    OR?: AttractionJoinWhereInput[]
+    NOT?: AttractionJoinWhereInput | AttractionJoinWhereInput[]
+    id?: StringFilter<"AttractionJoin"> | string
+    createdAt?: DateTimeFilter<"AttractionJoin"> | Date | string
+    attractionId?: StringFilter<"AttractionJoin"> | string
+    userId?: StringFilter<"AttractionJoin"> | string
+    attraction?: XOR<AttractionScalarRelationFilter, AttractionWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type AttractionJoinOrderByWithRelationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    attractionId?: SortOrder
+    userId?: SortOrder
+    attraction?: AttractionOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type AttractionJoinWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    attractionId_userId?: AttractionJoinAttractionIdUserIdCompoundUniqueInput
+    AND?: AttractionJoinWhereInput | AttractionJoinWhereInput[]
+    OR?: AttractionJoinWhereInput[]
+    NOT?: AttractionJoinWhereInput | AttractionJoinWhereInput[]
+    createdAt?: DateTimeFilter<"AttractionJoin"> | Date | string
+    attractionId?: StringFilter<"AttractionJoin"> | string
+    userId?: StringFilter<"AttractionJoin"> | string
+    attraction?: XOR<AttractionScalarRelationFilter, AttractionWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "attractionId_userId">
+
+  export type AttractionJoinOrderByWithAggregationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    attractionId?: SortOrder
+    userId?: SortOrder
+    _count?: AttractionJoinCountOrderByAggregateInput
+    _max?: AttractionJoinMaxOrderByAggregateInput
+    _min?: AttractionJoinMinOrderByAggregateInput
+  }
+
+  export type AttractionJoinScalarWhereWithAggregatesInput = {
+    AND?: AttractionJoinScalarWhereWithAggregatesInput | AttractionJoinScalarWhereWithAggregatesInput[]
+    OR?: AttractionJoinScalarWhereWithAggregatesInput[]
+    NOT?: AttractionJoinScalarWhereWithAggregatesInput | AttractionJoinScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AttractionJoin"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"AttractionJoin"> | Date | string
+    attractionId?: StringWithAggregatesFilter<"AttractionJoin"> | string
+    userId?: StringWithAggregatesFilter<"AttractionJoin"> | string
+  }
+
   export type NotificationWhereInput = {
     AND?: NotificationWhereInput | NotificationWhereInput[]
     OR?: NotificationWhereInput[]
@@ -9055,6 +13189,7 @@ export namespace Prisma {
     recipientId?: StringFilter<"Notification"> | string
     actorId?: StringNullableFilter<"Notification"> | string | null
     transportId?: StringNullableFilter<"Notification"> | string | null
+    attractionId?: StringNullableFilter<"Notification"> | string | null
     type?: StringFilter<"Notification"> | string
     title?: StringFilter<"Notification"> | string
     message?: StringFilter<"Notification"> | string
@@ -9063,6 +13198,7 @@ export namespace Prisma {
     recipient?: XOR<UserScalarRelationFilter, UserWhereInput>
     actor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     transport?: XOR<TransportNullableScalarRelationFilter, TransportWhereInput> | null
+    attraction?: XOR<AttractionNullableScalarRelationFilter, AttractionWhereInput> | null
   }
 
   export type NotificationOrderByWithRelationInput = {
@@ -9071,6 +13207,7 @@ export namespace Prisma {
     recipientId?: SortOrder
     actorId?: SortOrderInput | SortOrder
     transportId?: SortOrderInput | SortOrder
+    attractionId?: SortOrderInput | SortOrder
     type?: SortOrder
     title?: SortOrder
     message?: SortOrder
@@ -9079,6 +13216,7 @@ export namespace Prisma {
     recipient?: UserOrderByWithRelationInput
     actor?: UserOrderByWithRelationInput
     transport?: TransportOrderByWithRelationInput
+    attraction?: AttractionOrderByWithRelationInput
   }
 
   export type NotificationWhereUniqueInput = Prisma.AtLeast<{
@@ -9090,6 +13228,7 @@ export namespace Prisma {
     recipientId?: StringFilter<"Notification"> | string
     actorId?: StringNullableFilter<"Notification"> | string | null
     transportId?: StringNullableFilter<"Notification"> | string | null
+    attractionId?: StringNullableFilter<"Notification"> | string | null
     type?: StringFilter<"Notification"> | string
     title?: StringFilter<"Notification"> | string
     message?: StringFilter<"Notification"> | string
@@ -9098,6 +13237,7 @@ export namespace Prisma {
     recipient?: XOR<UserScalarRelationFilter, UserWhereInput>
     actor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     transport?: XOR<TransportNullableScalarRelationFilter, TransportWhereInput> | null
+    attraction?: XOR<AttractionNullableScalarRelationFilter, AttractionWhereInput> | null
   }, "id">
 
   export type NotificationOrderByWithAggregationInput = {
@@ -9106,6 +13246,7 @@ export namespace Prisma {
     recipientId?: SortOrder
     actorId?: SortOrderInput | SortOrder
     transportId?: SortOrderInput | SortOrder
+    attractionId?: SortOrderInput | SortOrder
     type?: SortOrder
     title?: SortOrder
     message?: SortOrder
@@ -9125,6 +13266,7 @@ export namespace Prisma {
     recipientId?: StringWithAggregatesFilter<"Notification"> | string
     actorId?: StringNullableWithAggregatesFilter<"Notification"> | string | null
     transportId?: StringNullableWithAggregatesFilter<"Notification"> | string | null
+    attractionId?: StringNullableWithAggregatesFilter<"Notification"> | string | null
     type?: StringWithAggregatesFilter<"Notification"> | string
     title?: StringWithAggregatesFilter<"Notification"> | string
     message?: StringWithAggregatesFilter<"Notification"> | string
@@ -9211,6 +13353,8 @@ export namespace Prisma {
     listings?: ListingCreateNestedManyWithoutUserInput
     transports?: TransportCreateNestedManyWithoutCreatorInput
     transportJoins?: TransportJoinCreateNestedManyWithoutUserInput
+    attractions?: AttractionCreateNestedManyWithoutCreatorInput
+    attractionJoins?: AttractionJoinCreateNestedManyWithoutUserInput
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientInput
     notificationsCreated?: NotificationCreateNestedManyWithoutActorInput
   }
@@ -9231,6 +13375,8 @@ export namespace Prisma {
     listings?: ListingUncheckedCreateNestedManyWithoutUserInput
     transports?: TransportUncheckedCreateNestedManyWithoutCreatorInput
     transportJoins?: TransportJoinUncheckedCreateNestedManyWithoutUserInput
+    attractions?: AttractionUncheckedCreateNestedManyWithoutCreatorInput
+    attractionJoins?: AttractionJoinUncheckedCreateNestedManyWithoutUserInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientInput
     notificationsCreated?: NotificationUncheckedCreateNestedManyWithoutActorInput
   }
@@ -9251,6 +13397,8 @@ export namespace Prisma {
     listings?: ListingUpdateManyWithoutUserNestedInput
     transports?: TransportUpdateManyWithoutCreatorNestedInput
     transportJoins?: TransportJoinUpdateManyWithoutUserNestedInput
+    attractions?: AttractionUpdateManyWithoutCreatorNestedInput
+    attractionJoins?: AttractionJoinUpdateManyWithoutUserNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutRecipientNestedInput
     notificationsCreated?: NotificationUpdateManyWithoutActorNestedInput
   }
@@ -9271,6 +13419,8 @@ export namespace Prisma {
     listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
     transports?: TransportUncheckedUpdateManyWithoutCreatorNestedInput
     transportJoins?: TransportJoinUncheckedUpdateManyWithoutUserNestedInput
+    attractions?: AttractionUncheckedUpdateManyWithoutCreatorNestedInput
+    attractionJoins?: AttractionJoinUncheckedUpdateManyWithoutUserNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientNestedInput
     notificationsCreated?: NotificationUncheckedUpdateManyWithoutActorNestedInput
   }
@@ -9318,6 +13468,52 @@ export namespace Prisma {
     instagram?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     isPremium?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type LocationCreateInput = {
+    id?: string
+    label: string
+    createdAt?: Date | string
+    attractions?: AttractionCreateNestedManyWithoutLocationInput
+  }
+
+  export type LocationUncheckedCreateInput = {
+    id?: string
+    label: string
+    createdAt?: Date | string
+    attractions?: AttractionUncheckedCreateNestedManyWithoutLocationInput
+  }
+
+  export type LocationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attractions?: AttractionUpdateManyWithoutLocationNestedInput
+  }
+
+  export type LocationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attractions?: AttractionUncheckedUpdateManyWithoutLocationNestedInput
+  }
+
+  export type LocationCreateManyInput = {
+    id?: string
+    label: string
+    createdAt?: Date | string
+  }
+
+  export type LocationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LocationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ListingCreateInput = {
@@ -9576,6 +13772,178 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type AttractionCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    title: string
+    description?: string | null
+    price?: number | null
+    type: $Enums.AttractionType
+    images?: AttractionCreateimagesInput | string[]
+    contactPhone: string
+    externalLink?: string | null
+    date?: Date | string | null
+    maxParticipants?: number | null
+    availableSlots?: number | null
+    location: LocationCreateNestedOneWithoutAttractionsInput
+    creator: UserCreateNestedOneWithoutAttractionsInput
+    joins?: AttractionJoinCreateNestedManyWithoutAttractionInput
+    notifications?: NotificationCreateNestedManyWithoutAttractionInput
+  }
+
+  export type AttractionUncheckedCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    title: string
+    description?: string | null
+    price?: number | null
+    locationId: string
+    creatorId: string
+    type: $Enums.AttractionType
+    images?: AttractionCreateimagesInput | string[]
+    contactPhone: string
+    externalLink?: string | null
+    date?: Date | string | null
+    maxParticipants?: number | null
+    availableSlots?: number | null
+    joins?: AttractionJoinUncheckedCreateNestedManyWithoutAttractionInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutAttractionInput
+  }
+
+  export type AttractionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    type?: EnumAttractionTypeFieldUpdateOperationsInput | $Enums.AttractionType
+    images?: AttractionUpdateimagesInput | string[]
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    externalLink?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxParticipants?: NullableIntFieldUpdateOperationsInput | number | null
+    availableSlots?: NullableIntFieldUpdateOperationsInput | number | null
+    location?: LocationUpdateOneRequiredWithoutAttractionsNestedInput
+    creator?: UserUpdateOneRequiredWithoutAttractionsNestedInput
+    joins?: AttractionJoinUpdateManyWithoutAttractionNestedInput
+    notifications?: NotificationUpdateManyWithoutAttractionNestedInput
+  }
+
+  export type AttractionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationId?: StringFieldUpdateOperationsInput | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttractionTypeFieldUpdateOperationsInput | $Enums.AttractionType
+    images?: AttractionUpdateimagesInput | string[]
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    externalLink?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxParticipants?: NullableIntFieldUpdateOperationsInput | number | null
+    availableSlots?: NullableIntFieldUpdateOperationsInput | number | null
+    joins?: AttractionJoinUncheckedUpdateManyWithoutAttractionNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutAttractionNestedInput
+  }
+
+  export type AttractionCreateManyInput = {
+    id?: string
+    createdAt?: Date | string
+    title: string
+    description?: string | null
+    price?: number | null
+    locationId: string
+    creatorId: string
+    type: $Enums.AttractionType
+    images?: AttractionCreateimagesInput | string[]
+    contactPhone: string
+    externalLink?: string | null
+    date?: Date | string | null
+    maxParticipants?: number | null
+    availableSlots?: number | null
+  }
+
+  export type AttractionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    type?: EnumAttractionTypeFieldUpdateOperationsInput | $Enums.AttractionType
+    images?: AttractionUpdateimagesInput | string[]
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    externalLink?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxParticipants?: NullableIntFieldUpdateOperationsInput | number | null
+    availableSlots?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type AttractionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationId?: StringFieldUpdateOperationsInput | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttractionTypeFieldUpdateOperationsInput | $Enums.AttractionType
+    images?: AttractionUpdateimagesInput | string[]
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    externalLink?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxParticipants?: NullableIntFieldUpdateOperationsInput | number | null
+    availableSlots?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type AttractionJoinCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    attraction: AttractionCreateNestedOneWithoutJoinsInput
+    user: UserCreateNestedOneWithoutAttractionJoinsInput
+  }
+
+  export type AttractionJoinUncheckedCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    attractionId: string
+    userId: string
+  }
+
+  export type AttractionJoinUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attraction?: AttractionUpdateOneRequiredWithoutJoinsNestedInput
+    user?: UserUpdateOneRequiredWithoutAttractionJoinsNestedInput
+  }
+
+  export type AttractionJoinUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attractionId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AttractionJoinCreateManyInput = {
+    id?: string
+    createdAt?: Date | string
+    attractionId: string
+    userId: string
+  }
+
+  export type AttractionJoinUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttractionJoinUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attractionId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type NotificationCreateInput = {
     id?: string
     createdAt?: Date | string
@@ -9587,6 +13955,7 @@ export namespace Prisma {
     recipient: UserCreateNestedOneWithoutNotificationsReceivedInput
     actor?: UserCreateNestedOneWithoutNotificationsCreatedInput
     transport?: TransportCreateNestedOneWithoutNotificationsInput
+    attraction?: AttractionCreateNestedOneWithoutNotificationsInput
   }
 
   export type NotificationUncheckedCreateInput = {
@@ -9595,6 +13964,7 @@ export namespace Prisma {
     recipientId: string
     actorId?: string | null
     transportId?: string | null
+    attractionId?: string | null
     type: string
     title: string
     message: string
@@ -9613,6 +13983,7 @@ export namespace Prisma {
     recipient?: UserUpdateOneRequiredWithoutNotificationsReceivedNestedInput
     actor?: UserUpdateOneWithoutNotificationsCreatedNestedInput
     transport?: TransportUpdateOneWithoutNotificationsNestedInput
+    attraction?: AttractionUpdateOneWithoutNotificationsNestedInput
   }
 
   export type NotificationUncheckedUpdateInput = {
@@ -9621,6 +13992,7 @@ export namespace Prisma {
     recipientId?: StringFieldUpdateOperationsInput | string
     actorId?: NullableStringFieldUpdateOperationsInput | string | null
     transportId?: NullableStringFieldUpdateOperationsInput | string | null
+    attractionId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
@@ -9634,6 +14006,7 @@ export namespace Prisma {
     recipientId: string
     actorId?: string | null
     transportId?: string | null
+    attractionId?: string | null
     type: string
     title: string
     message: string
@@ -9657,6 +14030,7 @@ export namespace Prisma {
     recipientId?: StringFieldUpdateOperationsInput | string
     actorId?: NullableStringFieldUpdateOperationsInput | string | null
     transportId?: NullableStringFieldUpdateOperationsInput | string | null
+    attractionId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
@@ -9798,6 +14172,18 @@ export namespace Prisma {
     none?: TransportJoinWhereInput
   }
 
+  export type AttractionListRelationFilter = {
+    every?: AttractionWhereInput
+    some?: AttractionWhereInput
+    none?: AttractionWhereInput
+  }
+
+  export type AttractionJoinListRelationFilter = {
+    every?: AttractionJoinWhereInput
+    some?: AttractionJoinWhereInput
+    none?: AttractionJoinWhereInput
+  }
+
   export type NotificationListRelationFilter = {
     every?: NotificationWhereInput
     some?: NotificationWhereInput
@@ -9818,6 +14204,14 @@ export namespace Prisma {
   }
 
   export type TransportJoinOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AttractionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AttractionJoinOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -9908,6 +14302,24 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type LocationCountOrderByAggregateInput = {
+    id?: SortOrder
+    label?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LocationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    label?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LocationMinOrderByAggregateInput = {
+    id?: SortOrder
+    label?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type EnumListingTypeFilter<$PrismaModel = never> = {
@@ -10131,6 +14543,174 @@ export namespace Prisma {
     transportId?: SortOrder
     userId?: SortOrder
   }
+
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type EnumAttractionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttractionType | EnumAttractionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AttractionType[] | ListEnumAttractionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttractionType[] | ListEnumAttractionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttractionTypeFilter<$PrismaModel> | $Enums.AttractionType
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type LocationScalarRelationFilter = {
+    is?: LocationWhereInput
+    isNot?: LocationWhereInput
+  }
+
+  export type AttractionCountOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    price?: SortOrder
+    locationId?: SortOrder
+    creatorId?: SortOrder
+    type?: SortOrder
+    images?: SortOrder
+    contactPhone?: SortOrder
+    externalLink?: SortOrder
+    date?: SortOrder
+    maxParticipants?: SortOrder
+    availableSlots?: SortOrder
+  }
+
+  export type AttractionAvgOrderByAggregateInput = {
+    price?: SortOrder
+    maxParticipants?: SortOrder
+    availableSlots?: SortOrder
+  }
+
+  export type AttractionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    price?: SortOrder
+    locationId?: SortOrder
+    creatorId?: SortOrder
+    type?: SortOrder
+    contactPhone?: SortOrder
+    externalLink?: SortOrder
+    date?: SortOrder
+    maxParticipants?: SortOrder
+    availableSlots?: SortOrder
+  }
+
+  export type AttractionMinOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    price?: SortOrder
+    locationId?: SortOrder
+    creatorId?: SortOrder
+    type?: SortOrder
+    contactPhone?: SortOrder
+    externalLink?: SortOrder
+    date?: SortOrder
+    maxParticipants?: SortOrder
+    availableSlots?: SortOrder
+  }
+
+  export type AttractionSumOrderByAggregateInput = {
+    price?: SortOrder
+    maxParticipants?: SortOrder
+    availableSlots?: SortOrder
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type EnumAttractionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttractionType | EnumAttractionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AttractionType[] | ListEnumAttractionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttractionType[] | ListEnumAttractionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttractionTypeWithAggregatesFilter<$PrismaModel> | $Enums.AttractionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAttractionTypeFilter<$PrismaModel>
+    _max?: NestedEnumAttractionTypeFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type AttractionScalarRelationFilter = {
+    is?: AttractionWhereInput
+    isNot?: AttractionWhereInput
+  }
+
+  export type AttractionJoinAttractionIdUserIdCompoundUniqueInput = {
+    attractionId: string
+    userId: string
+  }
+
+  export type AttractionJoinCountOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    attractionId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type AttractionJoinMaxOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    attractionId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type AttractionJoinMinOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    attractionId?: SortOrder
+    userId?: SortOrder
+  }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -10165,12 +14745,18 @@ export namespace Prisma {
     isNot?: TransportWhereInput | null
   }
 
+  export type AttractionNullableScalarRelationFilter = {
+    is?: AttractionWhereInput | null
+    isNot?: AttractionWhereInput | null
+  }
+
   export type NotificationCountOrderByAggregateInput = {
     id?: SortOrder
     createdAt?: SortOrder
     recipientId?: SortOrder
     actorId?: SortOrder
     transportId?: SortOrder
+    attractionId?: SortOrder
     type?: SortOrder
     title?: SortOrder
     message?: SortOrder
@@ -10184,6 +14770,7 @@ export namespace Prisma {
     recipientId?: SortOrder
     actorId?: SortOrder
     transportId?: SortOrder
+    attractionId?: SortOrder
     type?: SortOrder
     title?: SortOrder
     message?: SortOrder
@@ -10196,6 +14783,7 @@ export namespace Prisma {
     recipientId?: SortOrder
     actorId?: SortOrder
     transportId?: SortOrder
+    attractionId?: SortOrder
     type?: SortOrder
     title?: SortOrder
     message?: SortOrder
@@ -10257,6 +14845,20 @@ export namespace Prisma {
     connect?: TransportJoinWhereUniqueInput | TransportJoinWhereUniqueInput[]
   }
 
+  export type AttractionCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<AttractionCreateWithoutCreatorInput, AttractionUncheckedCreateWithoutCreatorInput> | AttractionCreateWithoutCreatorInput[] | AttractionUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: AttractionCreateOrConnectWithoutCreatorInput | AttractionCreateOrConnectWithoutCreatorInput[]
+    createMany?: AttractionCreateManyCreatorInputEnvelope
+    connect?: AttractionWhereUniqueInput | AttractionWhereUniqueInput[]
+  }
+
+  export type AttractionJoinCreateNestedManyWithoutUserInput = {
+    create?: XOR<AttractionJoinCreateWithoutUserInput, AttractionJoinUncheckedCreateWithoutUserInput> | AttractionJoinCreateWithoutUserInput[] | AttractionJoinUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AttractionJoinCreateOrConnectWithoutUserInput | AttractionJoinCreateOrConnectWithoutUserInput[]
+    createMany?: AttractionJoinCreateManyUserInputEnvelope
+    connect?: AttractionJoinWhereUniqueInput | AttractionJoinWhereUniqueInput[]
+  }
+
   export type NotificationCreateNestedManyWithoutRecipientInput = {
     create?: XOR<NotificationCreateWithoutRecipientInput, NotificationUncheckedCreateWithoutRecipientInput> | NotificationCreateWithoutRecipientInput[] | NotificationUncheckedCreateWithoutRecipientInput[]
     connectOrCreate?: NotificationCreateOrConnectWithoutRecipientInput | NotificationCreateOrConnectWithoutRecipientInput[]
@@ -10290,6 +14892,20 @@ export namespace Prisma {
     connectOrCreate?: TransportJoinCreateOrConnectWithoutUserInput | TransportJoinCreateOrConnectWithoutUserInput[]
     createMany?: TransportJoinCreateManyUserInputEnvelope
     connect?: TransportJoinWhereUniqueInput | TransportJoinWhereUniqueInput[]
+  }
+
+  export type AttractionUncheckedCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<AttractionCreateWithoutCreatorInput, AttractionUncheckedCreateWithoutCreatorInput> | AttractionCreateWithoutCreatorInput[] | AttractionUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: AttractionCreateOrConnectWithoutCreatorInput | AttractionCreateOrConnectWithoutCreatorInput[]
+    createMany?: AttractionCreateManyCreatorInputEnvelope
+    connect?: AttractionWhereUniqueInput | AttractionWhereUniqueInput[]
+  }
+
+  export type AttractionJoinUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<AttractionJoinCreateWithoutUserInput, AttractionJoinUncheckedCreateWithoutUserInput> | AttractionJoinCreateWithoutUserInput[] | AttractionJoinUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AttractionJoinCreateOrConnectWithoutUserInput | AttractionJoinCreateOrConnectWithoutUserInput[]
+    createMany?: AttractionJoinCreateManyUserInputEnvelope
+    connect?: AttractionJoinWhereUniqueInput | AttractionJoinWhereUniqueInput[]
   }
 
   export type NotificationUncheckedCreateNestedManyWithoutRecipientInput = {
@@ -10358,6 +14974,34 @@ export namespace Prisma {
     update?: TransportJoinUpdateWithWhereUniqueWithoutUserInput | TransportJoinUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: TransportJoinUpdateManyWithWhereWithoutUserInput | TransportJoinUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: TransportJoinScalarWhereInput | TransportJoinScalarWhereInput[]
+  }
+
+  export type AttractionUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<AttractionCreateWithoutCreatorInput, AttractionUncheckedCreateWithoutCreatorInput> | AttractionCreateWithoutCreatorInput[] | AttractionUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: AttractionCreateOrConnectWithoutCreatorInput | AttractionCreateOrConnectWithoutCreatorInput[]
+    upsert?: AttractionUpsertWithWhereUniqueWithoutCreatorInput | AttractionUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: AttractionCreateManyCreatorInputEnvelope
+    set?: AttractionWhereUniqueInput | AttractionWhereUniqueInput[]
+    disconnect?: AttractionWhereUniqueInput | AttractionWhereUniqueInput[]
+    delete?: AttractionWhereUniqueInput | AttractionWhereUniqueInput[]
+    connect?: AttractionWhereUniqueInput | AttractionWhereUniqueInput[]
+    update?: AttractionUpdateWithWhereUniqueWithoutCreatorInput | AttractionUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: AttractionUpdateManyWithWhereWithoutCreatorInput | AttractionUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: AttractionScalarWhereInput | AttractionScalarWhereInput[]
+  }
+
+  export type AttractionJoinUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AttractionJoinCreateWithoutUserInput, AttractionJoinUncheckedCreateWithoutUserInput> | AttractionJoinCreateWithoutUserInput[] | AttractionJoinUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AttractionJoinCreateOrConnectWithoutUserInput | AttractionJoinCreateOrConnectWithoutUserInput[]
+    upsert?: AttractionJoinUpsertWithWhereUniqueWithoutUserInput | AttractionJoinUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AttractionJoinCreateManyUserInputEnvelope
+    set?: AttractionJoinWhereUniqueInput | AttractionJoinWhereUniqueInput[]
+    disconnect?: AttractionJoinWhereUniqueInput | AttractionJoinWhereUniqueInput[]
+    delete?: AttractionJoinWhereUniqueInput | AttractionJoinWhereUniqueInput[]
+    connect?: AttractionJoinWhereUniqueInput | AttractionJoinWhereUniqueInput[]
+    update?: AttractionJoinUpdateWithWhereUniqueWithoutUserInput | AttractionJoinUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AttractionJoinUpdateManyWithWhereWithoutUserInput | AttractionJoinUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AttractionJoinScalarWhereInput | AttractionJoinScalarWhereInput[]
   }
 
   export type NotificationUpdateManyWithoutRecipientNestedInput = {
@@ -10430,6 +15074,34 @@ export namespace Prisma {
     deleteMany?: TransportJoinScalarWhereInput | TransportJoinScalarWhereInput[]
   }
 
+  export type AttractionUncheckedUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<AttractionCreateWithoutCreatorInput, AttractionUncheckedCreateWithoutCreatorInput> | AttractionCreateWithoutCreatorInput[] | AttractionUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: AttractionCreateOrConnectWithoutCreatorInput | AttractionCreateOrConnectWithoutCreatorInput[]
+    upsert?: AttractionUpsertWithWhereUniqueWithoutCreatorInput | AttractionUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: AttractionCreateManyCreatorInputEnvelope
+    set?: AttractionWhereUniqueInput | AttractionWhereUniqueInput[]
+    disconnect?: AttractionWhereUniqueInput | AttractionWhereUniqueInput[]
+    delete?: AttractionWhereUniqueInput | AttractionWhereUniqueInput[]
+    connect?: AttractionWhereUniqueInput | AttractionWhereUniqueInput[]
+    update?: AttractionUpdateWithWhereUniqueWithoutCreatorInput | AttractionUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: AttractionUpdateManyWithWhereWithoutCreatorInput | AttractionUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: AttractionScalarWhereInput | AttractionScalarWhereInput[]
+  }
+
+  export type AttractionJoinUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AttractionJoinCreateWithoutUserInput, AttractionJoinUncheckedCreateWithoutUserInput> | AttractionJoinCreateWithoutUserInput[] | AttractionJoinUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AttractionJoinCreateOrConnectWithoutUserInput | AttractionJoinCreateOrConnectWithoutUserInput[]
+    upsert?: AttractionJoinUpsertWithWhereUniqueWithoutUserInput | AttractionJoinUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AttractionJoinCreateManyUserInputEnvelope
+    set?: AttractionJoinWhereUniqueInput | AttractionJoinWhereUniqueInput[]
+    disconnect?: AttractionJoinWhereUniqueInput | AttractionJoinWhereUniqueInput[]
+    delete?: AttractionJoinWhereUniqueInput | AttractionJoinWhereUniqueInput[]
+    connect?: AttractionJoinWhereUniqueInput | AttractionJoinWhereUniqueInput[]
+    update?: AttractionJoinUpdateWithWhereUniqueWithoutUserInput | AttractionJoinUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AttractionJoinUpdateManyWithWhereWithoutUserInput | AttractionJoinUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AttractionJoinScalarWhereInput | AttractionJoinScalarWhereInput[]
+  }
+
   export type NotificationUncheckedUpdateManyWithoutRecipientNestedInput = {
     create?: XOR<NotificationCreateWithoutRecipientInput, NotificationUncheckedCreateWithoutRecipientInput> | NotificationCreateWithoutRecipientInput[] | NotificationUncheckedCreateWithoutRecipientInput[]
     connectOrCreate?: NotificationCreateOrConnectWithoutRecipientInput | NotificationCreateOrConnectWithoutRecipientInput[]
@@ -10456,6 +15128,48 @@ export namespace Prisma {
     update?: NotificationUpdateWithWhereUniqueWithoutActorInput | NotificationUpdateWithWhereUniqueWithoutActorInput[]
     updateMany?: NotificationUpdateManyWithWhereWithoutActorInput | NotificationUpdateManyWithWhereWithoutActorInput[]
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type AttractionCreateNestedManyWithoutLocationInput = {
+    create?: XOR<AttractionCreateWithoutLocationInput, AttractionUncheckedCreateWithoutLocationInput> | AttractionCreateWithoutLocationInput[] | AttractionUncheckedCreateWithoutLocationInput[]
+    connectOrCreate?: AttractionCreateOrConnectWithoutLocationInput | AttractionCreateOrConnectWithoutLocationInput[]
+    createMany?: AttractionCreateManyLocationInputEnvelope
+    connect?: AttractionWhereUniqueInput | AttractionWhereUniqueInput[]
+  }
+
+  export type AttractionUncheckedCreateNestedManyWithoutLocationInput = {
+    create?: XOR<AttractionCreateWithoutLocationInput, AttractionUncheckedCreateWithoutLocationInput> | AttractionCreateWithoutLocationInput[] | AttractionUncheckedCreateWithoutLocationInput[]
+    connectOrCreate?: AttractionCreateOrConnectWithoutLocationInput | AttractionCreateOrConnectWithoutLocationInput[]
+    createMany?: AttractionCreateManyLocationInputEnvelope
+    connect?: AttractionWhereUniqueInput | AttractionWhereUniqueInput[]
+  }
+
+  export type AttractionUpdateManyWithoutLocationNestedInput = {
+    create?: XOR<AttractionCreateWithoutLocationInput, AttractionUncheckedCreateWithoutLocationInput> | AttractionCreateWithoutLocationInput[] | AttractionUncheckedCreateWithoutLocationInput[]
+    connectOrCreate?: AttractionCreateOrConnectWithoutLocationInput | AttractionCreateOrConnectWithoutLocationInput[]
+    upsert?: AttractionUpsertWithWhereUniqueWithoutLocationInput | AttractionUpsertWithWhereUniqueWithoutLocationInput[]
+    createMany?: AttractionCreateManyLocationInputEnvelope
+    set?: AttractionWhereUniqueInput | AttractionWhereUniqueInput[]
+    disconnect?: AttractionWhereUniqueInput | AttractionWhereUniqueInput[]
+    delete?: AttractionWhereUniqueInput | AttractionWhereUniqueInput[]
+    connect?: AttractionWhereUniqueInput | AttractionWhereUniqueInput[]
+    update?: AttractionUpdateWithWhereUniqueWithoutLocationInput | AttractionUpdateWithWhereUniqueWithoutLocationInput[]
+    updateMany?: AttractionUpdateManyWithWhereWithoutLocationInput | AttractionUpdateManyWithWhereWithoutLocationInput[]
+    deleteMany?: AttractionScalarWhereInput | AttractionScalarWhereInput[]
+  }
+
+  export type AttractionUncheckedUpdateManyWithoutLocationNestedInput = {
+    create?: XOR<AttractionCreateWithoutLocationInput, AttractionUncheckedCreateWithoutLocationInput> | AttractionCreateWithoutLocationInput[] | AttractionUncheckedCreateWithoutLocationInput[]
+    connectOrCreate?: AttractionCreateOrConnectWithoutLocationInput | AttractionCreateOrConnectWithoutLocationInput[]
+    upsert?: AttractionUpsertWithWhereUniqueWithoutLocationInput | AttractionUpsertWithWhereUniqueWithoutLocationInput[]
+    createMany?: AttractionCreateManyLocationInputEnvelope
+    set?: AttractionWhereUniqueInput | AttractionWhereUniqueInput[]
+    disconnect?: AttractionWhereUniqueInput | AttractionWhereUniqueInput[]
+    delete?: AttractionWhereUniqueInput | AttractionWhereUniqueInput[]
+    connect?: AttractionWhereUniqueInput | AttractionWhereUniqueInput[]
+    update?: AttractionUpdateWithWhereUniqueWithoutLocationInput | AttractionUpdateWithWhereUniqueWithoutLocationInput[]
+    updateMany?: AttractionUpdateManyWithWhereWithoutLocationInput | AttractionUpdateManyWithWhereWithoutLocationInput[]
+    deleteMany?: AttractionScalarWhereInput | AttractionScalarWhereInput[]
   }
 
   export type ListingCreateimagesInput = {
@@ -10627,6 +15341,175 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTransportJoinsInput, UserUpdateWithoutTransportJoinsInput>, UserUncheckedUpdateWithoutTransportJoinsInput>
   }
 
+  export type AttractionCreateimagesInput = {
+    set: string[]
+  }
+
+  export type LocationCreateNestedOneWithoutAttractionsInput = {
+    create?: XOR<LocationCreateWithoutAttractionsInput, LocationUncheckedCreateWithoutAttractionsInput>
+    connectOrCreate?: LocationCreateOrConnectWithoutAttractionsInput
+    connect?: LocationWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutAttractionsInput = {
+    create?: XOR<UserCreateWithoutAttractionsInput, UserUncheckedCreateWithoutAttractionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAttractionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type AttractionJoinCreateNestedManyWithoutAttractionInput = {
+    create?: XOR<AttractionJoinCreateWithoutAttractionInput, AttractionJoinUncheckedCreateWithoutAttractionInput> | AttractionJoinCreateWithoutAttractionInput[] | AttractionJoinUncheckedCreateWithoutAttractionInput[]
+    connectOrCreate?: AttractionJoinCreateOrConnectWithoutAttractionInput | AttractionJoinCreateOrConnectWithoutAttractionInput[]
+    createMany?: AttractionJoinCreateManyAttractionInputEnvelope
+    connect?: AttractionJoinWhereUniqueInput | AttractionJoinWhereUniqueInput[]
+  }
+
+  export type NotificationCreateNestedManyWithoutAttractionInput = {
+    create?: XOR<NotificationCreateWithoutAttractionInput, NotificationUncheckedCreateWithoutAttractionInput> | NotificationCreateWithoutAttractionInput[] | NotificationUncheckedCreateWithoutAttractionInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutAttractionInput | NotificationCreateOrConnectWithoutAttractionInput[]
+    createMany?: NotificationCreateManyAttractionInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type AttractionJoinUncheckedCreateNestedManyWithoutAttractionInput = {
+    create?: XOR<AttractionJoinCreateWithoutAttractionInput, AttractionJoinUncheckedCreateWithoutAttractionInput> | AttractionJoinCreateWithoutAttractionInput[] | AttractionJoinUncheckedCreateWithoutAttractionInput[]
+    connectOrCreate?: AttractionJoinCreateOrConnectWithoutAttractionInput | AttractionJoinCreateOrConnectWithoutAttractionInput[]
+    createMany?: AttractionJoinCreateManyAttractionInputEnvelope
+    connect?: AttractionJoinWhereUniqueInput | AttractionJoinWhereUniqueInput[]
+  }
+
+  export type NotificationUncheckedCreateNestedManyWithoutAttractionInput = {
+    create?: XOR<NotificationCreateWithoutAttractionInput, NotificationUncheckedCreateWithoutAttractionInput> | NotificationCreateWithoutAttractionInput[] | NotificationUncheckedCreateWithoutAttractionInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutAttractionInput | NotificationCreateOrConnectWithoutAttractionInput[]
+    createMany?: NotificationCreateManyAttractionInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type EnumAttractionTypeFieldUpdateOperationsInput = {
+    set?: $Enums.AttractionType
+  }
+
+  export type AttractionUpdateimagesInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type LocationUpdateOneRequiredWithoutAttractionsNestedInput = {
+    create?: XOR<LocationCreateWithoutAttractionsInput, LocationUncheckedCreateWithoutAttractionsInput>
+    connectOrCreate?: LocationCreateOrConnectWithoutAttractionsInput
+    upsert?: LocationUpsertWithoutAttractionsInput
+    connect?: LocationWhereUniqueInput
+    update?: XOR<XOR<LocationUpdateToOneWithWhereWithoutAttractionsInput, LocationUpdateWithoutAttractionsInput>, LocationUncheckedUpdateWithoutAttractionsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutAttractionsNestedInput = {
+    create?: XOR<UserCreateWithoutAttractionsInput, UserUncheckedCreateWithoutAttractionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAttractionsInput
+    upsert?: UserUpsertWithoutAttractionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAttractionsInput, UserUpdateWithoutAttractionsInput>, UserUncheckedUpdateWithoutAttractionsInput>
+  }
+
+  export type AttractionJoinUpdateManyWithoutAttractionNestedInput = {
+    create?: XOR<AttractionJoinCreateWithoutAttractionInput, AttractionJoinUncheckedCreateWithoutAttractionInput> | AttractionJoinCreateWithoutAttractionInput[] | AttractionJoinUncheckedCreateWithoutAttractionInput[]
+    connectOrCreate?: AttractionJoinCreateOrConnectWithoutAttractionInput | AttractionJoinCreateOrConnectWithoutAttractionInput[]
+    upsert?: AttractionJoinUpsertWithWhereUniqueWithoutAttractionInput | AttractionJoinUpsertWithWhereUniqueWithoutAttractionInput[]
+    createMany?: AttractionJoinCreateManyAttractionInputEnvelope
+    set?: AttractionJoinWhereUniqueInput | AttractionJoinWhereUniqueInput[]
+    disconnect?: AttractionJoinWhereUniqueInput | AttractionJoinWhereUniqueInput[]
+    delete?: AttractionJoinWhereUniqueInput | AttractionJoinWhereUniqueInput[]
+    connect?: AttractionJoinWhereUniqueInput | AttractionJoinWhereUniqueInput[]
+    update?: AttractionJoinUpdateWithWhereUniqueWithoutAttractionInput | AttractionJoinUpdateWithWhereUniqueWithoutAttractionInput[]
+    updateMany?: AttractionJoinUpdateManyWithWhereWithoutAttractionInput | AttractionJoinUpdateManyWithWhereWithoutAttractionInput[]
+    deleteMany?: AttractionJoinScalarWhereInput | AttractionJoinScalarWhereInput[]
+  }
+
+  export type NotificationUpdateManyWithoutAttractionNestedInput = {
+    create?: XOR<NotificationCreateWithoutAttractionInput, NotificationUncheckedCreateWithoutAttractionInput> | NotificationCreateWithoutAttractionInput[] | NotificationUncheckedCreateWithoutAttractionInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutAttractionInput | NotificationCreateOrConnectWithoutAttractionInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutAttractionInput | NotificationUpsertWithWhereUniqueWithoutAttractionInput[]
+    createMany?: NotificationCreateManyAttractionInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutAttractionInput | NotificationUpdateWithWhereUniqueWithoutAttractionInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutAttractionInput | NotificationUpdateManyWithWhereWithoutAttractionInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type AttractionJoinUncheckedUpdateManyWithoutAttractionNestedInput = {
+    create?: XOR<AttractionJoinCreateWithoutAttractionInput, AttractionJoinUncheckedCreateWithoutAttractionInput> | AttractionJoinCreateWithoutAttractionInput[] | AttractionJoinUncheckedCreateWithoutAttractionInput[]
+    connectOrCreate?: AttractionJoinCreateOrConnectWithoutAttractionInput | AttractionJoinCreateOrConnectWithoutAttractionInput[]
+    upsert?: AttractionJoinUpsertWithWhereUniqueWithoutAttractionInput | AttractionJoinUpsertWithWhereUniqueWithoutAttractionInput[]
+    createMany?: AttractionJoinCreateManyAttractionInputEnvelope
+    set?: AttractionJoinWhereUniqueInput | AttractionJoinWhereUniqueInput[]
+    disconnect?: AttractionJoinWhereUniqueInput | AttractionJoinWhereUniqueInput[]
+    delete?: AttractionJoinWhereUniqueInput | AttractionJoinWhereUniqueInput[]
+    connect?: AttractionJoinWhereUniqueInput | AttractionJoinWhereUniqueInput[]
+    update?: AttractionJoinUpdateWithWhereUniqueWithoutAttractionInput | AttractionJoinUpdateWithWhereUniqueWithoutAttractionInput[]
+    updateMany?: AttractionJoinUpdateManyWithWhereWithoutAttractionInput | AttractionJoinUpdateManyWithWhereWithoutAttractionInput[]
+    deleteMany?: AttractionJoinScalarWhereInput | AttractionJoinScalarWhereInput[]
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutAttractionNestedInput = {
+    create?: XOR<NotificationCreateWithoutAttractionInput, NotificationUncheckedCreateWithoutAttractionInput> | NotificationCreateWithoutAttractionInput[] | NotificationUncheckedCreateWithoutAttractionInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutAttractionInput | NotificationCreateOrConnectWithoutAttractionInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutAttractionInput | NotificationUpsertWithWhereUniqueWithoutAttractionInput[]
+    createMany?: NotificationCreateManyAttractionInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutAttractionInput | NotificationUpdateWithWhereUniqueWithoutAttractionInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutAttractionInput | NotificationUpdateManyWithWhereWithoutAttractionInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type AttractionCreateNestedOneWithoutJoinsInput = {
+    create?: XOR<AttractionCreateWithoutJoinsInput, AttractionUncheckedCreateWithoutJoinsInput>
+    connectOrCreate?: AttractionCreateOrConnectWithoutJoinsInput
+    connect?: AttractionWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutAttractionJoinsInput = {
+    create?: XOR<UserCreateWithoutAttractionJoinsInput, UserUncheckedCreateWithoutAttractionJoinsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAttractionJoinsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type AttractionUpdateOneRequiredWithoutJoinsNestedInput = {
+    create?: XOR<AttractionCreateWithoutJoinsInput, AttractionUncheckedCreateWithoutJoinsInput>
+    connectOrCreate?: AttractionCreateOrConnectWithoutJoinsInput
+    upsert?: AttractionUpsertWithoutJoinsInput
+    connect?: AttractionWhereUniqueInput
+    update?: XOR<XOR<AttractionUpdateToOneWithWhereWithoutJoinsInput, AttractionUpdateWithoutJoinsInput>, AttractionUncheckedUpdateWithoutJoinsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutAttractionJoinsNestedInput = {
+    create?: XOR<UserCreateWithoutAttractionJoinsInput, UserUncheckedCreateWithoutAttractionJoinsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAttractionJoinsInput
+    upsert?: UserUpsertWithoutAttractionJoinsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAttractionJoinsInput, UserUpdateWithoutAttractionJoinsInput>, UserUncheckedUpdateWithoutAttractionJoinsInput>
+  }
+
   export type UserCreateNestedOneWithoutNotificationsReceivedInput = {
     create?: XOR<UserCreateWithoutNotificationsReceivedInput, UserUncheckedCreateWithoutNotificationsReceivedInput>
     connectOrCreate?: UserCreateOrConnectWithoutNotificationsReceivedInput
@@ -10643,6 +15526,12 @@ export namespace Prisma {
     create?: XOR<TransportCreateWithoutNotificationsInput, TransportUncheckedCreateWithoutNotificationsInput>
     connectOrCreate?: TransportCreateOrConnectWithoutNotificationsInput
     connect?: TransportWhereUniqueInput
+  }
+
+  export type AttractionCreateNestedOneWithoutNotificationsInput = {
+    create?: XOR<AttractionCreateWithoutNotificationsInput, AttractionUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: AttractionCreateOrConnectWithoutNotificationsInput
+    connect?: AttractionWhereUniqueInput
   }
 
   export type UserUpdateOneRequiredWithoutNotificationsReceivedNestedInput = {
@@ -10671,6 +15560,16 @@ export namespace Prisma {
     delete?: TransportWhereInput | boolean
     connect?: TransportWhereUniqueInput
     update?: XOR<XOR<TransportUpdateToOneWithWhereWithoutNotificationsInput, TransportUpdateWithoutNotificationsInput>, TransportUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type AttractionUpdateOneWithoutNotificationsNestedInput = {
+    create?: XOR<AttractionCreateWithoutNotificationsInput, AttractionUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: AttractionCreateOrConnectWithoutNotificationsInput
+    upsert?: AttractionUpsertWithoutNotificationsInput
+    disconnect?: AttractionWhereInput | boolean
+    delete?: AttractionWhereInput | boolean
+    connect?: AttractionWhereUniqueInput
+    update?: XOR<XOR<AttractionUpdateToOneWithWhereWithoutNotificationsInput, AttractionUpdateWithoutNotificationsInput>, AttractionUncheckedUpdateWithoutNotificationsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -10879,6 +15778,66 @@ export namespace Prisma {
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
   }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumAttractionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttractionType | EnumAttractionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AttractionType[] | ListEnumAttractionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttractionType[] | ListEnumAttractionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttractionTypeFilter<$PrismaModel> | $Enums.AttractionType
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumAttractionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AttractionType | EnumAttractionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AttractionType[] | ListEnumAttractionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AttractionType[] | ListEnumAttractionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAttractionTypeWithAggregatesFilter<$PrismaModel> | $Enums.AttractionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAttractionTypeFilter<$PrismaModel>
+    _max?: NestedEnumAttractionTypeFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -11003,6 +15962,74 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type AttractionCreateWithoutCreatorInput = {
+    id?: string
+    createdAt?: Date | string
+    title: string
+    description?: string | null
+    price?: number | null
+    type: $Enums.AttractionType
+    images?: AttractionCreateimagesInput | string[]
+    contactPhone: string
+    externalLink?: string | null
+    date?: Date | string | null
+    maxParticipants?: number | null
+    availableSlots?: number | null
+    location: LocationCreateNestedOneWithoutAttractionsInput
+    joins?: AttractionJoinCreateNestedManyWithoutAttractionInput
+    notifications?: NotificationCreateNestedManyWithoutAttractionInput
+  }
+
+  export type AttractionUncheckedCreateWithoutCreatorInput = {
+    id?: string
+    createdAt?: Date | string
+    title: string
+    description?: string | null
+    price?: number | null
+    locationId: string
+    type: $Enums.AttractionType
+    images?: AttractionCreateimagesInput | string[]
+    contactPhone: string
+    externalLink?: string | null
+    date?: Date | string | null
+    maxParticipants?: number | null
+    availableSlots?: number | null
+    joins?: AttractionJoinUncheckedCreateNestedManyWithoutAttractionInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutAttractionInput
+  }
+
+  export type AttractionCreateOrConnectWithoutCreatorInput = {
+    where: AttractionWhereUniqueInput
+    create: XOR<AttractionCreateWithoutCreatorInput, AttractionUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type AttractionCreateManyCreatorInputEnvelope = {
+    data: AttractionCreateManyCreatorInput | AttractionCreateManyCreatorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AttractionJoinCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    attraction: AttractionCreateNestedOneWithoutJoinsInput
+  }
+
+  export type AttractionJoinUncheckedCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    attractionId: string
+  }
+
+  export type AttractionJoinCreateOrConnectWithoutUserInput = {
+    where: AttractionJoinWhereUniqueInput
+    create: XOR<AttractionJoinCreateWithoutUserInput, AttractionJoinUncheckedCreateWithoutUserInput>
+  }
+
+  export type AttractionJoinCreateManyUserInputEnvelope = {
+    data: AttractionJoinCreateManyUserInput | AttractionJoinCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type NotificationCreateWithoutRecipientInput = {
     id?: string
     createdAt?: Date | string
@@ -11013,6 +16040,7 @@ export namespace Prisma {
     metadata?: NullableJsonNullValueInput | InputJsonValue
     actor?: UserCreateNestedOneWithoutNotificationsCreatedInput
     transport?: TransportCreateNestedOneWithoutNotificationsInput
+    attraction?: AttractionCreateNestedOneWithoutNotificationsInput
   }
 
   export type NotificationUncheckedCreateWithoutRecipientInput = {
@@ -11020,6 +16048,7 @@ export namespace Prisma {
     createdAt?: Date | string
     actorId?: string | null
     transportId?: string | null
+    attractionId?: string | null
     type: string
     title: string
     message: string
@@ -11047,6 +16076,7 @@ export namespace Prisma {
     metadata?: NullableJsonNullValueInput | InputJsonValue
     recipient: UserCreateNestedOneWithoutNotificationsReceivedInput
     transport?: TransportCreateNestedOneWithoutNotificationsInput
+    attraction?: AttractionCreateNestedOneWithoutNotificationsInput
   }
 
   export type NotificationUncheckedCreateWithoutActorInput = {
@@ -11054,6 +16084,7 @@ export namespace Prisma {
     createdAt?: Date | string
     recipientId: string
     transportId?: string | null
+    attractionId?: string | null
     type: string
     title: string
     message: string
@@ -11164,6 +16195,68 @@ export namespace Prisma {
     userId?: StringFilter<"TransportJoin"> | string
   }
 
+  export type AttractionUpsertWithWhereUniqueWithoutCreatorInput = {
+    where: AttractionWhereUniqueInput
+    update: XOR<AttractionUpdateWithoutCreatorInput, AttractionUncheckedUpdateWithoutCreatorInput>
+    create: XOR<AttractionCreateWithoutCreatorInput, AttractionUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type AttractionUpdateWithWhereUniqueWithoutCreatorInput = {
+    where: AttractionWhereUniqueInput
+    data: XOR<AttractionUpdateWithoutCreatorInput, AttractionUncheckedUpdateWithoutCreatorInput>
+  }
+
+  export type AttractionUpdateManyWithWhereWithoutCreatorInput = {
+    where: AttractionScalarWhereInput
+    data: XOR<AttractionUpdateManyMutationInput, AttractionUncheckedUpdateManyWithoutCreatorInput>
+  }
+
+  export type AttractionScalarWhereInput = {
+    AND?: AttractionScalarWhereInput | AttractionScalarWhereInput[]
+    OR?: AttractionScalarWhereInput[]
+    NOT?: AttractionScalarWhereInput | AttractionScalarWhereInput[]
+    id?: StringFilter<"Attraction"> | string
+    createdAt?: DateTimeFilter<"Attraction"> | Date | string
+    title?: StringFilter<"Attraction"> | string
+    description?: StringNullableFilter<"Attraction"> | string | null
+    price?: FloatNullableFilter<"Attraction"> | number | null
+    locationId?: StringFilter<"Attraction"> | string
+    creatorId?: StringFilter<"Attraction"> | string
+    type?: EnumAttractionTypeFilter<"Attraction"> | $Enums.AttractionType
+    images?: StringNullableListFilter<"Attraction">
+    contactPhone?: StringFilter<"Attraction"> | string
+    externalLink?: StringNullableFilter<"Attraction"> | string | null
+    date?: DateTimeNullableFilter<"Attraction"> | Date | string | null
+    maxParticipants?: IntNullableFilter<"Attraction"> | number | null
+    availableSlots?: IntNullableFilter<"Attraction"> | number | null
+  }
+
+  export type AttractionJoinUpsertWithWhereUniqueWithoutUserInput = {
+    where: AttractionJoinWhereUniqueInput
+    update: XOR<AttractionJoinUpdateWithoutUserInput, AttractionJoinUncheckedUpdateWithoutUserInput>
+    create: XOR<AttractionJoinCreateWithoutUserInput, AttractionJoinUncheckedCreateWithoutUserInput>
+  }
+
+  export type AttractionJoinUpdateWithWhereUniqueWithoutUserInput = {
+    where: AttractionJoinWhereUniqueInput
+    data: XOR<AttractionJoinUpdateWithoutUserInput, AttractionJoinUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AttractionJoinUpdateManyWithWhereWithoutUserInput = {
+    where: AttractionJoinScalarWhereInput
+    data: XOR<AttractionJoinUpdateManyMutationInput, AttractionJoinUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type AttractionJoinScalarWhereInput = {
+    AND?: AttractionJoinScalarWhereInput | AttractionJoinScalarWhereInput[]
+    OR?: AttractionJoinScalarWhereInput[]
+    NOT?: AttractionJoinScalarWhereInput | AttractionJoinScalarWhereInput[]
+    id?: StringFilter<"AttractionJoin"> | string
+    createdAt?: DateTimeFilter<"AttractionJoin"> | Date | string
+    attractionId?: StringFilter<"AttractionJoin"> | string
+    userId?: StringFilter<"AttractionJoin"> | string
+  }
+
   export type NotificationUpsertWithWhereUniqueWithoutRecipientInput = {
     where: NotificationWhereUniqueInput
     update: XOR<NotificationUpdateWithoutRecipientInput, NotificationUncheckedUpdateWithoutRecipientInput>
@@ -11189,6 +16282,7 @@ export namespace Prisma {
     recipientId?: StringFilter<"Notification"> | string
     actorId?: StringNullableFilter<"Notification"> | string | null
     transportId?: StringNullableFilter<"Notification"> | string | null
+    attractionId?: StringNullableFilter<"Notification"> | string | null
     type?: StringFilter<"Notification"> | string
     title?: StringFilter<"Notification"> | string
     message?: StringFilter<"Notification"> | string
@@ -11212,6 +16306,68 @@ export namespace Prisma {
     data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutActorInput>
   }
 
+  export type AttractionCreateWithoutLocationInput = {
+    id?: string
+    createdAt?: Date | string
+    title: string
+    description?: string | null
+    price?: number | null
+    type: $Enums.AttractionType
+    images?: AttractionCreateimagesInput | string[]
+    contactPhone: string
+    externalLink?: string | null
+    date?: Date | string | null
+    maxParticipants?: number | null
+    availableSlots?: number | null
+    creator: UserCreateNestedOneWithoutAttractionsInput
+    joins?: AttractionJoinCreateNestedManyWithoutAttractionInput
+    notifications?: NotificationCreateNestedManyWithoutAttractionInput
+  }
+
+  export type AttractionUncheckedCreateWithoutLocationInput = {
+    id?: string
+    createdAt?: Date | string
+    title: string
+    description?: string | null
+    price?: number | null
+    creatorId: string
+    type: $Enums.AttractionType
+    images?: AttractionCreateimagesInput | string[]
+    contactPhone: string
+    externalLink?: string | null
+    date?: Date | string | null
+    maxParticipants?: number | null
+    availableSlots?: number | null
+    joins?: AttractionJoinUncheckedCreateNestedManyWithoutAttractionInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutAttractionInput
+  }
+
+  export type AttractionCreateOrConnectWithoutLocationInput = {
+    where: AttractionWhereUniqueInput
+    create: XOR<AttractionCreateWithoutLocationInput, AttractionUncheckedCreateWithoutLocationInput>
+  }
+
+  export type AttractionCreateManyLocationInputEnvelope = {
+    data: AttractionCreateManyLocationInput | AttractionCreateManyLocationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AttractionUpsertWithWhereUniqueWithoutLocationInput = {
+    where: AttractionWhereUniqueInput
+    update: XOR<AttractionUpdateWithoutLocationInput, AttractionUncheckedUpdateWithoutLocationInput>
+    create: XOR<AttractionCreateWithoutLocationInput, AttractionUncheckedCreateWithoutLocationInput>
+  }
+
+  export type AttractionUpdateWithWhereUniqueWithoutLocationInput = {
+    where: AttractionWhereUniqueInput
+    data: XOR<AttractionUpdateWithoutLocationInput, AttractionUncheckedUpdateWithoutLocationInput>
+  }
+
+  export type AttractionUpdateManyWithWhereWithoutLocationInput = {
+    where: AttractionScalarWhereInput
+    data: XOR<AttractionUpdateManyMutationInput, AttractionUncheckedUpdateManyWithoutLocationInput>
+  }
+
   export type UserCreateWithoutListingsInput = {
     id?: string
     email: string
@@ -11227,6 +16383,8 @@ export namespace Prisma {
     isPremium?: boolean
     transports?: TransportCreateNestedManyWithoutCreatorInput
     transportJoins?: TransportJoinCreateNestedManyWithoutUserInput
+    attractions?: AttractionCreateNestedManyWithoutCreatorInput
+    attractionJoins?: AttractionJoinCreateNestedManyWithoutUserInput
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientInput
     notificationsCreated?: NotificationCreateNestedManyWithoutActorInput
   }
@@ -11246,6 +16404,8 @@ export namespace Prisma {
     isPremium?: boolean
     transports?: TransportUncheckedCreateNestedManyWithoutCreatorInput
     transportJoins?: TransportJoinUncheckedCreateNestedManyWithoutUserInput
+    attractions?: AttractionUncheckedCreateNestedManyWithoutCreatorInput
+    attractionJoins?: AttractionJoinUncheckedCreateNestedManyWithoutUserInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientInput
     notificationsCreated?: NotificationUncheckedCreateNestedManyWithoutActorInput
   }
@@ -11281,6 +16441,8 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     transports?: TransportUpdateManyWithoutCreatorNestedInput
     transportJoins?: TransportJoinUpdateManyWithoutUserNestedInput
+    attractions?: AttractionUpdateManyWithoutCreatorNestedInput
+    attractionJoins?: AttractionJoinUpdateManyWithoutUserNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutRecipientNestedInput
     notificationsCreated?: NotificationUpdateManyWithoutActorNestedInput
   }
@@ -11300,6 +16462,8 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     transports?: TransportUncheckedUpdateManyWithoutCreatorNestedInput
     transportJoins?: TransportJoinUncheckedUpdateManyWithoutUserNestedInput
+    attractions?: AttractionUncheckedUpdateManyWithoutCreatorNestedInput
+    attractionJoins?: AttractionJoinUncheckedUpdateManyWithoutUserNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientNestedInput
     notificationsCreated?: NotificationUncheckedUpdateManyWithoutActorNestedInput
   }
@@ -11319,6 +16483,8 @@ export namespace Prisma {
     isPremium?: boolean
     listings?: ListingCreateNestedManyWithoutUserInput
     transportJoins?: TransportJoinCreateNestedManyWithoutUserInput
+    attractions?: AttractionCreateNestedManyWithoutCreatorInput
+    attractionJoins?: AttractionJoinCreateNestedManyWithoutUserInput
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientInput
     notificationsCreated?: NotificationCreateNestedManyWithoutActorInput
   }
@@ -11338,6 +16504,8 @@ export namespace Prisma {
     isPremium?: boolean
     listings?: ListingUncheckedCreateNestedManyWithoutUserInput
     transportJoins?: TransportJoinUncheckedCreateNestedManyWithoutUserInput
+    attractions?: AttractionUncheckedCreateNestedManyWithoutCreatorInput
+    attractionJoins?: AttractionJoinUncheckedCreateNestedManyWithoutUserInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientInput
     notificationsCreated?: NotificationUncheckedCreateNestedManyWithoutActorInput
   }
@@ -11379,6 +16547,7 @@ export namespace Prisma {
     metadata?: NullableJsonNullValueInput | InputJsonValue
     recipient: UserCreateNestedOneWithoutNotificationsReceivedInput
     actor?: UserCreateNestedOneWithoutNotificationsCreatedInput
+    attraction?: AttractionCreateNestedOneWithoutNotificationsInput
   }
 
   export type NotificationUncheckedCreateWithoutTransportInput = {
@@ -11386,6 +16555,7 @@ export namespace Prisma {
     createdAt?: Date | string
     recipientId: string
     actorId?: string | null
+    attractionId?: string | null
     type: string
     title: string
     message: string
@@ -11429,6 +16599,8 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     listings?: ListingUpdateManyWithoutUserNestedInput
     transportJoins?: TransportJoinUpdateManyWithoutUserNestedInput
+    attractions?: AttractionUpdateManyWithoutCreatorNestedInput
+    attractionJoins?: AttractionJoinUpdateManyWithoutUserNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutRecipientNestedInput
     notificationsCreated?: NotificationUpdateManyWithoutActorNestedInput
   }
@@ -11448,6 +16620,8 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
     transportJoins?: TransportJoinUncheckedUpdateManyWithoutUserNestedInput
+    attractions?: AttractionUncheckedUpdateManyWithoutCreatorNestedInput
+    attractionJoins?: AttractionJoinUncheckedUpdateManyWithoutUserNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientNestedInput
     notificationsCreated?: NotificationUncheckedUpdateManyWithoutActorNestedInput
   }
@@ -11532,6 +16706,8 @@ export namespace Prisma {
     isPremium?: boolean
     listings?: ListingCreateNestedManyWithoutUserInput
     transports?: TransportCreateNestedManyWithoutCreatorInput
+    attractions?: AttractionCreateNestedManyWithoutCreatorInput
+    attractionJoins?: AttractionJoinCreateNestedManyWithoutUserInput
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientInput
     notificationsCreated?: NotificationCreateNestedManyWithoutActorInput
   }
@@ -11551,6 +16727,8 @@ export namespace Prisma {
     isPremium?: boolean
     listings?: ListingUncheckedCreateNestedManyWithoutUserInput
     transports?: TransportUncheckedCreateNestedManyWithoutCreatorInput
+    attractions?: AttractionUncheckedCreateNestedManyWithoutCreatorInput
+    attractionJoins?: AttractionJoinUncheckedCreateNestedManyWithoutUserInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientInput
     notificationsCreated?: NotificationUncheckedCreateNestedManyWithoutActorInput
   }
@@ -11625,6 +16803,8 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     listings?: ListingUpdateManyWithoutUserNestedInput
     transports?: TransportUpdateManyWithoutCreatorNestedInput
+    attractions?: AttractionUpdateManyWithoutCreatorNestedInput
+    attractionJoins?: AttractionJoinUpdateManyWithoutUserNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutRecipientNestedInput
     notificationsCreated?: NotificationUpdateManyWithoutActorNestedInput
   }
@@ -11644,6 +16824,426 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
     transports?: TransportUncheckedUpdateManyWithoutCreatorNestedInput
+    attractions?: AttractionUncheckedUpdateManyWithoutCreatorNestedInput
+    attractionJoins?: AttractionJoinUncheckedUpdateManyWithoutUserNestedInput
+    notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientNestedInput
+    notificationsCreated?: NotificationUncheckedUpdateManyWithoutActorNestedInput
+  }
+
+  export type LocationCreateWithoutAttractionsInput = {
+    id?: string
+    label: string
+    createdAt?: Date | string
+  }
+
+  export type LocationUncheckedCreateWithoutAttractionsInput = {
+    id?: string
+    label: string
+    createdAt?: Date | string
+  }
+
+  export type LocationCreateOrConnectWithoutAttractionsInput = {
+    where: LocationWhereUniqueInput
+    create: XOR<LocationCreateWithoutAttractionsInput, LocationUncheckedCreateWithoutAttractionsInput>
+  }
+
+  export type UserCreateWithoutAttractionsInput = {
+    id?: string
+    email: string
+    emailVerified?: boolean
+    verificationCode?: string | null
+    verificationCodeSentAt?: Date | string | null
+    verificationCodeExpiresAt?: Date | string | null
+    name?: string | null
+    image?: string | null
+    bio?: string | null
+    instagram?: string | null
+    phone?: string | null
+    isPremium?: boolean
+    listings?: ListingCreateNestedManyWithoutUserInput
+    transports?: TransportCreateNestedManyWithoutCreatorInput
+    transportJoins?: TransportJoinCreateNestedManyWithoutUserInput
+    attractionJoins?: AttractionJoinCreateNestedManyWithoutUserInput
+    notificationsReceived?: NotificationCreateNestedManyWithoutRecipientInput
+    notificationsCreated?: NotificationCreateNestedManyWithoutActorInput
+  }
+
+  export type UserUncheckedCreateWithoutAttractionsInput = {
+    id?: string
+    email: string
+    emailVerified?: boolean
+    verificationCode?: string | null
+    verificationCodeSentAt?: Date | string | null
+    verificationCodeExpiresAt?: Date | string | null
+    name?: string | null
+    image?: string | null
+    bio?: string | null
+    instagram?: string | null
+    phone?: string | null
+    isPremium?: boolean
+    listings?: ListingUncheckedCreateNestedManyWithoutUserInput
+    transports?: TransportUncheckedCreateNestedManyWithoutCreatorInput
+    transportJoins?: TransportJoinUncheckedCreateNestedManyWithoutUserInput
+    attractionJoins?: AttractionJoinUncheckedCreateNestedManyWithoutUserInput
+    notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientInput
+    notificationsCreated?: NotificationUncheckedCreateNestedManyWithoutActorInput
+  }
+
+  export type UserCreateOrConnectWithoutAttractionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAttractionsInput, UserUncheckedCreateWithoutAttractionsInput>
+  }
+
+  export type AttractionJoinCreateWithoutAttractionInput = {
+    id?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutAttractionJoinsInput
+  }
+
+  export type AttractionJoinUncheckedCreateWithoutAttractionInput = {
+    id?: string
+    createdAt?: Date | string
+    userId: string
+  }
+
+  export type AttractionJoinCreateOrConnectWithoutAttractionInput = {
+    where: AttractionJoinWhereUniqueInput
+    create: XOR<AttractionJoinCreateWithoutAttractionInput, AttractionJoinUncheckedCreateWithoutAttractionInput>
+  }
+
+  export type AttractionJoinCreateManyAttractionInputEnvelope = {
+    data: AttractionJoinCreateManyAttractionInput | AttractionJoinCreateManyAttractionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type NotificationCreateWithoutAttractionInput = {
+    id?: string
+    createdAt?: Date | string
+    type: string
+    title: string
+    message: string
+    readAt?: Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    recipient: UserCreateNestedOneWithoutNotificationsReceivedInput
+    actor?: UserCreateNestedOneWithoutNotificationsCreatedInput
+    transport?: TransportCreateNestedOneWithoutNotificationsInput
+  }
+
+  export type NotificationUncheckedCreateWithoutAttractionInput = {
+    id?: string
+    createdAt?: Date | string
+    recipientId: string
+    actorId?: string | null
+    transportId?: string | null
+    type: string
+    title: string
+    message: string
+    readAt?: Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type NotificationCreateOrConnectWithoutAttractionInput = {
+    where: NotificationWhereUniqueInput
+    create: XOR<NotificationCreateWithoutAttractionInput, NotificationUncheckedCreateWithoutAttractionInput>
+  }
+
+  export type NotificationCreateManyAttractionInputEnvelope = {
+    data: NotificationCreateManyAttractionInput | NotificationCreateManyAttractionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LocationUpsertWithoutAttractionsInput = {
+    update: XOR<LocationUpdateWithoutAttractionsInput, LocationUncheckedUpdateWithoutAttractionsInput>
+    create: XOR<LocationCreateWithoutAttractionsInput, LocationUncheckedCreateWithoutAttractionsInput>
+    where?: LocationWhereInput
+  }
+
+  export type LocationUpdateToOneWithWhereWithoutAttractionsInput = {
+    where?: LocationWhereInput
+    data: XOR<LocationUpdateWithoutAttractionsInput, LocationUncheckedUpdateWithoutAttractionsInput>
+  }
+
+  export type LocationUpdateWithoutAttractionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LocationUncheckedUpdateWithoutAttractionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpsertWithoutAttractionsInput = {
+    update: XOR<UserUpdateWithoutAttractionsInput, UserUncheckedUpdateWithoutAttractionsInput>
+    create: XOR<UserCreateWithoutAttractionsInput, UserUncheckedCreateWithoutAttractionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAttractionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAttractionsInput, UserUncheckedUpdateWithoutAttractionsInput>
+  }
+
+  export type UserUpdateWithoutAttractionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
+    verificationCodeSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verificationCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    listings?: ListingUpdateManyWithoutUserNestedInput
+    transports?: TransportUpdateManyWithoutCreatorNestedInput
+    transportJoins?: TransportJoinUpdateManyWithoutUserNestedInput
+    attractionJoins?: AttractionJoinUpdateManyWithoutUserNestedInput
+    notificationsReceived?: NotificationUpdateManyWithoutRecipientNestedInput
+    notificationsCreated?: NotificationUpdateManyWithoutActorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAttractionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
+    verificationCodeSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verificationCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
+    transports?: TransportUncheckedUpdateManyWithoutCreatorNestedInput
+    transportJoins?: TransportJoinUncheckedUpdateManyWithoutUserNestedInput
+    attractionJoins?: AttractionJoinUncheckedUpdateManyWithoutUserNestedInput
+    notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientNestedInput
+    notificationsCreated?: NotificationUncheckedUpdateManyWithoutActorNestedInput
+  }
+
+  export type AttractionJoinUpsertWithWhereUniqueWithoutAttractionInput = {
+    where: AttractionJoinWhereUniqueInput
+    update: XOR<AttractionJoinUpdateWithoutAttractionInput, AttractionJoinUncheckedUpdateWithoutAttractionInput>
+    create: XOR<AttractionJoinCreateWithoutAttractionInput, AttractionJoinUncheckedCreateWithoutAttractionInput>
+  }
+
+  export type AttractionJoinUpdateWithWhereUniqueWithoutAttractionInput = {
+    where: AttractionJoinWhereUniqueInput
+    data: XOR<AttractionJoinUpdateWithoutAttractionInput, AttractionJoinUncheckedUpdateWithoutAttractionInput>
+  }
+
+  export type AttractionJoinUpdateManyWithWhereWithoutAttractionInput = {
+    where: AttractionJoinScalarWhereInput
+    data: XOR<AttractionJoinUpdateManyMutationInput, AttractionJoinUncheckedUpdateManyWithoutAttractionInput>
+  }
+
+  export type NotificationUpsertWithWhereUniqueWithoutAttractionInput = {
+    where: NotificationWhereUniqueInput
+    update: XOR<NotificationUpdateWithoutAttractionInput, NotificationUncheckedUpdateWithoutAttractionInput>
+    create: XOR<NotificationCreateWithoutAttractionInput, NotificationUncheckedCreateWithoutAttractionInput>
+  }
+
+  export type NotificationUpdateWithWhereUniqueWithoutAttractionInput = {
+    where: NotificationWhereUniqueInput
+    data: XOR<NotificationUpdateWithoutAttractionInput, NotificationUncheckedUpdateWithoutAttractionInput>
+  }
+
+  export type NotificationUpdateManyWithWhereWithoutAttractionInput = {
+    where: NotificationScalarWhereInput
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutAttractionInput>
+  }
+
+  export type AttractionCreateWithoutJoinsInput = {
+    id?: string
+    createdAt?: Date | string
+    title: string
+    description?: string | null
+    price?: number | null
+    type: $Enums.AttractionType
+    images?: AttractionCreateimagesInput | string[]
+    contactPhone: string
+    externalLink?: string | null
+    date?: Date | string | null
+    maxParticipants?: number | null
+    availableSlots?: number | null
+    location: LocationCreateNestedOneWithoutAttractionsInput
+    creator: UserCreateNestedOneWithoutAttractionsInput
+    notifications?: NotificationCreateNestedManyWithoutAttractionInput
+  }
+
+  export type AttractionUncheckedCreateWithoutJoinsInput = {
+    id?: string
+    createdAt?: Date | string
+    title: string
+    description?: string | null
+    price?: number | null
+    locationId: string
+    creatorId: string
+    type: $Enums.AttractionType
+    images?: AttractionCreateimagesInput | string[]
+    contactPhone: string
+    externalLink?: string | null
+    date?: Date | string | null
+    maxParticipants?: number | null
+    availableSlots?: number | null
+    notifications?: NotificationUncheckedCreateNestedManyWithoutAttractionInput
+  }
+
+  export type AttractionCreateOrConnectWithoutJoinsInput = {
+    where: AttractionWhereUniqueInput
+    create: XOR<AttractionCreateWithoutJoinsInput, AttractionUncheckedCreateWithoutJoinsInput>
+  }
+
+  export type UserCreateWithoutAttractionJoinsInput = {
+    id?: string
+    email: string
+    emailVerified?: boolean
+    verificationCode?: string | null
+    verificationCodeSentAt?: Date | string | null
+    verificationCodeExpiresAt?: Date | string | null
+    name?: string | null
+    image?: string | null
+    bio?: string | null
+    instagram?: string | null
+    phone?: string | null
+    isPremium?: boolean
+    listings?: ListingCreateNestedManyWithoutUserInput
+    transports?: TransportCreateNestedManyWithoutCreatorInput
+    transportJoins?: TransportJoinCreateNestedManyWithoutUserInput
+    attractions?: AttractionCreateNestedManyWithoutCreatorInput
+    notificationsReceived?: NotificationCreateNestedManyWithoutRecipientInput
+    notificationsCreated?: NotificationCreateNestedManyWithoutActorInput
+  }
+
+  export type UserUncheckedCreateWithoutAttractionJoinsInput = {
+    id?: string
+    email: string
+    emailVerified?: boolean
+    verificationCode?: string | null
+    verificationCodeSentAt?: Date | string | null
+    verificationCodeExpiresAt?: Date | string | null
+    name?: string | null
+    image?: string | null
+    bio?: string | null
+    instagram?: string | null
+    phone?: string | null
+    isPremium?: boolean
+    listings?: ListingUncheckedCreateNestedManyWithoutUserInput
+    transports?: TransportUncheckedCreateNestedManyWithoutCreatorInput
+    transportJoins?: TransportJoinUncheckedCreateNestedManyWithoutUserInput
+    attractions?: AttractionUncheckedCreateNestedManyWithoutCreatorInput
+    notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientInput
+    notificationsCreated?: NotificationUncheckedCreateNestedManyWithoutActorInput
+  }
+
+  export type UserCreateOrConnectWithoutAttractionJoinsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAttractionJoinsInput, UserUncheckedCreateWithoutAttractionJoinsInput>
+  }
+
+  export type AttractionUpsertWithoutJoinsInput = {
+    update: XOR<AttractionUpdateWithoutJoinsInput, AttractionUncheckedUpdateWithoutJoinsInput>
+    create: XOR<AttractionCreateWithoutJoinsInput, AttractionUncheckedCreateWithoutJoinsInput>
+    where?: AttractionWhereInput
+  }
+
+  export type AttractionUpdateToOneWithWhereWithoutJoinsInput = {
+    where?: AttractionWhereInput
+    data: XOR<AttractionUpdateWithoutJoinsInput, AttractionUncheckedUpdateWithoutJoinsInput>
+  }
+
+  export type AttractionUpdateWithoutJoinsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    type?: EnumAttractionTypeFieldUpdateOperationsInput | $Enums.AttractionType
+    images?: AttractionUpdateimagesInput | string[]
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    externalLink?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxParticipants?: NullableIntFieldUpdateOperationsInput | number | null
+    availableSlots?: NullableIntFieldUpdateOperationsInput | number | null
+    location?: LocationUpdateOneRequiredWithoutAttractionsNestedInput
+    creator?: UserUpdateOneRequiredWithoutAttractionsNestedInput
+    notifications?: NotificationUpdateManyWithoutAttractionNestedInput
+  }
+
+  export type AttractionUncheckedUpdateWithoutJoinsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationId?: StringFieldUpdateOperationsInput | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttractionTypeFieldUpdateOperationsInput | $Enums.AttractionType
+    images?: AttractionUpdateimagesInput | string[]
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    externalLink?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxParticipants?: NullableIntFieldUpdateOperationsInput | number | null
+    availableSlots?: NullableIntFieldUpdateOperationsInput | number | null
+    notifications?: NotificationUncheckedUpdateManyWithoutAttractionNestedInput
+  }
+
+  export type UserUpsertWithoutAttractionJoinsInput = {
+    update: XOR<UserUpdateWithoutAttractionJoinsInput, UserUncheckedUpdateWithoutAttractionJoinsInput>
+    create: XOR<UserCreateWithoutAttractionJoinsInput, UserUncheckedCreateWithoutAttractionJoinsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAttractionJoinsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAttractionJoinsInput, UserUncheckedUpdateWithoutAttractionJoinsInput>
+  }
+
+  export type UserUpdateWithoutAttractionJoinsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
+    verificationCodeSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verificationCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    listings?: ListingUpdateManyWithoutUserNestedInput
+    transports?: TransportUpdateManyWithoutCreatorNestedInput
+    transportJoins?: TransportJoinUpdateManyWithoutUserNestedInput
+    attractions?: AttractionUpdateManyWithoutCreatorNestedInput
+    notificationsReceived?: NotificationUpdateManyWithoutRecipientNestedInput
+    notificationsCreated?: NotificationUpdateManyWithoutActorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAttractionJoinsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
+    verificationCodeSentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verificationCodeExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    instagram?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    isPremium?: BoolFieldUpdateOperationsInput | boolean
+    listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
+    transports?: TransportUncheckedUpdateManyWithoutCreatorNestedInput
+    transportJoins?: TransportJoinUncheckedUpdateManyWithoutUserNestedInput
+    attractions?: AttractionUncheckedUpdateManyWithoutCreatorNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientNestedInput
     notificationsCreated?: NotificationUncheckedUpdateManyWithoutActorNestedInput
   }
@@ -11664,6 +17264,8 @@ export namespace Prisma {
     listings?: ListingCreateNestedManyWithoutUserInput
     transports?: TransportCreateNestedManyWithoutCreatorInput
     transportJoins?: TransportJoinCreateNestedManyWithoutUserInput
+    attractions?: AttractionCreateNestedManyWithoutCreatorInput
+    attractionJoins?: AttractionJoinCreateNestedManyWithoutUserInput
     notificationsCreated?: NotificationCreateNestedManyWithoutActorInput
   }
 
@@ -11683,6 +17285,8 @@ export namespace Prisma {
     listings?: ListingUncheckedCreateNestedManyWithoutUserInput
     transports?: TransportUncheckedCreateNestedManyWithoutCreatorInput
     transportJoins?: TransportJoinUncheckedCreateNestedManyWithoutUserInput
+    attractions?: AttractionUncheckedCreateNestedManyWithoutCreatorInput
+    attractionJoins?: AttractionJoinUncheckedCreateNestedManyWithoutUserInput
     notificationsCreated?: NotificationUncheckedCreateNestedManyWithoutActorInput
   }
 
@@ -11707,6 +17311,8 @@ export namespace Prisma {
     listings?: ListingCreateNestedManyWithoutUserInput
     transports?: TransportCreateNestedManyWithoutCreatorInput
     transportJoins?: TransportJoinCreateNestedManyWithoutUserInput
+    attractions?: AttractionCreateNestedManyWithoutCreatorInput
+    attractionJoins?: AttractionJoinCreateNestedManyWithoutUserInput
     notificationsReceived?: NotificationCreateNestedManyWithoutRecipientInput
   }
 
@@ -11726,6 +17332,8 @@ export namespace Prisma {
     listings?: ListingUncheckedCreateNestedManyWithoutUserInput
     transports?: TransportUncheckedCreateNestedManyWithoutCreatorInput
     transportJoins?: TransportJoinUncheckedCreateNestedManyWithoutUserInput
+    attractions?: AttractionUncheckedCreateNestedManyWithoutCreatorInput
+    attractionJoins?: AttractionJoinUncheckedCreateNestedManyWithoutUserInput
     notificationsReceived?: NotificationUncheckedCreateNestedManyWithoutRecipientInput
   }
 
@@ -11767,6 +17375,47 @@ export namespace Prisma {
     create: XOR<TransportCreateWithoutNotificationsInput, TransportUncheckedCreateWithoutNotificationsInput>
   }
 
+  export type AttractionCreateWithoutNotificationsInput = {
+    id?: string
+    createdAt?: Date | string
+    title: string
+    description?: string | null
+    price?: number | null
+    type: $Enums.AttractionType
+    images?: AttractionCreateimagesInput | string[]
+    contactPhone: string
+    externalLink?: string | null
+    date?: Date | string | null
+    maxParticipants?: number | null
+    availableSlots?: number | null
+    location: LocationCreateNestedOneWithoutAttractionsInput
+    creator: UserCreateNestedOneWithoutAttractionsInput
+    joins?: AttractionJoinCreateNestedManyWithoutAttractionInput
+  }
+
+  export type AttractionUncheckedCreateWithoutNotificationsInput = {
+    id?: string
+    createdAt?: Date | string
+    title: string
+    description?: string | null
+    price?: number | null
+    locationId: string
+    creatorId: string
+    type: $Enums.AttractionType
+    images?: AttractionCreateimagesInput | string[]
+    contactPhone: string
+    externalLink?: string | null
+    date?: Date | string | null
+    maxParticipants?: number | null
+    availableSlots?: number | null
+    joins?: AttractionJoinUncheckedCreateNestedManyWithoutAttractionInput
+  }
+
+  export type AttractionCreateOrConnectWithoutNotificationsInput = {
+    where: AttractionWhereUniqueInput
+    create: XOR<AttractionCreateWithoutNotificationsInput, AttractionUncheckedCreateWithoutNotificationsInput>
+  }
+
   export type UserUpsertWithoutNotificationsReceivedInput = {
     update: XOR<UserUpdateWithoutNotificationsReceivedInput, UserUncheckedUpdateWithoutNotificationsReceivedInput>
     create: XOR<UserCreateWithoutNotificationsReceivedInput, UserUncheckedCreateWithoutNotificationsReceivedInput>
@@ -11794,6 +17443,8 @@ export namespace Prisma {
     listings?: ListingUpdateManyWithoutUserNestedInput
     transports?: TransportUpdateManyWithoutCreatorNestedInput
     transportJoins?: TransportJoinUpdateManyWithoutUserNestedInput
+    attractions?: AttractionUpdateManyWithoutCreatorNestedInput
+    attractionJoins?: AttractionJoinUpdateManyWithoutUserNestedInput
     notificationsCreated?: NotificationUpdateManyWithoutActorNestedInput
   }
 
@@ -11813,6 +17464,8 @@ export namespace Prisma {
     listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
     transports?: TransportUncheckedUpdateManyWithoutCreatorNestedInput
     transportJoins?: TransportJoinUncheckedUpdateManyWithoutUserNestedInput
+    attractions?: AttractionUncheckedUpdateManyWithoutCreatorNestedInput
+    attractionJoins?: AttractionJoinUncheckedUpdateManyWithoutUserNestedInput
     notificationsCreated?: NotificationUncheckedUpdateManyWithoutActorNestedInput
   }
 
@@ -11843,6 +17496,8 @@ export namespace Prisma {
     listings?: ListingUpdateManyWithoutUserNestedInput
     transports?: TransportUpdateManyWithoutCreatorNestedInput
     transportJoins?: TransportJoinUpdateManyWithoutUserNestedInput
+    attractions?: AttractionUpdateManyWithoutCreatorNestedInput
+    attractionJoins?: AttractionJoinUpdateManyWithoutUserNestedInput
     notificationsReceived?: NotificationUpdateManyWithoutRecipientNestedInput
   }
 
@@ -11862,6 +17517,8 @@ export namespace Prisma {
     listings?: ListingUncheckedUpdateManyWithoutUserNestedInput
     transports?: TransportUncheckedUpdateManyWithoutCreatorNestedInput
     transportJoins?: TransportJoinUncheckedUpdateManyWithoutUserNestedInput
+    attractions?: AttractionUncheckedUpdateManyWithoutCreatorNestedInput
+    attractionJoins?: AttractionJoinUncheckedUpdateManyWithoutUserNestedInput
     notificationsReceived?: NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   }
 
@@ -11904,6 +17561,53 @@ export namespace Prisma {
     joins?: TransportJoinUncheckedUpdateManyWithoutTransportNestedInput
   }
 
+  export type AttractionUpsertWithoutNotificationsInput = {
+    update: XOR<AttractionUpdateWithoutNotificationsInput, AttractionUncheckedUpdateWithoutNotificationsInput>
+    create: XOR<AttractionCreateWithoutNotificationsInput, AttractionUncheckedCreateWithoutNotificationsInput>
+    where?: AttractionWhereInput
+  }
+
+  export type AttractionUpdateToOneWithWhereWithoutNotificationsInput = {
+    where?: AttractionWhereInput
+    data: XOR<AttractionUpdateWithoutNotificationsInput, AttractionUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type AttractionUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    type?: EnumAttractionTypeFieldUpdateOperationsInput | $Enums.AttractionType
+    images?: AttractionUpdateimagesInput | string[]
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    externalLink?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxParticipants?: NullableIntFieldUpdateOperationsInput | number | null
+    availableSlots?: NullableIntFieldUpdateOperationsInput | number | null
+    location?: LocationUpdateOneRequiredWithoutAttractionsNestedInput
+    creator?: UserUpdateOneRequiredWithoutAttractionsNestedInput
+    joins?: AttractionJoinUpdateManyWithoutAttractionNestedInput
+  }
+
+  export type AttractionUncheckedUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationId?: StringFieldUpdateOperationsInput | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttractionTypeFieldUpdateOperationsInput | $Enums.AttractionType
+    images?: AttractionUpdateimagesInput | string[]
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    externalLink?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxParticipants?: NullableIntFieldUpdateOperationsInput | number | null
+    availableSlots?: NullableIntFieldUpdateOperationsInput | number | null
+    joins?: AttractionJoinUncheckedUpdateManyWithoutAttractionNestedInput
+  }
+
   export type ListingCreateManyUserInput = {
     id?: string
     createdAt?: Date | string
@@ -11937,11 +17641,34 @@ export namespace Prisma {
     transportId: string
   }
 
+  export type AttractionCreateManyCreatorInput = {
+    id?: string
+    createdAt?: Date | string
+    title: string
+    description?: string | null
+    price?: number | null
+    locationId: string
+    type: $Enums.AttractionType
+    images?: AttractionCreateimagesInput | string[]
+    contactPhone: string
+    externalLink?: string | null
+    date?: Date | string | null
+    maxParticipants?: number | null
+    availableSlots?: number | null
+  }
+
+  export type AttractionJoinCreateManyUserInput = {
+    id?: string
+    createdAt?: Date | string
+    attractionId: string
+  }
+
   export type NotificationCreateManyRecipientInput = {
     id?: string
     createdAt?: Date | string
     actorId?: string | null
     transportId?: string | null
+    attractionId?: string | null
     type: string
     title: string
     message: string
@@ -11954,6 +17681,7 @@ export namespace Prisma {
     createdAt?: Date | string
     recipientId: string
     transportId?: string | null
+    attractionId?: string | null
     type: string
     title: string
     message: string
@@ -12064,6 +17792,76 @@ export namespace Prisma {
     transportId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type AttractionUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    type?: EnumAttractionTypeFieldUpdateOperationsInput | $Enums.AttractionType
+    images?: AttractionUpdateimagesInput | string[]
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    externalLink?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxParticipants?: NullableIntFieldUpdateOperationsInput | number | null
+    availableSlots?: NullableIntFieldUpdateOperationsInput | number | null
+    location?: LocationUpdateOneRequiredWithoutAttractionsNestedInput
+    joins?: AttractionJoinUpdateManyWithoutAttractionNestedInput
+    notifications?: NotificationUpdateManyWithoutAttractionNestedInput
+  }
+
+  export type AttractionUncheckedUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationId?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttractionTypeFieldUpdateOperationsInput | $Enums.AttractionType
+    images?: AttractionUpdateimagesInput | string[]
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    externalLink?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxParticipants?: NullableIntFieldUpdateOperationsInput | number | null
+    availableSlots?: NullableIntFieldUpdateOperationsInput | number | null
+    joins?: AttractionJoinUncheckedUpdateManyWithoutAttractionNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutAttractionNestedInput
+  }
+
+  export type AttractionUncheckedUpdateManyWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationId?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttractionTypeFieldUpdateOperationsInput | $Enums.AttractionType
+    images?: AttractionUpdateimagesInput | string[]
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    externalLink?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxParticipants?: NullableIntFieldUpdateOperationsInput | number | null
+    availableSlots?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type AttractionJoinUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attraction?: AttractionUpdateOneRequiredWithoutJoinsNestedInput
+  }
+
+  export type AttractionJoinUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attractionId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AttractionJoinUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attractionId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type NotificationUpdateWithoutRecipientInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12074,6 +17872,7 @@ export namespace Prisma {
     metadata?: NullableJsonNullValueInput | InputJsonValue
     actor?: UserUpdateOneWithoutNotificationsCreatedNestedInput
     transport?: TransportUpdateOneWithoutNotificationsNestedInput
+    attraction?: AttractionUpdateOneWithoutNotificationsNestedInput
   }
 
   export type NotificationUncheckedUpdateWithoutRecipientInput = {
@@ -12081,6 +17880,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     actorId?: NullableStringFieldUpdateOperationsInput | string | null
     transportId?: NullableStringFieldUpdateOperationsInput | string | null
+    attractionId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
@@ -12093,6 +17893,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     actorId?: NullableStringFieldUpdateOperationsInput | string | null
     transportId?: NullableStringFieldUpdateOperationsInput | string | null
+    attractionId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
@@ -12110,6 +17911,7 @@ export namespace Prisma {
     metadata?: NullableJsonNullValueInput | InputJsonValue
     recipient?: UserUpdateOneRequiredWithoutNotificationsReceivedNestedInput
     transport?: TransportUpdateOneWithoutNotificationsNestedInput
+    attraction?: AttractionUpdateOneWithoutNotificationsNestedInput
   }
 
   export type NotificationUncheckedUpdateWithoutActorInput = {
@@ -12117,6 +17919,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     recipientId?: StringFieldUpdateOperationsInput | string
     transportId?: NullableStringFieldUpdateOperationsInput | string | null
+    attractionId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
@@ -12129,11 +17932,80 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     recipientId?: StringFieldUpdateOperationsInput | string
     transportId?: NullableStringFieldUpdateOperationsInput | string | null
+    attractionId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type AttractionCreateManyLocationInput = {
+    id?: string
+    createdAt?: Date | string
+    title: string
+    description?: string | null
+    price?: number | null
+    creatorId: string
+    type: $Enums.AttractionType
+    images?: AttractionCreateimagesInput | string[]
+    contactPhone: string
+    externalLink?: string | null
+    date?: Date | string | null
+    maxParticipants?: number | null
+    availableSlots?: number | null
+  }
+
+  export type AttractionUpdateWithoutLocationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    type?: EnumAttractionTypeFieldUpdateOperationsInput | $Enums.AttractionType
+    images?: AttractionUpdateimagesInput | string[]
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    externalLink?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxParticipants?: NullableIntFieldUpdateOperationsInput | number | null
+    availableSlots?: NullableIntFieldUpdateOperationsInput | number | null
+    creator?: UserUpdateOneRequiredWithoutAttractionsNestedInput
+    joins?: AttractionJoinUpdateManyWithoutAttractionNestedInput
+    notifications?: NotificationUpdateManyWithoutAttractionNestedInput
+  }
+
+  export type AttractionUncheckedUpdateWithoutLocationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    creatorId?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttractionTypeFieldUpdateOperationsInput | $Enums.AttractionType
+    images?: AttractionUpdateimagesInput | string[]
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    externalLink?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxParticipants?: NullableIntFieldUpdateOperationsInput | number | null
+    availableSlots?: NullableIntFieldUpdateOperationsInput | number | null
+    joins?: AttractionJoinUncheckedUpdateManyWithoutAttractionNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutAttractionNestedInput
+  }
+
+  export type AttractionUncheckedUpdateManyWithoutLocationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    creatorId?: StringFieldUpdateOperationsInput | string
+    type?: EnumAttractionTypeFieldUpdateOperationsInput | $Enums.AttractionType
+    images?: AttractionUpdateimagesInput | string[]
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    externalLink?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxParticipants?: NullableIntFieldUpdateOperationsInput | number | null
+    availableSlots?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type TransportJoinCreateManyTransportInput = {
@@ -12147,6 +18019,7 @@ export namespace Prisma {
     createdAt?: Date | string
     recipientId: string
     actorId?: string | null
+    attractionId?: string | null
     type: string
     title: string
     message: string
@@ -12182,6 +18055,7 @@ export namespace Prisma {
     metadata?: NullableJsonNullValueInput | InputJsonValue
     recipient?: UserUpdateOneRequiredWithoutNotificationsReceivedNestedInput
     actor?: UserUpdateOneWithoutNotificationsCreatedNestedInput
+    attraction?: AttractionUpdateOneWithoutNotificationsNestedInput
   }
 
   export type NotificationUncheckedUpdateWithoutTransportInput = {
@@ -12189,6 +18063,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     recipientId?: StringFieldUpdateOperationsInput | string
     actorId?: NullableStringFieldUpdateOperationsInput | string | null
+    attractionId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
@@ -12201,6 +18076,83 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     recipientId?: StringFieldUpdateOperationsInput | string
     actorId?: NullableStringFieldUpdateOperationsInput | string | null
+    attractionId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type AttractionJoinCreateManyAttractionInput = {
+    id?: string
+    createdAt?: Date | string
+    userId: string
+  }
+
+  export type NotificationCreateManyAttractionInput = {
+    id?: string
+    createdAt?: Date | string
+    recipientId: string
+    actorId?: string | null
+    transportId?: string | null
+    type: string
+    title: string
+    message: string
+    readAt?: Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type AttractionJoinUpdateWithoutAttractionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAttractionJoinsNestedInput
+  }
+
+  export type AttractionJoinUncheckedUpdateWithoutAttractionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AttractionJoinUncheckedUpdateManyWithoutAttractionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type NotificationUpdateWithoutAttractionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    recipient?: UserUpdateOneRequiredWithoutNotificationsReceivedNestedInput
+    actor?: UserUpdateOneWithoutNotificationsCreatedNestedInput
+    transport?: TransportUpdateOneWithoutNotificationsNestedInput
+  }
+
+  export type NotificationUncheckedUpdateWithoutAttractionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    recipientId?: StringFieldUpdateOperationsInput | string
+    actorId?: NullableStringFieldUpdateOperationsInput | string | null
+    transportId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutAttractionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    recipientId?: StringFieldUpdateOperationsInput | string
+    actorId?: NullableStringFieldUpdateOperationsInput | string | null
+    transportId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string

@@ -17,6 +17,11 @@ enum ListingType {
   HAS_APARTMENT
 }
 
+enum AttractionType {
+  BUSINESS
+  PRIVATE
+}
+
 /// Pending email OTP for password sign-up; cleared after successful verification.
 model VerificationToken {
   id         String   @id @default(cuid())
@@ -44,8 +49,18 @@ model User {
   listings              Listing[]
   transports            Transport[]     @relation("TransportCreator")
   transportJoins        TransportJoin[]
+  attractions           Attraction[]    @relation("AttractionCreator")
+  attractionJoins       AttractionJoin[]
   notificationsReceived Notification[]  @relation("NotificationRecipient")
   notificationsCreated  Notification[]  @relation("NotificationActor")
+}
+
+/// Canonical destination label from travel-destinations (e.g. "עיר, מדינה").
+model Location {
+  id          String       @id @default(cuid())
+  label       String       @unique
+  createdAt   DateTime     @default(now())
+  attractions Attraction[]
 }
 
 model Listing {
@@ -92,12 +107,46 @@ model TransportJoin {
   @@unique([transportId, userId])
 }
 
+model Attraction {
+  id                String          @id @default(cuid())
+  createdAt         DateTime        @default(now())
+  title             String
+  description       String?         @db.Text
+  price             Float?
+  locationId        String
+  location          Location        @relation(fields: [locationId], references: [id], onDelete: Restrict)
+  creatorId         String
+  creator           User            @relation("AttractionCreator", fields: [creatorId], references: [id], onDelete: Cascade)
+  type              AttractionType
+  images            String[]        @default([])
+  contactPhone      String
+  externalLink      String?
+  date              DateTime?
+  maxParticipants   Int?
+  /// Remaining slots for PRIVATE attractions with a capacity; mirrors Transport.availableSeats.
+  availableSlots    Int?
+  joins             AttractionJoin[]
+  notifications     Notification[]
+}
+
+model AttractionJoin {
+  id           String     @id @default(cuid())
+  createdAt    DateTime   @default(now())
+  attractionId String
+  userId       String
+  attraction   Attraction @relation(fields: [attractionId], references: [id], onDelete: Cascade)
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([attractionId, userId])
+}
+
 model Notification {
   id          String    @id @default(cuid())
   createdAt   DateTime  @default(now())
   recipientId String
   actorId     String?
   transportId String?
+  attractionId String?
   type        String
   title       String
   message     String    @db.Text
@@ -106,4 +155,5 @@ model Notification {
   recipient   User      @relation("NotificationRecipient", fields: [recipientId], references: [id], onDelete: Cascade)
   actor       User?     @relation("NotificationActor", fields: [actorId], references: [id], onDelete: SetNull)
   transport   Transport? @relation(fields: [transportId], references: [id], onDelete: SetNull)
+  attraction  Attraction? @relation(fields: [attractionId], references: [id], onDelete: SetNull)
 }

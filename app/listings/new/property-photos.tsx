@@ -11,9 +11,19 @@ type Props = {
   disabled?: boolean;
   /** Max number of new file uploads (default 8). Use with existing images on edit. */
   maxFiles?: number;
+  /** Override default listing copy (e.g. for attractions). */
+  heading?: string;
+  hint?: string;
 };
 
-export function PropertyPhotos({ files, onFilesChange, disabled, maxFiles = 8 }: Props) {
+export function PropertyPhotos({
+  files,
+  onFilesChange,
+  disabled,
+  maxFiles = 8,
+  heading = "תמונות נכס (אופציונלי)",
+  hint,
+}: Props) {
   const [previews, setPreviews] = useState<{ file: File; url: string }[]>([]);
 
   useEffect(() => {
@@ -49,8 +59,8 @@ export function PropertyPhotos({ files, onFilesChange, disabled, maxFiles = 8 }:
   return (
     <div className="space-y-3">
       <div>
-        <span className="mb-1 block text-sm font-medium text-slate-700">תמונות נכס (אופציונלי)</span>
-        <p className="text-xs text-slate-500">עד {maxFiles} תמונות חדשות, עד 4MB לקובץ</p>
+        <span className="mb-1 block text-sm font-medium text-slate-700">{heading}</span>
+        <p className="text-xs text-slate-500">{hint ?? `עד ${maxFiles} תמונות חדשות, עד 4MB לקובץ`}</p>
       </div>
 
       <label

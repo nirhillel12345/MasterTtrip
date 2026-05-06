@@ -144,6 +144,12 @@ exports.Prisma.UserScalarFieldEnum = {
   isPremium: 'isPremium'
 };
 
+exports.Prisma.LocationScalarFieldEnum = {
+  id: 'id',
+  label: 'label',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.ListingScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
@@ -180,12 +186,37 @@ exports.Prisma.TransportJoinScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.AttractionScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  title: 'title',
+  description: 'description',
+  price: 'price',
+  locationId: 'locationId',
+  creatorId: 'creatorId',
+  type: 'type',
+  images: 'images',
+  contactPhone: 'contactPhone',
+  externalLink: 'externalLink',
+  date: 'date',
+  maxParticipants: 'maxParticipants',
+  availableSlots: 'availableSlots'
+};
+
+exports.Prisma.AttractionJoinScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  attractionId: 'attractionId',
+  userId: 'userId'
+};
+
 exports.Prisma.NotificationScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
   recipientId: 'recipientId',
   actorId: 'actorId',
   transportId: 'transportId',
+  attractionId: 'attractionId',
   type: 'type',
   title: 'title',
   message: 'message',
@@ -223,12 +254,20 @@ exports.ListingType = exports.$Enums.ListingType = {
   HAS_APARTMENT: 'HAS_APARTMENT'
 };
 
+exports.AttractionType = exports.$Enums.AttractionType = {
+  BUSINESS: 'BUSINESS',
+  PRIVATE: 'PRIVATE'
+};
+
 exports.Prisma.ModelName = {
   VerificationToken: 'VerificationToken',
   User: 'User',
+  Location: 'Location',
   Listing: 'Listing',
   Transport: 'Transport',
   TransportJoin: 'TransportJoin',
+  Attraction: 'Attraction',
+  AttractionJoin: 'AttractionJoin',
   Notification: 'Notification'
 };
 
