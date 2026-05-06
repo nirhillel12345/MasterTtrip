@@ -3,20 +3,37 @@
 import { useState, useTransition } from "react";
 import { DestinationCombobox } from "@/app/components/destination-combobox";
 import { localISODate } from "@/app/components/listing-date-range-fields";
-import { createTransport } from "@/app/transports/actions";
+import { createTransport, updateTransport } from "@/app/transports/actions";
 import { isAllowedDestination } from "@/lib/travel-destinations";
 
-export function TransportForm() {
+export type TransportFormInitialValues = {
+  origin: string;
+  destination: string;
+  date: string;
+  pickupTime: string;
+  totalSeats: string;
+  pricePerPerson: string;
+  description: string;
+};
+
+type TransportFormProps = {
+  /** When set with initialValues, form submits an update instead of create */
+  editTransportId?: string;
+  initialValues?: TransportFormInitialValues;
+};
+
+export function TransportForm({ editTransportId, initialValues }: TransportFormProps) {
+  const isEdit = Boolean(editTransportId && initialValues);
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
-  const [origin, setOrigin] = useState("");
-  const [destination, setDestination] = useState("");
-  const [date, setDate] = useState(localISODate(new Date()));
-  const [pickupTime, setPickupTime] = useState("09:00");
-  const [totalSeats, setTotalSeats] = useState("8");
-  const [pricePerPerson, setPricePerPerson] = useState("");
-  const [description, setDescription] = useState("");
+  const [origin, setOrigin] = useState(initialValues?.origin ?? "");
+  const [destination, setDestination] = useState(initialValues?.destination ?? "");
+  const [date, setDate] = useState(initialValues?.date ?? localISODate(new Date()));
+  const [pickupTime, setPickupTime] = useState(initialValues?.pickupTime ?? "09:00");
+  const [totalSeats, setTotalSeats] = useState(initialValues?.totalSeats ?? "8");
+  const [pricePerPerson, setPricePerPerson] = useState(initialValues?.pricePerPerson ?? "");
+  const [description, setDescription] = useState(initialValues?.description ?? "");
 
   const [originError, setOriginError] = useState<string | undefined>();
   const [destinationError, setDestinationError] = useState<string | undefined>();
@@ -41,6 +58,21 @@ export function TransportForm() {
     }
 
     startTransition(async () => {
+      if (isEdit && editTransportId) {
+        const res = await updateTransport(editTransportId, {
+          origin,
+          destination,
+          date,
+          pickupTime,
+          totalSeats: Number(totalSeats),
+          pricePerPerson: Number(pricePerPerson),
+          description,
+        });
+        if (!res.ok) {
+          setError(res.error);
+        }
+        return;
+      }
       const res = await createTransport({
         origin,
         destination,
@@ -143,7 +175,7 @@ export function TransportForm() {
         disabled={pending}
         className="inline-flex min-h-[48px] w-full items-center justify-center rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
       >
-        {pending ? "מפרסם נסיעה..." : "פרסום נסיעה"}
+        {pending ? (isEdit ? "שומר..." : "מפרסם נסיעה...") : isEdit ? "שמירת שינויים" : "פרסום נסיעה"}
       </button>
     </form>
   );

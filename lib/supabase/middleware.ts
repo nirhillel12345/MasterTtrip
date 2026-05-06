@@ -31,7 +31,9 @@ export async function updateSession(request: NextRequest) {
   const needsAuth =
     path.startsWith("/listings/new") ||
     path.startsWith("/my-listings") ||
+    path.startsWith("/my-transports") ||
     /^\/listings\/[^/]+\/edit$/.test(path) ||
+    /^\/transports\/[^/]+\/edit$/.test(path) ||
     path === "/profile";
 
     if (!user && needsAuth) {

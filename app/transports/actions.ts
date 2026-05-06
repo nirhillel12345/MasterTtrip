@@ -165,7 +165,114 @@ export async function createTransport(input: {
 
   revalidatePath("/transports");
   revalidatePath("/my-listings");
+  revalidatePath("/my-transports");
   redirect(`/transports/${created.id}?status=created`);
+}
+
+export type DeleteTransportResult = { error: string } | undefined;
+
+export async function deleteTransport(transportId: string): Promise<DeleteTransportResult> {
+  const dbUser = await requireDbUser("/my-transports");
+
+  const existing = await prisma.transport.findFirst({
+    where: { id: transportId, creatorId: dbUser.id },
+    select: { id: true },
+  });
+  if (!existing) {
+    return { error: "ההסעה לא נמצאה או שאין הרשאה." };
+  }
+
+  await prisma.transport.delete({ where: { id: transportId } });
+
+  revalidatePath("/transports");
+  revalidatePath("/my-transports");
+  revalidatePath(`/transports/${transportId}`);
+  revalidatePath("/my-listings");
+}
+
+export async function updateTransport(
+  transportId: string,
+  input: {
+    origin: string;
+    destination: string;
+    date: string;
+    pickupTime: string;
+    totalSeats: number;
+    pricePerPerson: number;
+    description: string;
+  },
+): Promise<TransportActionResult> {
+  const dbUser = await requireDbUser(`/transports/${transportId}/edit`);
+
+  const existing = await prisma.transport.findFirst({
+    where: { id: transportId, creatorId: dbUser.id },
+    select: { id: true, totalSeats: true, availableSeats: true },
+  });
+  if (!existing) {
+    return { ok: false, error: "ההסעה לא נמצאה או שאין הרשאה." };
+  }
+
+  const origin = input.origin.trim();
+  const destination = input.destination.trim();
+  const description = input.description.trim();
+  const totalSeats = Number(input.totalSeats);
+  const pricePerPerson = Number(input.pricePerPerson);
+  const dateDay = input.date.slice(0, 10);
+  const pickupTime = input.pickupTime.slice(0, 5);
+
+  if (!isAllowedDestination(origin) || !isAllowedDestination(destination)) {
+    return { ok: false, error: "יש לבחור מוצא ויעד מהרשימה." };
+  }
+  if (origin === destination) {
+    return { ok: false, error: "המוצא והיעד חייבים להיות שונים." };
+  }
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateDay)) {
+    return { ok: false, error: "תאריך הנסיעה לא תקין." };
+  }
+  if (!/^\d{2}:\d{2}$/.test(pickupTime)) {
+    return { ok: false, error: "שעת האיסוף לא תקינה." };
+  }
+  if (!Number.isInteger(totalSeats) || totalSeats <= 0 || totalSeats > 50) {
+    return { ok: false, error: "מספר המקומות חייב להיות בין 1 ל-50." };
+  }
+  if (Number.isNaN(pricePerPerson) || pricePerPerson < 0) {
+    return { ok: false, error: "מחיר למשתתף לא תקין." };
+  }
+  if (description.length < 5) {
+    return { ok: false, error: "נא להוסיף תיאור קצר (לפחות 5 תווים)." };
+  }
+
+  const takenSeats = existing.totalSeats - existing.availableSeats;
+  if (totalSeats < takenSeats) {
+    return {
+      ok: false,
+      error: `לא ניתן להקטין את מספר המקומות מתחת ל-${takenSeats} — כבר נרשמו למקומות האלה.`,
+    };
+  }
+  const newAvailableSeats = totalSeats - takenSeats;
+
+  const date = new Date(`${dateDay}T${pickupTime}:00.000Z`);
+  if (Number.isNaN(date.getTime())) {
+    return { ok: false, error: "תאריך הנסיעה לא תקין." };
+  }
+
+  await prisma.transport.update({
+    where: { id: transportId },
+    data: {
+      origin,
+      destination,
+      date,
+      totalSeats,
+      availableSeats: newAvailableSeats,
+      pricePerPerson,
+      description,
+    },
+  });
+
+  revalidatePath("/transports");
+  revalidatePath("/my-transports");
+  revalidatePath(`/transports/${transportId}`);
+  redirect(`/transports/${transportId}?updated=1`);
 }
 
 export async function joinTransport(transportId: string): Promise<TransportActionResult> {
@@ -266,6 +373,7 @@ export async function joinTransport(transportId: string): Promise<TransportActio
     });
 
     revalidatePath("/transports");
+    revalidatePath("/my-transports");
     revalidatePath(`/transports/${transportId}`);
     return { ok: true };
   } catch (err) {
@@ -299,6 +407,7 @@ export async function leaveTransport(transportId: string): Promise<TransportActi
     });
 
     revalidatePath("/transports");
+    revalidatePath("/my-transports");
     revalidatePath(`/transports/${transportId}`);
     return { ok: true };
   } catch (err) {
@@ -335,6 +444,7 @@ export async function removeTransportParticipant(
     });
 
     revalidatePath("/transports");
+    revalidatePath("/my-transports");
     revalidatePath(`/transports/${transportId}`);
     return { ok: true };
   } catch (err) {
