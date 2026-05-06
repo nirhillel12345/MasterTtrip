@@ -30,10 +30,13 @@ export async function updateSession(request: NextRequest) {
   const path = request.nextUrl.pathname;
   const needsAuth =
     path.startsWith("/listings/new") ||
+    path.startsWith("/attractions/new") ||
     path.startsWith("/my-listings") ||
+    path.startsWith("/my-attractions") ||
     path.startsWith("/my-transports") ||
     /^\/listings\/[^/]+\/edit$/.test(path) ||
     /^\/transports\/[^/]+\/edit$/.test(path) ||
+    /^\/attractions\/[^/]+\/edit$/.test(path) ||
     path === "/profile";
 
     if (!user && needsAuth) {

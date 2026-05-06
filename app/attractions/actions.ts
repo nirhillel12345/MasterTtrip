@@ -81,6 +81,21 @@ function revalidateAttractionPaths(attractionId: string) {
   revalidatePath(`/attractions/${attractionId}`);
 }
 
+export async function updateAttractionUserPhone(phoneRaw: string): Promise<AttractionActionResult> {
+  const dbUser = await requireDbUser();
+  const parsed = normalizeListingWhatsappToE164(phoneRaw);
+  if (!parsed.ok) return { ok: false, error: parsed.error };
+
+  await prisma.user.update({
+    where: { id: dbUser.id },
+    data: { phone: parsed.e164 },
+  });
+
+  revalidatePath("/profile");
+  revalidatePath(`/profile/${dbUser.id}`);
+  return { ok: true };
+}
+
 export async function createAttraction(input: {
   title: string;
   description?: string;
